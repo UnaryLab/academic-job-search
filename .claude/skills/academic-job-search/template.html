@@ -1,0 +1,54 @@
+<meta charset="utf-8">
+<title>Faculty Jobs — <!--DATE--></title>
+<style>
+  body { font: 14px/1.5 -apple-system, system-ui, sans-serif; margin: 1.5rem; }
+  h1 { font-size: 1.3rem; }
+  .meta { color: #666; margin-bottom: 1rem; }
+  input#q { padding: .4rem .6rem; width: 20rem; max-width: 100%; margin-bottom: .8rem;
+            border: 1px solid #aaa; border-radius: 4px; font: inherit; }
+  .wrap { overflow-x: auto; }
+  table { border-collapse: collapse; white-space: nowrap; }
+  th, td { border: 1px solid #ccc; padding: .35rem .6rem; text-align: left; vertical-align: top; }
+  th { cursor: pointer; background: #f0f0f0; position: sticky; top: 0; }
+  th:hover { background: #e0e0e0; }
+  td.wide { white-space: normal; min-width: 16rem; }
+  tr.flagged td { background: #fff7e0; }
+  a { color: #0b57d0; }
+  @media (prefers-color-scheme: dark) {
+    body { background: #1b1b1b; color: #ddd; }
+    th { background: #2a2a2a; } th:hover { background: #333; }
+    th, td { border-color: #444; }
+    tr.flagged td { background: #3a3320; }
+    a { color: #8ab4f8; }
+  }
+</style>
+<h1>Faculty openings: computer architecture / AI hardware / QEC</h1>
+<div class="meta">US &amp; Europe top-100 universities · run date <!--DATE--> · <!--COUNT--> entries · click a header to sort · flagged rows (yellow) need manual verification</div>
+<input id="q" placeholder="filter rows…">
+<div class="wrap">
+<table id="t">
+<thead><tr>
+  <th>University</th><th>Country</th><th>Deadline</th><th>Apply</th><th>Department</th><th>Title</th><th>Rank</th>
+  <th>Area</th><th>Stated priority</th><th>Materials</th><th>Contact</th>
+  <th>Notes</th><th>Flag</th><th>Checked</th>
+</tr></thead>
+<tbody>
+<!--ROWS-->
+</tbody>
+</table>
+</div>
+<script>
+  const tb = document.querySelector('#t tbody');
+  document.querySelectorAll('#t th').forEach((th, i) => th.onclick = () => {
+    const asc = th.dataset.asc !== '1';
+    document.querySelectorAll('#t th').forEach(h => delete h.dataset.asc);
+    th.dataset.asc = asc ? '1' : '0';
+    [...tb.rows].sort((a, b) =>
+      a.cells[i].innerText.localeCompare(b.cells[i].innerText) * (asc ? 1 : -1)
+    ).forEach(r => tb.appendChild(r));
+  });
+  document.getElementById('q').oninput = e => {
+    const q = e.target.value.toLowerCase();
+    [...tb.rows].forEach(r => r.style.display = r.innerText.toLowerCase().includes(q) ? '' : 'none');
+  };
+</script>

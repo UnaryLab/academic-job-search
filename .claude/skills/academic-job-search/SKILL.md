@@ -1,0 +1,67 @@
+---
+name: academic-job-search
+description: Search open faculty positions in computer architecture, AI/ML hardware, and quantum error correction (areas configurable in areas.md) at US/EU/Asia top-100 universities; write a dated self-contained HTML report to output/. Use when the user asks to run the faculty job search, refresh job listings, or find new faculty openings.
+---
+
+# Faculty Job Search
+
+## Scope
+
+Finds currently open tenure-track/tenured faculty positions at US, European, and Asian top-100 universities in the areas listed in `areas.md`. One run = one fresh full search = one dated HTML file. No state carried between runs. Not for postdoc, lecturer, staff, or industry positions.
+
+## Handoffs
+
+None. Self-contained; dispatches its own general-purpose search agents.
+
+## Persona
+
+A methodical research assistant compiling a faculty application target list: thorough on coverage, honest about unverified entries, never inventing postings.
+
+## Inputs
+
+- `universities.md` (this skill directory): the static US/EU/Asia top-100 union list. Rebuild only when the user asks.
+- `areas.md` (this skill directory): the research areas, with area key, name, search terms, and adjacent fields that count.
+- `template.html` (this skill directory): self-contained report template with `<!--DATE-->`, `<!--COUNT-->`, `<!--ROWS-->` markers.
+- Run date (today).
+
+## Output contract
+
+- `output/jobs-YYYY-MM-DD.html` under the project root, named with the run date; overwrite on same-day rerun. Self-contained, no external assets.
+- One table row per posting with 14 cells in header order: university, country, deadline (`YYYY-MM-DD`, `rolling`, or `unknown`), application link (`<a href>Apply</a>`), department, title, rank (`assistant|associate|full|open`), area (a key from `areas.md`, comma-joined if several), stated priority (the hiring areas the ad itself names, `none stated (all-areas)` otherwise), required materials, contact, fit notes, flag (`ok|unverified|deadline-unclear`), date checked. `class="flagged"` on the `<tr>` when flag != ok; `class="wide"` on materials and notes cells. Rows sorted by deadline ascending, `rolling`/`unknown` last.
+- Final report to the user: file path, entry count, count per area, flagged count.
+
+## Workflow
+
+1. Dispatch parallel search agents (general-purpose, one message, concurrent), each returning a JSON array of entries with the fields in the output contract:
+   - One agent per board: **AcademicJobsOnline** (also carries Asian postings), **CRA job board** (cra.org/ads), **HigherEdJobs**, **jobs.ac.uk**, **EURAXESS**.
+   - Three department-sweep agents (one US, one EU, one Asia): from `universities.md`, pick the ~25 universities per region strongest in the areas and search `<university> faculty opening <search terms from areas.md, slash-joined>` plus their ECE/CS hiring pages.
+2. Merge all results. Keep only universities in `universities.md` (match loosely on name). Dedupe by (university, title), preferring the entry with a verified link and firmer deadline.
+3. Render: fill `template.html` markers, write `output/jobs-YYYY-MM-DD.html`.
+4. Report to the user per the output contract.
+
+## Rules
+
+- Tenure-track/tenured faculty only; ads in the adjacent fields listed in `areas.md` count when they plausibly cover one of the areas.
+- Open now: deadline on/after run date, or rolling/until-filled with evidence the ad is from the current cycle.
+- Deadline inference (a missing deadline does not mean open). An ad is for the cycle it was posted in, so infer expiry from the ad's other dates and drop the ad when any of these hold:
+  - Stated start date is on or before the run date, or in a semester that has already begun (e.g. "start Fall 2026" seen after August 2026).
+  - Ad names a past cycle ("2025-2026 positions") or its posted/updated date is more than 9 months before the run date and it carries no deadline.
+  - "Until filled" with a posted date more than 9 months old and no sign of renewal (no updated date, still lists last year's review date).
+  Ads that survive with no stated deadline keep `deadline=unknown` and flag `deadline-unclear`; record posted date and start date in the notes so the reader can judge.
+- Region: US, Europe (incl. UK, Switzerland, Nordics), and Asia (China, Hong Kong, Singapore, South Korea, Japan, Taiwan).
+- Agents verify each application URL loads (WebFetch); unverifiable or ambiguous entries are kept and flagged, never dropped.
+- Time cap per agent: 15 minutes and at most 3 fetch attempts per site. A site that still does not respond is skipped, listed as a gap in the agent's summary, and never retried in that run. Sweep agents do not spawn sub-agents; they work their list sequentially so the parent can always return partial results.
+- No fabricated postings: every entry needs a real URL an agent actually visited.
+
+## References
+
+- `universities.md`, `areas.md`, `template.html` in this skill directory.
+- Boards: academicjobsonline.org, cra.org/ads, higheredjobs.com, jobs.ac.uk, euraxess.ec.europa.eu.
+
+## Failure modes
+
+- **Board unreachable or blocks fetches**: note the gap in the user report; don't silently return fewer results.
+- **JS-only application pages**: Interfolio ads (`apply.interfolio.com/<id>`) render nothing in WebFetch; read the public JSON at `https://logic.interfolio.com/dossier-api/positions/<id>` (fields `start_date`, `end_date`, description). For bot-walled boards (HigherEdJobs, CRA) prefix the URL with `https://r.jina.ai/`.
+- **August to early-fall runs**: faculty ads mostly appear Sept-Dec; a thin result set is expected, say so rather than padding with stale postings.
+- **Same-day rerun**: overwrites today's file by design; warn only if the user expected an append.
+- **University name mismatches** (e.g. "U. Michigan" vs "University of Michigan"): match loosely before discarding an entry as out-of-list.
