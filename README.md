@@ -1,4 +1,4 @@
-# academic-job-search
+# Academic Job Search
 
 A Claude Code skill that finds currently open tenure-track/tenured faculty positions in computer architecture, AI/ML hardware, and quantum error correction at US, European, and Asian top-100 universities, and writes a dated, self-contained HTML report.
 
