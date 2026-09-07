@@ -1,0 +1,485 @@
+{
+ "academicjobsonline.org:30878": {
+  "deadline": "unknown",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "Hong Kong University of Science and Technology",
+  "title": "Tenure-Track Faculty Position (CMP-Quantum): Quantum Science and Technology"
+ },
+ "academicjobsonline.org:31325": {
+  "deadline": "unknown",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "Shanghai Jiao Tong University",
+  "title": "Tenured/Tenure-track faculty (Quantum Information and Computation, among other areas)"
+ },
+ "academicjobsonline.org:32250": {
+  "deadline": "unknown",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "University of Science and Technology of China",
+  "title": "Faculty Positions (Assistant/Associate/Full Professor, theoretical physics)"
+ },
+ "academicjobsonline.org:32260": {
+  "deadline": "rolling",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "National Yang Ming Chiao Tung University",
+  "title": "Faculty positions at all ranks (Assistant/Associate/Full Professor)"
+ },
+ "academicjobsonline.org:32269": {
+  "deadline": "2026-10-13",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "National Taiwan University",
+  "title": "Faculty Positions in Physics, Applied Physics, and Astrophysics"
+ },
+ "academicjobsonline.org:32429": {
+  "deadline": "2026-10-15",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "National Cheng Kung University",
+  "title": "Faculty Positions in Department of Physics"
+ },
+ "academicjobsonline.org:32530": {
+  "deadline": "2026-10-30",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Tohoku University",
+  "title": "One Professor or Associate Professor (theoretical physics related to quantum science)"
+ },
+ "applications.caltech.edu:https://applications.caltech.edu/job/physics": {
+  "deadline": "2027-02-28",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "California Institute of Technology",
+  "title": "Faculty Position in Experimental or Theoretical Physics"
+ },
+ "bi.id.ethz.ch:53706754": {
+  "deadline": "2026-09-30",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "ETH Zurich",
+  "title": "Professors of Cybersecurity"
+ },
+ "bu.edu:https://www.bu.edu/eng/departments/ece/about/ongoing-faculty-searches": {
+  "deadline": "2026-11-15",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Boston University",
+  "title": "Tenured Professor & Head of the Division of Systems Engineering"
+ },
+ "candidate.hr-manager.net:20193": {
+  "deadline": "2026-09-30",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Aarhus University",
+  "title": "Professor or Associate Professor within the Natural Sciences, with a Focus on Innovation (4 positions)"
+ },
+ "career.admo.um.edu.mo:https://career.admo.um.edu.mo/fst_cis_faap_09_2025": {
+  "deadline": "2026-10-13",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "University of Macau",
+  "title": "Full/Associate/Assistant Professor in Computer Science"
+ },
+ "career.admo.um.edu.mo:https://career.admo.um.edu.mo/iaibs_ai_faap_08_2026": {
+  "deadline": "2026-10-27",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "University of Macau",
+  "title": "Full/Associate/Assistant Professor in Artificial Intelligence"
+ },
+ "cde.nus.edu.sg:https://cde.nus.edu.sg/ece/tenure-track-faculty-positions": {
+  "deadline": "unknown",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "National University of Singapore",
+  "title": "Tenure Track Faculty Positions (Professor / Associate Professor / Assistant Professor), eight openings"
+ },
+ "cityu.edu.hk:31025": {
+  "deadline": "rolling",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "City University of Hong Kong",
+  "title": "Professor/Associate Professor/Assistant Professor in Department of Computer Science (Ref. R/310/25)"
+ },
+ "cityu.edu.hk:http://www.cityu.edu.hk/hro/en/job/current/academic.asp": {
+  "deadline": "rolling",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "City University of Hong Kong",
+  "title": "Chair Professor/Professor/Associate Professor/Assistant Professor in the Department of Electrical Engineering"
+ },
+ "cityu.edu.hk:https://www.cityu.edu.hk/hro/en/job": {
+  "deadline": "2026-11-03",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "City University of Hong Kong",
+  "title": "Assistant Professors/Associate Professors/Professors/Chair Professors (on substantiation-track)"
+ },
+ "cs.fudan.edu.cn:758651": {
+  "deadline": "rolling",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "Fudan University",
+  "title": "Faculty Positions (Open Rank) in Computer Science and AI"
+ },
+ "cs.kaist.ac.kr:https://cs.kaist.ac.kr/content": {
+  "deadline": "rolling",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "KAIST",
+  "title": "Tenure-track faculty positions, School of Computing (all areas of computer science)"
+ },
+ "cs.nycu.edu.tw:https://www.cs.nycu.edu.tw/open-positions-announcement": {
+  "deadline": "rolling",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "National Yang Ming Chiao Tung University",
+  "title": "Tenure-track Professor/Associate Professor/Assistant Professor, Computer Science"
+ },
+ "cse.sustech.edu.cn:https://cse.sustech.edu.cn/en/jobs": {
+  "deadline": "unknown",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "Southern University of Science and Technology",
+  "title": "Full-time Faculty (tenure-track; research/teaching track), Department of Computer Science and Engineering"
+ },
+ "ee.ncku.edu.tw:https://www.ee.ncku.edu.tw/announcement_content.php": {
+  "deadline": "unknown",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "National Cheng Kung University",
+  "title": "Faculty Recruitment (Professor, Associate Professor, Assistant Professor), NCKU EE / Communications / Microelectronics"
+ },
+ "ee.ntu.edu.tw:https://ee.ntu.edu.tw/eeoffice/ntueejob": {
+  "deadline": "2026-09-30",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "National Taiwan University",
+  "title": "Faculty Openings (Professor / Associate Professor / Assistant Professor)"
+ },
+ "employment.ku.dk:167785": {
+  "deadline": "2026-10-01",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "University of Copenhagen",
+  "title": "Associate Professor of Theoretical Physics"
+ },
+ "engineering.pitt.edu:https://www.engineering.pitt.edu/ssoe-resources/ssoe-resources/open-positions-posted/chair-of-electrical-and-computer-engineering": {
+  "deadline": "rolling",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "University of Pittsburgh",
+  "title": "Professor & Department Chair, Electrical and Computer Engineering"
+ },
+ "english.pkusz.edu.cn:https://english.pkusz.edu.cn/info/1061/2172.htm": {
+  "deadline": "rolling",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Peking University",
+  "title": "Faculty Positions in School of AI for Science / School of Electronic and Computer Engineering, PKUSZ"
+ },
+ "ethz.ch:https://ethz.ch/en/the-eth-zurich/working-teaching-and-research/faculty/faculty-affairs/ausgeschriebene-professuren/eth-zuerich-campus-heilbronn/professors-of-artificial-intelligence-and-its-mathematical-and-c.html": {
+  "deadline": "2026-09-30",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "ETH Zurich",
+  "title": "Professors of Artificial Intelligence and its Mathematical and Computational Foundations (f/m/d)"
+ },
+ "ethz.ch:https://ethz.ch/en/the-eth-zurich/working-teaching-and-research/faculty/faculty-affairs/ausgeschriebene-professuren/eth-zuerich-campus-heilbronn/professuren-fuer-cybersecurity--f-m-d-.html": {
+  "deadline": "2026-09-30",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "ETH Zurich",
+  "title": "Professors of Cybersecurity (f/m/d)"
+ },
+ "ethz.ch:https://ethz.ch/en/the-eth-zurich/working-teaching-and-research/faculty/faculty-affairs/ausgeschriebene-professuren/naturwissenschaften-und-mathematik/professur-oder-assistenzprofessur--tenure-track--fuer-computatio0.html": {
+  "deadline": "2026-09-20",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "ETH Zurich",
+  "title": "Professors or Assistant Professors (Tenure Track) of Computational and Applied Mathematics"
+ },
+ "explore.jobs.ufl.edu:537329": {
+  "deadline": "rolling",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "University of Florida",
+  "title": "Assistant/Associate/Full Professor - AI Models, Systems and Applications"
+ },
+ "facultyapplication.postech.ac.kr:https://facultyapplication.postech.ac.kr/invitation/computer-science-engineering": {
+  "deadline": "rolling",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "Pohang University of Science and Technology",
+  "title": "POSTECH CSE Faculty Invitation (all areas of computer science; all ranks)"
+ },
+ "home.iitd.ac.in:https://home.iitd.ac.in/jobs-iitd/index.php": {
+  "deadline": "rolling",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "Indian Institute of Technology Delhi",
+  "title": "Rolling Advertisement IITD/2026/AP-1 for Assistant Professor (Grade-I/II); IITD/2026/PROF-1 for Associate Professor and Professor; special drive IITD/EST-1/02/2026/SRD"
+ },
+ "iisc.ac.in:https://www.iisc.ac.in/wp-content/uploads/2022/10/IISc_Rolling-Faculty-Advertisement-Final.pdf": {
+  "deadline": "rolling",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "Indian Institute of Science",
+  "title": "Rolling Advertisement for Assistant Professor Positions"
+ },
+ "interfolio:118949": {
+  "deadline": "rolling",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "Nanyang Technological University",
+  "title": "Assistant Professors / Associate Professors (Tenure-Track) - Computing"
+ },
+ "interfolio:179626": {
+  "deadline": "rolling",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "Hong Kong University of Science and Technology",
+  "title": "Faculty positions in Electronic and Computer Engineering (Professor / Associate Professor / Assistant Professor)"
+ },
+ "interfolio:188821": {
+  "deadline": "2026-10-15",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Texas A&M University",
+  "title": "Tenured/Tenure-Track: Open Rank & Title (six positions)"
+ },
+ "interfolio:189244": {
+  "deadline": "unknown",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "Hong Kong University of Science and Technology",
+  "title": "Professor / Associate Professor / Assistant Professor (Job ID 189244)"
+ },
+ "interfolio:189576": {
+  "deadline": "2026-12-16",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Carnegie Mellon University",
+  "title": "Faculty Positions: All Tracks 2027"
+ },
+ "interfolio:190493": {
+  "deadline": "2026-10-15",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "University of Washington",
+  "title": "Assistant Professor - Computing & Software Systems"
+ },
+ "interfolio:190824": {
+  "deadline": "2026-12-01",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Princeton University",
+  "title": "Assistant Professor in Computer and Electrical Engineering"
+ },
+ "interfolio:191104": {
+  "deadline": "2026-12-31",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Hong Kong University of Science and Technology",
+  "title": "Professor / Associate Professor / Assistant Professor"
+ },
+ "interfolio:191224": {
+  "deadline": "2026-12-01",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Princeton University",
+  "title": "Assistant Professor of Quantum Information Theory and Quantum Computer Science"
+ },
+ "interfolio:192707": {
+  "deadline": "rolling",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "University of Chicago",
+  "title": "Assistant Professor (theoretical physics, all subfields)"
+ },
+ "interfolio:192713": {
+  "deadline": "rolling",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "University of Chicago",
+  "title": "Associate Professor (tenured, theoretical physics, all subfields)"
+ },
+ "jobs.ac.uk:https://www.jobs.ac.uk/job/DSS455/open-rank-faculty-position-in-computer-science-and-engineering": {
+  "deadline": "2026-10-25",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Zhejiang University",
+  "title": "Open-rank Faculty Position in Computer Science and Engineering"
+ },
+ "jobs.ac.uk:https://www.jobs.ac.uk/job/DSS464/open-rank-faculty-position-in-electrical-and-electronic-engineering": {
+  "deadline": "2026-10-25",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Zhejiang University",
+  "title": "Open-rank Faculty Position in Electrical and Electronic Engineering"
+ },
+ "jobs.apply.vt.edu:https://jobs.apply.vt.edu/jobs/ece-tenure-track-faculty-position-in-physical-ai-blacksburg-virginia-united-states": {
+  "deadline": "rolling",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "Virginia Tech",
+  "title": "ECE Tenure-Track Faculty Position in Physical AI"
+ },
+ "jobs.hku.hk:534341": {
+  "deadline": "2026-09-30",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "University of Hong Kong",
+  "title": "Tenure-Track Assistant Professor (several posts) in the School of Computing and Data Science (Ref. 534341)"
+ },
+ "jobs.polyu.edu.hk:https://jobs.polyu.edu.hk/academic.php": {
+  "deadline": "rolling",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "Hong Kong Polytechnic University",
+  "title": "Professor / Associate Professor / Assistant Professor in Microelectronics and Quantum Technology under Strategic Hiring Scheme (Ref. 260521007)"
+ },
+ "jobs.uestc.edu.cn:http://www.jobs.uestc.edu.cn/info/1068/3505.htm": {
+  "deadline": "unknown",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "University of Electronic Science and Technology of China",
+  "title": "Faculty Recruitment (Professor incl. tenure, Researcher, Associate Professor, Lecturer), State Key Laboratory of Intelligent Collaborative Computing Technology"
+ },
+ "jrecin.jst.go.jp:126030419": {
+  "deadline": "2026-09-30",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "University of Osaka",
+  "title": "Faculty Position (Assistant Professor, tenure track), D3 Center"
+ },
+ "jrecin.jst.go.jp:126051743": {
+  "deadline": "2026-09-28",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Tohoku University",
+  "title": "Professor, New Paradigm Integrated Circuit Systems Laboratory"
+ },
+ "jrecin.jst.go.jp:126071446": {
+  "deadline": "2026-09-15",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Kyushu University",
+  "title": "Three Professors or Associate Professors, Advanced Semiconductor Research Division"
+ },
+ "jrecin.jst.go.jp:126081634": {
+  "deadline": "2026-11-01",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Tokyo Institute of Technology",
+  "title": "Associate Professor, School of Computing"
+ },
+ "lu.varbi.com:938509": {
+  "deadline": "2026-09-28",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Lund University",
+  "title": "Senior Lecturer in Distributed Large-scale Software Systems"
+ },
+ "my.corehr.com:185766": {
+  "deadline": "2026-12-16",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "University of Oxford",
+  "title": "Two Associate Professorships or Professorships of Computer Science (with Tutorial Fellowships)"
+ },
+ "nature.com:12861041": {
+  "deadline": "rolling",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "University of Chinese Academy of Sciences",
+  "title": "University of Chinese Academy of Sciences (UCAS) Global Faculty Recruitment"
+ },
+ "nature.com:12861173": {
+  "deadline": "2027-06-30",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "Zhejiang University",
+  "title": "Qiushi Chair Professor/Distinguished Scholar/ZJU100 Young Professor Positions at Zhejiang University"
+ },
+ "nature.com:12861174": {
+  "deadline": "2027-06-30",
+  "flag": "deadline-unclear",
+  "last_checked": "2026-09-06",
+  "university": "Zhejiang University",
+  "title": "Professor / Research Fellow / Postdoctoral Researcher Positions at Zhejiang University"
+ },
+ "nature.com:12861698": {
+  "deadline": "2027-07-17",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "University of Chinese Academy of Sciences",
+  "title": "Tenure-Track or Tenured Faculty, School of Quantum"
+ },
+ "nature.com:12862870": {
+  "deadline": "2026-10-24",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Tsinghua University",
+  "title": "Tsinghua Shenzhen International Graduate School faculty recruitment (Professor/Associate Professor/Assistant Professor)"
+ },
+ "ohws.prospective.ch:https://ohws.prospective.ch/public/v1/jobs/6fea27e9-a8cb-49f4-b538-ecf9ba3c0601": {
+  "deadline": "2026-09-30",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "University of Basel",
+  "title": "Professorship in Distributed Data and Knowledge Engineering (open rank)"
+ },
+ "phys.site.nthu.edu.tw:309567": {
+  "deadline": "2026-10-31",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "National Tsing Hua University",
+  "title": "Faculty Positions in Physics and Astronomy"
+ },
+ "portal.iitb.ac.in:https://portal.iitb.ac.in/FR/index.php/FAC/FR2026/login": {
+  "deadline": "unknown",
+  "flag": "unverified",
+  "last_checked": "2026-09-06",
+  "university": "Indian Institute of Technology Bombay",
+  "title": "Faculty Recruitment 2026: Assistant Professor, Associate Professor, Professor"
+ },
+ "portal.mytum.de:120822": {
+  "deadline": "2026-09-15",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Technical University of Munich",
+  "title": "Tenure Track Assistant Professor in Implantable Brain-Computer Interfaces"
+ },
+ "rczp.nju.edu.cn:368808": {
+  "deadline": "2026-12-31",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Nanjing University",
+  "title": "2026 tenure-track positions, School of Integrated Circuits (tenure-track assistant/associate professor; higher ranks for outstanding candidates)"
+ },
+ "recruit.ap.uci.edu:10408": {
+  "deadline": "2027-02-15",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "University of California, Irvine",
+  "title": "Assistant Professor (Tenure-Track) in Quantum and Semiconductor Engineering"
+ },
+ "talent.sigs.tsinghua.edu.cn:https://talent.sigs.tsinghua.edu.cn/recruit-fg/jobs": {
+  "deadline": "2026-10-26",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Tsinghua University",
+  "title": "Global Faculty Recruitment 2026: Tenured/Tenure-Track Positions at All Ranks"
+ },
+ "uu.varbi.com:945617": {
+  "deadline": "2026-10-05",
+  "flag": "ok",
+  "last_checked": "2026-09-06",
+  "university": "Uppsala University",
+  "title": "Assistant Professor in Physics specialising in Quantum Information Theory"
+ }
+}

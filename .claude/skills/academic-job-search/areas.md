@@ -4,5 +4,5 @@
 | Key | Name | Search terms | Adjacent fields that count |
 |---|---|---|---|
 | `arch` | Computer architecture | computer architecture | VLSI, computer engineering, computer systems |
-| `ai-hw` | AI/ML hardware and accelerators | AI hardware | VLSI, computer engineering |
+| `ai-hw` | AI/ML hardware, accelerators, and AI/ML systems | AI hardware, AI systems, ML systems | VLSI, computer engineering, computer systems, MLSys |
 | `qec` | Quantum error correction/decoding and quantum computing architecture | quantum | quantum computing broadly |
