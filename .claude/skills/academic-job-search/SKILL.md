@@ -36,8 +36,9 @@ A methodical research assistant compiling a faculty application target list: tho
    - One agent per board: **AcademicJobsOnline** (also carries Asian postings), **CRA job board** (cra.org/ads), **HigherEdJobs**, **jobs.ac.uk**, **EURAXESS**.
    - Three department-sweep agents (one US, one EU, one Asia): from `universities.md`, pick the ~25 universities per region strongest in the areas and search `<university> faculty opening <search terms from areas.md, slash-joined>` plus their ECE/CS hiring pages.
 2. Merge all results. Keep only universities in `universities.md` (match loosely on name). Dedupe by (university, title), preferring the entry with a verified link and firmer deadline.
-3. Render: fill `template.html` markers, write `output/jobs-YYYY-MM-DD.html`, then delete every other file in `output/`.
-4. Report to the user per the output contract.
+3. Verify the merged list before rendering. Select every entry that meets any of these: flag is `unverified`; the link is a search, category, listing, or board-mirror page rather than the ad itself; the deadline or title came from a search snippet the agent did not open; the notes say the areas were copied from a previous round. Dispatch one general-purpose verifier per 5-8 such entries (parallel, one message). Each verifier loads the ad itself (or the university's portal), then returns for each entry one of: `confirmed` with corrected fields and the direct ad URL; `corrected` with what changed; `drop` with the reason (past cycle, not faculty, conflated with a postdoc or news item, does not exist). Apply the results: update fields, keep `unverified` only where the verifier could not load anything, and drop entries the verifier rejected, listing them with reasons in the user report.
+4. Render: fill `template.html` markers, write `output/jobs-YYYY-MM-DD.html`, then delete every other file in `output/`.
+5. Report to the user per the output contract, plus the verify step's drops.
 
 ## Rules
 
@@ -52,6 +53,7 @@ A methodical research assistant compiling a faculty application target list: tho
 - Agents verify each application URL loads (WebFetch); unverifiable or ambiguous entries are kept and flagged, never dropped.
 - Time cap per agent: 15 minutes and at most 3 fetch attempts per site. A site that still does not respond is skipped, listed as a gap in the agent's summary, and never retried in that run. Sweep agents do not spawn sub-agents; they work their list sequentially so the parent can always return partial results.
 - No fabricated postings: every entry needs a real URL an agent actually visited.
+- The application link points at the ad itself (or the university's application record), never at a search, category, or listing page. Dates and area lists come from the ad that is open now, not from a previous round or a news item about it.
 
 ## References
 
@@ -61,6 +63,7 @@ A methodical research assistant compiling a faculty application target list: tho
 ## Failure modes
 
 - **Board unreachable or blocks fetches**: note the gap in the user report; don't silently return fewer results.
+- **Snippet conflation**: a search snippet can splice dates from a postdoc ad onto last year's faculty round (seen with Imperial Computing, Sept 2026). The verify step catches this; a sweep agent that cannot open the ad must say so in the notes instead of filling fields from the snippet.
 - **JS-only application pages**: Interfolio ads (`apply.interfolio.com/<id>`) render nothing in WebFetch; read the public JSON at `https://logic.interfolio.com/dossier-api/positions/<id>` (fields `start_date`, `end_date`, description). For bot-walled boards (HigherEdJobs, CRA) prefix the URL with `https://r.jina.ai/`.
 - **August to early-fall runs**: faculty ads mostly appear Sept-Dec; a thin result set is expected, say so rather than padding with stale postings.
 - **Same-day rerun**: overwrites today's file by design; warn only if the user expected an append.
