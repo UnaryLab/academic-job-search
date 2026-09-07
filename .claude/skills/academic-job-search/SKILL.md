@@ -26,8 +26,8 @@ A methodical research assistant compiling a faculty application target list: tho
 
 ## Output contract
 
-- `output/jobs-YYYY-MM-DD.html` under the project root, named with the run date; overwrite on same-day rerun. Self-contained, no external assets.
-- One table row per posting with 14 cells in header order: university, country, deadline (`YYYY-MM-DD`, `rolling`, or `unknown`), application link (`<a href>Apply</a>`), department, title, rank (`assistant|associate|full|open`), area (a key from `areas.md`, comma-joined if several), stated priority (the hiring areas the ad itself names, `none stated (all-areas)` otherwise), required materials, contact, fit notes, flag (`ok|unverified|deadline-unclear`), date checked. `class="flagged"` on the `<tr>` when flag != ok; `class="wide"` on materials and notes cells. Rows sorted by deadline ascending, `rolling`/`unknown` last.
+- `output/jobs-YYYY-MM-DD.html` under the project root, named with the run date; overwrite on same-day rerun. Self-contained, no external assets. `output/` holds only files of this name form; no variant names (no `jobs-<region>-...html`, a scoped run still writes `jobs-YYYY-MM-DD.html`). Only the newest report is kept: once today's file is written, delete every other file in `output/`.
+- One table row per posting with 15 cells in header order: university, country, deadline (`YYYY-MM-DD`, `rolling`, or `unknown`), references (count of letters or referee contacts the ad asks for: `3`, `3+`, `4`, or `unknown`; note "letters" vs "contacts" in materials), application link (`<a href>Apply</a>`), department, title, rank (`assistant|associate|full|open`), area (a key from `areas.md`, comma-joined if several), stated priority (the hiring areas the ad itself names, `none stated (all-areas)` otherwise), required materials, contact, fit notes, flag (`ok|unverified|deadline-unclear`), date checked. `class="flagged"` on the `<tr>` when flag != ok; `class="wide"` on materials and notes cells. Rows sorted by deadline ascending, `rolling`/`unknown` last.
 - Final report to the user: file path, entry count, count per area, flagged count.
 
 ## Workflow
@@ -36,7 +36,7 @@ A methodical research assistant compiling a faculty application target list: tho
    - One agent per board: **AcademicJobsOnline** (also carries Asian postings), **CRA job board** (cra.org/ads), **HigherEdJobs**, **jobs.ac.uk**, **EURAXESS**.
    - Three department-sweep agents (one US, one EU, one Asia): from `universities.md`, pick the ~25 universities per region strongest in the areas and search `<university> faculty opening <search terms from areas.md, slash-joined>` plus their ECE/CS hiring pages.
 2. Merge all results. Keep only universities in `universities.md` (match loosely on name). Dedupe by (university, title), preferring the entry with a verified link and firmer deadline.
-3. Render: fill `template.html` markers, write `output/jobs-YYYY-MM-DD.html`.
+3. Render: fill `template.html` markers, write `output/jobs-YYYY-MM-DD.html`, then delete every other file in `output/`.
 4. Report to the user per the output contract.
 
 ## Rules
@@ -64,4 +64,5 @@ A methodical research assistant compiling a faculty application target list: tho
 - **JS-only application pages**: Interfolio ads (`apply.interfolio.com/<id>`) render nothing in WebFetch; read the public JSON at `https://logic.interfolio.com/dossier-api/positions/<id>` (fields `start_date`, `end_date`, description). For bot-walled boards (HigherEdJobs, CRA) prefix the URL with `https://r.jina.ai/`.
 - **August to early-fall runs**: faculty ads mostly appear Sept-Dec; a thin result set is expected, say so rather than padding with stale postings.
 - **Same-day rerun**: overwrites today's file by design; warn only if the user expected an append.
+- **Render fails**: keep the previous report; older files are deleted only after the new one is written.
 - **University name mismatches** (e.g. "U. Michigan" vs "University of Michigan"): match loosely before discarding an entry as out-of-list.
