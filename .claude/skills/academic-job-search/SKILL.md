@@ -51,6 +51,7 @@ A methodical research assistant compiling a faculty application target list: tho
   - Ad names a past cycle ("2025-2026 positions") or its posted/updated date is more than 9 months before the run date and it carries no deadline.
   - "Until filled" with a posted date more than 9 months old and no sign of renewal (no updated date, still lists last year's review date).
   - An ad posted before March of the run year, with a deadline in the run year, is prior-cycle unless the ad itself says it is for the next academic year.
+  A job board's listing expiry (Nature Careers, jobRxiv, and the like) is not a deadline; use `unknown` unless the ad itself states a date.
   Ads that survive with no stated deadline keep `deadline=unknown` and flag `deadline-unclear`; record posted date and start date in the notes so the reader can judge.
 - Region: US, Europe (incl. UK, Switzerland, Nordics), and Asia (China, Hong Kong, Singapore, South Korea, Japan, Taiwan).
 - Agents verify each application URL loads (WebFetch); unverifiable or ambiguous entries are kept and flagged until the verify step, which may drop them.
