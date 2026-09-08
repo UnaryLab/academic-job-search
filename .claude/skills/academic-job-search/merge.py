@@ -2,11 +2,12 @@
 """Merge agent JSON files into output/jobs-YYYY-MM-DD.html; `--check` runs the self-check."""
 import argparse, glob, html, json, os, re, unicodedata
 from collections import Counter
-from datetime import date, timedelta
 
 SKILL = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(SKILL, "..", "..", ".."))
-SEEN = os.path.join(SKILL, "seen.json")
+ENTRIES = os.path.join(SKILL, "entries.json")
+FIELDS = ("university", "country", "deadline", "references", "link", "department", "title", "rank", "area",
+          "priority", "materials", "contact", "notes", "flag", "checked")
 BRANCH_MARKERS = ("hkust-gz", "hkust(gz)", "cuhk-shenzhen", "cuhk shenzhen",
                   "nyu abu dhabi", "nyu shanghai", "duke kunshan")
 BOARD_HOSTS = ("higheredjobs.com", "jobs.ac.uk", "academicjobsonline.org", "cra.org", "euraxess")
@@ -86,14 +87,16 @@ def dedupe(entries):
         keep, other = (e, dup) if score(e) > score(dup) else (dup, e)
         if firmness(other["deadline"]) > firmness(keep["deadline"]):
             keep["deadline"] = other["deadline"]
-        keep["notes"] = (keep["notes"] + f" [also listed: {other['link']}]").strip()
+        tag = f"[also listed: {other['link']}]"
+        if other["link"] != keep["link"] and tag not in keep["notes"]:
+            keep["notes"] = (keep["notes"] + " " + tag).strip()
         kept[kept.index(dup)] = keep
     return kept
 
 
 def sort_key(e):
     d = e["deadline"]
-    tail = 1 if e.get("flag") == "unverified" else 0
+    tail = 2 if e.get("flag") == "unverified" else 1 if e.get("flag", "ok") != "ok" else 0
     return (tail, 0, d) if DATED.match(d) else (tail, 1, "") if d == "rolling" else (tail, 2, "")
 
 
@@ -123,7 +126,22 @@ def merge(entries, today, table):
     return kept, drops, past
 
 
-def render(kept, today, out_dir):
+def gap_rows(gaps, table):
+    """HTML rows for universities the sweep could not check; unmatched names are printed and skipped."""
+    H = html.escape
+    rows = []
+    for g in gaps:
+        m = table.get(norm(g["university"]))
+        if not m:
+            print("gap not in universities.md:", g["university"])
+            continue
+        links = " ".join(f'<a href="{H(u)}" target="_blank" rel="noopener">{H(host_of(u))}</a>'
+                         for u in g["check"].split(" and "))
+        rows.append((m[1], m[0], f"<tr><td>{H(m[0])}</td><td>{H(m[1])}</td><td>{H(g['blocked'])}</td><td>{links}</td></tr>"))
+    return [r for _, _, r in sorted(rows)]
+
+
+def render(kept, today, out_dir, gaps=()):
     H = html.escape
     rows = []
     for e in kept:
@@ -137,7 +155,8 @@ def render(kept, today, out_dir):
         tds = "".join(c if c.startswith("<td") else f"<td>{c}</td>" for c in cells)
         rows.append(f"<tr{cls}>{tds}</tr>")
     tpl = open(os.path.join(SKILL, "template.html"), encoding="utf-8").read()
-    out = tpl.replace("<!--DATE-->", today).replace("<!--COUNT-->", str(len(rows))).replace("<!--ROWS-->", "\n".join(rows))
+    out = (tpl.replace("<!--DATE-->", today).replace("<!--COUNT-->", str(len(rows)))
+           .replace("<!--ROWS-->", "\n".join(rows)).replace("<!--GAPS-->", "\n".join(gaps)))
     os.makedirs(out_dir, exist_ok=True)
     outp = os.path.join(out_dir, f"jobs-{today}.html")
     open(outp, "w", encoding="utf-8").write(out)
@@ -148,22 +167,13 @@ def render(kept, today, out_dir):
     return outp
 
 
-def load_seen():
-    return json.load(open(SEEN, encoding="utf-8")) if os.path.exists(SEEN) else {}
+def load_entries():
+    return json.load(open(ENTRIES, encoding="utf-8")) if os.path.exists(ENTRIES) else []
 
 
-def recently_verified(kept, seen, today, days=30):
-    cutoff = (date.fromisoformat(today) - timedelta(days=days)).isoformat()
-    return [e for e in kept if (s := seen.get(link_key(e["link"])))
-            and s["flag"] == "ok" and s["deadline"] == e["deadline"] and s["last_checked"] >= cutoff]
-
-
-def update_seen(kept, seen, today):
-    for e in kept:
-        seen[link_key(e["link"])] = {"deadline": e["deadline"], "flag": e["flag"],
-                                     "last_checked": e.get("checked", today),
-                                     "university": e["university"], "title": e["title"]}
-    json.dump(dict(sorted(seen.items())), open(SEEN, "w", encoding="utf-8"), indent=1, ensure_ascii=False)
+def save_entries(kept):
+    rows = [{k: e[k] for k in FIELDS if k in e} for e in kept]
+    json.dump(rows, open(ENTRIES, "w", encoding="utf-8"), indent=1, ensure_ascii=False)
 
 
 def check():
@@ -172,12 +182,12 @@ def check():
     def m(n):
         r = table.get(norm(n))
         return r and r[0]
-    assert m("University of Tokyo") == "University of Tokyo"
-    assert m("Hong Kong Baptist University") is None
+    assert m("Peking University") == "Peking University"
+    assert m("Lingnan University") is None
     assert m("CUHK, Shenzhen") is None
     assert m("Virginia Tech") == "Virginia Tech"
     assert m("UC Irvine") == "University of California, Irvine"
-    assert m("Science Tokyo") == "Tokyo Institute of Technology"
+    assert m("HKUST") == "Hong Kong University of Science and Technology"
 
     def E(**kw):
         e = dict(university="X", country="Y", deadline="unknown", flag="ok", notes="", title="", link="")
@@ -185,7 +195,7 @@ def check():
         return e
     kept, drops, _ = merge([E(university="Hong Kong University of Science and Technology",
                               link="https://facrecruit.hkust-gz.edu.cn/", title="Faculty Positions, HKUST(GZ)"),
-                            E(university="Hong Kong Baptist University", link="https://hkbu.edu.hk/x")],
+                            E(university="Lingnan University", link="https://ln.edu.hk/x")],
                            "2026-09-06", table)
     assert not kept and [r for r, _ in drops] == ["branch campus (hkust-gz)", "not in universities.md"]
 
@@ -202,12 +212,22 @@ def check():
     out = dedupe([mirror, uni])
     assert len(out) == 1 and "interfolio" in out[0]["link"] and out[0]["deadline"] == "2026-12-01"
     assert "[also listed: https://www.higheredjobs.com" in out[0]["notes"]
+    assert out[0]["notes"].count("[also listed") == 1, "tag not appended twice"
+    same = dedupe([E(link="https://apply.interfolio.com/191224", title=t),
+                   E(link="https://apply.interfolio.com/191224", title=t)])
+    assert len(same) == 1 and "[also listed" not in same[0]["notes"]
 
     ds = [E(deadline=d) for d in ("rolling", "2026-12-01", "unknown", "2026-10-15")]
     assert [e["deadline"] for e in sorted(ds, key=sort_key)] == ["2026-10-15", "2026-12-01", "rolling", "unknown"]
     assert title_tokens("Professors of Cybersecurity (f/m/d)") == title_tokens("Professors of Cybersecurity")
     ds2 = ds + [E(deadline="2026-09-20", flag="unverified")]
     assert sorted(ds2, key=sort_key)[-1]["deadline"] == "2026-09-20", "unverified rows sort last"
+    ds3 = ds2 + [E(deadline="rolling", flag="deadline-unclear")]
+    assert [e["flag"] for e in sorted(ds3, key=sort_key)][-2:] == ["deadline-unclear", "unverified"], "flagged rows after ok rows"
+    g = gap_rows([dict(university="Peking University", blocked="403", check="https://a.jp/x and https://b.jp/y"),
+                  dict(university="Columbia University", blocked="500", check="https://c.edu/"),
+                  dict(university="Lingnan University", blocked="404", check="https://d.hk/")], table)
+    assert len(g) == 2 and g[0].startswith("<tr><td>Peking University</td><td>China</td>") and g[0].count("<a href") == 2
     print("check ok")
 
 
@@ -216,7 +236,8 @@ def main():
     ap.add_argument("--date", help="run date YYYY-MM-DD")
     ap.add_argument("--in-dir", help="directory of agent JSON files")
     ap.add_argument("--out-dir", default=os.path.join(ROOT, "output"))
-    ap.add_argument("--no-seen", action="store_true", help="do not update seen.json")
+    ap.add_argument("--no-save", action="store_true", help="do not rewrite entries.json")
+    ap.add_argument("--gaps", help="JSON list of {university, blocked, check}: universities the sweep could not check")
     ap.add_argument("--check", action="store_true", help="run the self-check and exit")
     a = ap.parse_args()
     if a.check:
@@ -235,21 +256,31 @@ def main():
         for e in arr:
             e["_src"] = os.path.basename(f)
             entries.append(e)
-    kept, drops, past = merge(entries, a.date, load_universities())
-    seen = load_seen()
-    skip = recently_verified(kept, seen, a.date)
-    outp = render(kept, a.date, a.out_dir)
-    if not a.no_seen:
-        update_seen(kept, seen, a.date)
+    table = load_universities()
+    kept, drops, past = merge(entries, a.date, table)
+    gaps = gap_rows(json.load(open(a.gaps, encoding="utf-8")), table) if a.gaps else []
+    prior = load_entries()
+    prior_keys = {link_key(e["link"]) for e in prior}
+    kept_keys = {link_key(e["link"]) for e in kept}
+    kept_keys |= {link_key(u) for e in kept for u in re.findall(r"\[also listed: (\S+?)\]", e["notes"])}
+    outp = render(kept, a.date, a.out_dir, gaps)
+    if not a.no_save:
+        save_entries(kept)
 
     areas = Counter(k for e in kept for k in re.split(r"[,\s]+", e.get("area", "")) if k)
     print("wrote", outp)
     print("entries", len(kept))
     print("areas", dict(areas))
     print("flagged", sum(1 for e in kept if e["flag"] != "ok"))
+    print("gap rows", len(gaps))
     print("by source", dict(Counter(e["_src"] for e in kept)))
-    print("verified within 30 days (verify step may skip):", len(skip))
-    for e in skip:
+    new = [e for e in kept if link_key(e["link"]) not in prior_keys]
+    gone = [e for e in prior if link_key(e["link"]) not in kept_keys]
+    print("new since last report:", len(new))
+    for e in new:
+        print(f"  - {e['university']} | {e['title'][:60]} | {e['link']}")
+    print("gone since last report:", len(gone))
+    for e in gone:
         print(f"  - {e['university']} | {e['title'][:60]} | {e['link']}")
     print("dropped:", len(drops))
     for reason, e in drops:

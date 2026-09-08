@@ -1,3 +1,4 @@
 .claude/settings.local.json
 .gstack/
 .DS_Store
+__pycache__/
