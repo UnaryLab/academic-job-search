@@ -1,77 +1,86 @@
-# Universities (US/EU/Asia top-150 union: CSRankings arch+AI, THE, QS, US News Best Global, CWUR)
-<!-- Rebuilt only on request. Last built: 2026-09-08 (top-150) -->
+# Universities (North America/EU/Asia top-150 union: CSRankings arch+AI, THE, QS, US News Best Global, CWUR)
+<!-- Rebuilt only on request. Last built: 2026-09-09 (top-150, Canada added; US and Canada merged as North America) -->
 
 | University | Country | Region | Aliases |
 |---|---|---|---|
-| Arizona State University | USA | US |  |
-| Boston University | USA | US |  |
-| Brown University | USA | US |  |
-| California Institute of Technology | USA | US | Caltech |
-| Carnegie Mellon University | USA | US | CMU |
-| Case Western Reserve University | USA | US | Case Western; CWRU |
-| Columbia University | USA | US |  |
-| Cornell University | USA | US |  |
-| Dartmouth College | USA | US |  |
-| Duke University | USA | US |  |
-| Emory University | USA | US |  |
-| George Mason University | USA | US | GMU; George Mason |
-| Georgia Institute of Technology | USA | US | Georgia Tech |
-| Harvard University | USA | US |  |
-| Indiana University Bloomington | USA | US | Indiana University; IU Bloomington |
-| Johns Hopkins University | USA | US |  |
-| Massachusetts Institute of Technology | USA | US | MIT |
-| Michigan State University | USA | US | MSU |
-| New York University | USA | US | NYU |
-| North Carolina State University | USA | US |  |
-| Northeastern University | USA | US |  |
-| Northwestern University | USA | US |  |
-| Ohio State University | USA | US |  |
-| Oregon State University | USA | US |  |
-| Pennsylvania State University | USA | US |  |
-| Princeton University | USA | US |  |
-| Purdue University | USA | US |  |
-| Rice University | USA | US |  |
-| Rochester Institute of Technology | USA | US | RIT |
-| Rutgers University | USA | US |  |
-| Stanford University | USA | US |  |
-| Stony Brook University | USA | US |  |
-| Texas A&M University | USA | US | TAMU; Texas A&M |
-| University at Buffalo | USA | US |  |
-| University of Arizona | USA | US |  |
-| University of California, Berkeley | USA | US | UC Berkeley; Berkeley |
-| University of California, Davis | USA | US |  |
-| University of California, Irvine | USA | US | UCI; UC Irvine |
-| University of California, Los Angeles | USA | US | UCLA; UC Los Angeles |
-| University of California, Riverside | USA | US |  |
-| University of California, San Diego | USA | US | UCSD; UC San Diego |
-| University of California, Santa Barbara | USA | US | UCSB; UC Santa Barbara |
-| University of California, Santa Cruz | USA | US |  |
-| University of Central Florida | USA | US | UCF |
-| University of Chicago | USA | US |  |
-| University of Colorado Boulder | USA | US |  |
-| University of Florida | USA | US | UF |
-| University of Illinois Chicago | USA | US |  |
-| University of Illinois Urbana-Champaign | USA | US | UIUC; University of Illinois at Urbana-Champaign |
-| University of Maryland, College Park | USA | US | UMD; University of Maryland |
-| University of Massachusetts Amherst | USA | US |  |
-| University of Michigan | USA | US |  |
-| University of Minnesota | USA | US |  |
-| University of North Carolina at Chapel Hill | USA | US |  |
-| University of Notre Dame | USA | US | Notre Dame |
-| University of Pennsylvania | USA | US | Penn; UPenn |
-| University of Pittsburgh | USA | US | Pitt |
-| University of Rochester | USA | US |  |
-| University of Southern California | USA | US | USC |
-| University of Texas at Austin | USA | US | UT Austin |
-| University of Texas at Dallas | USA | US |  |
-| University of Utah | USA | US |  |
-| University of Virginia | USA | US |  |
-| University of Washington | USA | US |  |
-| University of Wisconsin-Madison | USA | US |  |
-| Vanderbilt University | USA | US |  |
-| Virginia Tech | USA | US | Virginia Polytechnic Institute and State University |
-| Washington University in St. Louis | USA | US | WashU; WUSTL |
-| Yale University | USA | US |  |
+| Arizona State University | USA | North America |  |
+| Boston University | USA | North America |  |
+| Brown University | USA | North America |  |
+| California Institute of Technology | USA | North America | Caltech |
+| Carnegie Mellon University | USA | North America | CMU |
+| Case Western Reserve University | USA | North America | Case Western; CWRU |
+| Columbia University | USA | North America |  |
+| Cornell University | USA | North America |  |
+| Dartmouth College | USA | North America |  |
+| Duke University | USA | North America |  |
+| Emory University | USA | North America |  |
+| George Mason University | USA | North America | GMU; George Mason |
+| Georgia Institute of Technology | USA | North America | Georgia Tech |
+| Harvard University | USA | North America |  |
+| Indiana University Bloomington | USA | North America | Indiana University; IU Bloomington |
+| Johns Hopkins University | USA | North America |  |
+| Massachusetts Institute of Technology | USA | North America | MIT |
+| McGill University | Canada | North America |  |
+| McMaster University | Canada | North America |  |
+| Michigan State University | USA | North America | MSU |
+| New York University | USA | North America | NYU |
+| North Carolina State University | USA | North America |  |
+| Northeastern University | USA | North America |  |
+| Northwestern University | USA | North America |  |
+| Ohio State University | USA | North America |  |
+| Oregon State University | USA | North America |  |
+| Pennsylvania State University | USA | North America |  |
+| Princeton University | USA | North America |  |
+| Purdue University | USA | North America |  |
+| Rice University | USA | North America |  |
+| Rochester Institute of Technology | USA | North America | RIT |
+| Rutgers University | USA | North America |  |
+| Simon Fraser University | Canada | North America | SFU |
+| Stanford University | USA | North America |  |
+| Stony Brook University | USA | North America |  |
+| Texas A&M University | USA | North America | TAMU; Texas A&M |
+| University at Buffalo | USA | North America |  |
+| University of Alberta | Canada | North America |  |
+| University of Arizona | USA | North America |  |
+| University of British Columbia | Canada | North America | UBC |
+| University of California, Berkeley | USA | North America | UC Berkeley; Berkeley |
+| University of California, Davis | USA | North America |  |
+| University of California, Irvine | USA | North America | UCI; UC Irvine |
+| University of California, Los Angeles | USA | North America | UCLA; UC Los Angeles |
+| University of California, Riverside | USA | North America |  |
+| University of California, San Diego | USA | North America | UCSD; UC San Diego |
+| University of California, Santa Barbara | USA | North America | UCSB; UC Santa Barbara |
+| University of California, Santa Cruz | USA | North America |  |
+| University of Central Florida | USA | North America | UCF |
+| University of Chicago | USA | North America |  |
+| University of Colorado Boulder | USA | North America |  |
+| University of Florida | USA | North America | UF |
+| University of Illinois Chicago | USA | North America |  |
+| University of Illinois Urbana-Champaign | USA | North America | UIUC; University of Illinois at Urbana-Champaign |
+| University of Maryland, College Park | USA | North America | UMD; University of Maryland |
+| University of Massachusetts Amherst | USA | North America |  |
+| University of Michigan | USA | North America |  |
+| University of Minnesota | USA | North America |  |
+| University of North Carolina at Chapel Hill | USA | North America |  |
+| University of Notre Dame | USA | North America | Notre Dame |
+| University of Pennsylvania | USA | North America | Penn; UPenn |
+| University of Pittsburgh | USA | North America | Pitt |
+| University of Rochester | USA | North America |  |
+| University of Southern California | USA | North America | USC |
+| University of Texas at Austin | USA | North America | UT Austin |
+| University of Texas at Dallas | USA | North America |  |
+| University of Toronto | Canada | North America | UofT; U of T |
+| University of Utah | USA | North America |  |
+| University of Virginia | USA | North America |  |
+| University of Washington | USA | North America |  |
+| University of Waterloo | Canada | North America |  |
+| University of Wisconsin-Madison | USA | North America |  |
+| Université de Montréal | Canada | North America | UdeM; University of Montreal |
+| Vanderbilt University | USA | North America |  |
+| Virginia Tech | USA | North America | Virginia Polytechnic Institute and State University |
+| Washington University in St. Louis | USA | North America | WashU; WUSTL |
+| Western University | Canada | North America | Western Ontario |
+| Yale University | USA | North America |  |
 | Aalto University | Finland | EU |  |
 | Aarhus University | Denmark | EU |  |
 | Autonomous University of Barcelona | Spain | EU | UAB; Universitat Autònoma de Barcelona |

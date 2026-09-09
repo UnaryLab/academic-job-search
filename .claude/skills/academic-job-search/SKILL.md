@@ -1,13 +1,13 @@
 ---
 name: academic-job-search
-description: Search open faculty positions in computer architecture, AI/ML hardware, and quantum error correction (areas configurable in areas.md) at US/EU/Asia top-150 universities; write a dated self-contained HTML report to output/. Use when the user asks to run the faculty job search, refresh job listings, or find new faculty openings.
+description: Search open faculty positions in computer architecture, AI/ML hardware, and quantum error correction (areas configurable in areas.md) at North America/EU/Asia top-150 universities; write a dated self-contained HTML report to output/. Use when the user asks to run the faculty job search, refresh job listings, or find new faculty openings.
 ---
 
 # Faculty Job Search
 
 ## Scope
 
-Finds currently open tenure-track/tenured faculty positions at US, European, and Asian top-150 universities in the areas listed in `areas.md`. Each run starts from the entries in the last report (`entries.json`), verifies them, adds newly found postings, and drops an entry only when a verifier rejects it or its deadline has passed. One run = one dated HTML file. Not for postdoc, lecturer, staff, or industry positions.
+Finds currently open tenure-track/tenured faculty positions at North American, European, and Asian top-150 universities in the areas listed in `areas.md`. Each run starts from the entries in the last report (`entries.json`), verifies them, adds newly found postings, and drops an entry only when a verifier rejects it or its deadline has passed. One run = one dated HTML file. Not for postdoc, lecturer, staff, or industry positions.
 
 ## Handoffs
 
@@ -19,7 +19,7 @@ A methodical research assistant compiling a faculty application target list: tho
 
 ## Inputs
 
-- `universities.md` (this skill directory): the static US/EU/Asia top-150 union list with an `Aliases` column (short forms separated by `;`). Rebuild only when the user asks; add an alias when a real posting names a listed university by a form not yet in the table.
+- `universities.md` (this skill directory): the static North America/EU/Asia top-150 union list with an `Aliases` column (short forms separated by `;`). Rebuild only when the user asks; add an alias when a real posting names a listed university by a form not yet in the table.
 - `merge.py` (this skill directory): matches, dedupes, sorts, and renders the agent JSON files.
 - `entries.json` (this skill directory): the full entry list of the last rendered report; `merge.py` rewrites it after each render (`--no-save` skips).
 - `areas.md` (this skill directory): the research areas, with area key, name, search terms, and adjacent fields that count.
@@ -37,7 +37,7 @@ A methodical research assistant compiling a faculty application target list: tho
 
 1. Dispatch parallel search agents (general-purpose, one message, concurrent), each returning a JSON array of entries with the fields in the output contract:
    - One agent per board: **AcademicJobsOnline** (also carries Asian postings), **CRA job board** (careercenter.cra.org; cra.org/ads redirects there), **HigherEdJobs**, **jobs.ac.uk**, **academicpositions.com**, **Nature Careers** (jobs.nature.com / nature.com/naturecareers).
-   - Department-sweep agents covering every university in `universities.md`: split the table in order into lists of about 30 (one agent per list; US rows first, then EU, then Asia; a scoped run splits only the rows in scope). Each agent works its list sequentially and searches `<university> faculty opening <search terms from areas.md, slash-joined>` plus the university's ECE/CS hiring pages, and returns in its final message its gaps: each university it could not check, with what blocked and the URL to check.
+   - Department-sweep agents covering every university in `universities.md`: split the table in order into lists of about 30 (one agent per list; North America rows first, then EU, then Asia; a scoped run splits only the rows in scope). Each agent works its list sequentially and searches `<university> faculty opening <search terms from areas.md, slash-joined>` plus the university's ECE/CS hiring pages, and returns in its final message its gaps: each university it could not check, with what blocked and the URL to check.
 2. Merge: copy `entries.json` to `<dir>/00-previous.json` so the previous report's entries are merged as a source. Write the agent JSON files to the same directory and run `conda run -n base python merge.py --date <date> --in-dir <dir>`. It keeps an entry only when its `university` field, normalized (lowercase, punctuation stripped, spaces collapsed), exactly equals a canonical name or alias in `universities.md`; nothing fuzzy. Entries whose title or link names a branch campus (`hkust-gz`, `hkust(gz)`, `cuhk-shenzhen`, `cuhk shenzhen`, `nyu abu dhabi`, `nyu shanghai`, `duke kunshan`) are dropped. Every drop is printed with its reason. Within a university, two entries are the same posting when their link keys match (Interfolio id, or same host and same 5+ digit id) or their title token-set Jaccard is at least 0.5; same host with different numeric ids means distinct postings. The kept entry is the higher-scoring one (+3 university-domain or Interfolio link, -2 board mirror, +2 dated deadline, +1 rolling, +2 flag `ok`, +1 `deadline-unclear`); it takes the firmest deadline of the pair and notes the other link as `[also listed: url]`.
 3. Verify the merged list before rendering. Every entry from `00-previous.json` is verified each run. Also select every new entry that meets any of these: flag is `unverified`; deadline is rolling or unknown and no posted date is recorded; the link is a search, category, listing, or board-mirror page rather than the ad itself; the deadline or title came from a search snippet the agent did not open; the notes say the areas were copied from a previous round. Dispatch at most 6 general-purpose verifiers, grouping the selected entries evenly (parallel, one message). Each verifier loads the ad itself (or the university's portal), then returns for each entry one of: `confirmed` with corrected fields and the direct ad URL; `corrected` with what changed; `drop` with the reason (past cycle, not faculty, conflated with a postdoc or news item, does not exist). Apply the results to the files in `<dir>` (including `00-previous.json`): update fields, keep `unverified` only where the verifier could not load anything, and remove entries the verifier rejected; an existing entry is removed only on a `drop` verdict. Write the outcome to `verify.json` in the scratchpad, one record per entry: link key, action (`confirmed`, `corrected`, `drop`), what changed. The drops go in the user report with reasons.
 4. Collect the sweep agents' gaps into `gaps.json` in the scratchpad (`university`, `blocked`, `check`), one record per university the sweep could not check; universities that were checked and had nothing open are not gaps.
@@ -55,7 +55,7 @@ A methodical research assistant compiling a faculty application target list: tho
   - An ad posted before March of the run year, with a deadline in the run year, is prior-cycle unless the ad itself says it is for the next academic year.
   A job board's listing expiry (Nature Careers, jobRxiv, and the like) is not a deadline; use `unknown` unless the ad itself states a date.
   Ads that survive with no stated deadline keep `deadline=unknown` and flag `deadline-unclear`; record posted date and start date in the notes so the reader can judge.
-- Region: US, Europe (incl. UK, Switzerland, Nordics), and Asia (China, Hong Kong, Macau, Singapore).
+- Region: North America (US and Canada), Europe (incl. UK, Switzerland, Nordics), and Asia (China, Hong Kong, Macau, Singapore).
 - Agents verify each application URL loads (WebFetch); unverifiable or ambiguous entries are kept and flagged until the verify step, which may drop them.
 - Time cap per agent: 30 minutes and at most 3 fetch attempts per site. A site that still does not respond is skipped, listed as a gap in the agent's summary, and never retried in that run. Sweep agents do not spawn sub-agents; they work their list sequentially so the parent can always return partial results.
 - A branch campus or joint institute (HKUST(GZ), CUHK-Shenzhen, Tsinghua SIGS, ZJU-UIUC, NYU Abu Dhabi, and the like) counts only when `universities.md` lists it by name.

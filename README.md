@@ -1,6 +1,6 @@
 # Academic Job Search
 
-A Claude Code skill that finds currently open tenure-track/tenured faculty positions in computer architecture, AI/ML hardware, and quantum error correction at US, European, and Asian top-150 universities, and writes a dated, self-contained HTML report.
+A Claude Code skill that finds currently open tenure-track/tenured faculty positions in computer architecture, AI/ML hardware, and quantum error correction at North American, European, and Asian top-150 universities, and writes a dated, self-contained HTML report.
 
 ## Usage
 
@@ -20,7 +20,7 @@ Each run carries over the previous report's entries, verifies them, and adds new
 |---|---|
 | `.claude/skills/academic-job-search/SKILL.md` | Skill definition: workflow, output contract, rules, failure modes |
 | `.claude/skills/academic-job-search/areas.md` | Research areas, search terms, and adjacent fields that count |
-| `.claude/skills/academic-job-search/universities.md` | US/EU/Asia top-150 university list (rebuilt only on request) |
+| `.claude/skills/academic-job-search/universities.md` | North America/EU/Asia top-150 university list (rebuilt only on request) |
 | `.claude/skills/academic-job-search/template.html` | Report template (sortable table, filter box, dark mode) |
 | `.claude/skills/academic-job-search/entries.json` | Entries of the last report, the baseline for the next run |
 | `output/` | Dated reports, one per run |

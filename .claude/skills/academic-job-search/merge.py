@@ -28,7 +28,7 @@ def load_universities():
     table = {}
     for line in open(os.path.join(SKILL, "universities.md"), encoding="utf-8"):
         cells = [c.strip() for c in line.strip().strip("|").split("|")]
-        if len(cells) < 4 or cells[2] not in ("US", "EU", "Asia"):
+        if len(cells) < 4 or cells[2] not in ("North America", "EU", "Asia"):
             continue
         name, country, _, aliases = cells[:4]
         for key in [name] + aliases.split(";"):
@@ -188,6 +188,7 @@ def check():
     assert m("Virginia Tech") == "Virginia Tech"
     assert m("UC Irvine") == "University of California, Irvine"
     assert m("HKUST") == "Hong Kong University of Science and Technology"
+    assert m("UBC") == "University of British Columbia"
 
     def E(**kw):
         e = dict(university="X", country="Y", deadline="unknown", flag="ok", notes="", title="", link="")
