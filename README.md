@@ -1,6 +1,6 @@
 # Academic Job Search
 
-A Claude Code skill that finds currently open tenure-track/tenured faculty positions in computer architecture, AI/ML hardware, and quantum error correction at North American, European, and Asian top-150 universities, and writes a dated, self-contained HTML report.
+A Claude Code skill that finds currently open faculty positions (tenure-track/tenured, plus permanent teaching-stream posts) in the research areas listed in `areas.md` at the universities listed in `universities.md`, and writes a dated, self-contained HTML report. The default configuration targets computer architecture, AI/ML hardware and systems, quantum error correction, computer systems, and teaching-stream posts at North American, European, and Asian top-150 universities.
 
 ## Usage
 
@@ -12,7 +12,9 @@ Open this folder in Claude Code and run:
 
 Optional scope in the arguments, e.g. `/academic-job-search US and UK only`.
 
-Each run carries over the previous report's entries, verifies them, and adds new postings from the parallel board agents and department sweeps over every listed university, dropping an entry only when verification rejects it or its deadline has passed; the result is merged, deduped, and rendered to `output/jobs-YYYY-MM-DD.html`.
+Each run carries over the previous report's entries, verifies those not yet confirmed twice (and not already checked on the run date), and adds new postings from the parallel board agents and department sweeps over every listed university, dropping an entry only when verification rejects it or its deadline has passed. The result is merged, deduped, filtered by minimum rank, and rendered to `output/jobs-YYYY-MM-DD.html`; only the newest report is kept.
+
+Web search is capped per session (200 calls by default, shared by all agents), so run the search in a fresh session, or raise `CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION`.
 
 ## Layout
 
@@ -22,13 +24,14 @@ Each run carries over the previous report's entries, verifies them, and adds new
 | `universities.md` | User input: North America/EU/Asia top-150 university list (rebuilt only on request) |
 | `rank.md` | User input: minimum rank applied at (default assistant) and title-to-rank mapping |
 | `.claude/skills/academic-job-search/SKILL.md` | Skill definition: workflow, output contract, rules, failure modes |
+| `.claude/skills/academic-job-search/merge.py` | Matches, dedupes, rank-filters, and renders the agent output; `--check` runs its self-check |
 | `.claude/skills/academic-job-search/template.html` | Report template (sortable table, area/region/university filters, dark mode) |
-| `.claude/skills/academic-job-search/entries.json` | Entries of the last report, the baseline for the next run |
-| `output/` | Dated reports, one per run |
+| `.claude/skills/academic-job-search/entries.json` | Entries of the last report, the baseline for the next run, with a per-entry `verified` count |
+| `output/` | The newest dated report |
 
 ## Report
 
-One row per posting: university, country, deadline, apply link, department, title, rank, area, stated priority, materials, contact, notes, flag, date checked. Rows are sorted by deadline; yellow rows are flagged `unverified` or `deadline-unclear` and need a manual look. A second table lists the universities whose department pages blocked or failed to load during the run, with what blocked and where to look by hand.
+One row per posting: university, deadline, title, area, rank, apply link, flag, stated priority, notes, department, country, materials, references, contact, date checked. Rows are sorted by deadline, with the urgency of the next 14 and 30 days marked; rows flagged `unverified` or `deadline-unclear` need a manual look. The page has a text search, tick-dropdown filters for area, region, and university (options come from `areas.md` and `universities.md`), a compact toggle that hides the three low-value columns, click-to-expand long cells, and light and dark themes. A second table lists the universities whose department pages blocked or failed to load during the run, with what blocked and where to look by hand.
 
 ## Rules the search follows
 
