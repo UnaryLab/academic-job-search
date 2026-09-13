@@ -12,6 +12,7 @@ BRANCH_MARKERS = ("hkust-gz", "hkust(gz)", "cuhk-shenzhen", "cuhk shenzhen",
                   "nyu abu dhabi", "nyu shanghai", "duke kunshan")
 BOARD_HOSTS = ("higheredjobs.com", "jobs.ac.uk", "academicjobsonline.org", "cra.org", "euraxess")
 DATED = re.compile(r"\d{4}-\d{2}-\d{2}$")
+RANKS = ("assistant", "associate", "full")  # rank = lowest rank the ad accepts; "open" accepts all
 TITLE_STOP = {"tenure", "track", "tenured", "position", "positions", "faculty", "open", "rank", "the", "of",
               "in", "and", "professor", "professors", "professorships", "assistant", "associate", "full",
               "or", "a", "an"}
@@ -23,10 +24,51 @@ def norm(s):
     return " ".join(re.sub(r"[^a-z0-9]+", " ", s).split())
 
 
+def load_regions():
+    """country -> region, from universities.md"""
+    out = {}
+    for line in open(os.path.join(ROOT, "universities.md"), encoding="utf-8"):
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if len(cells) >= 3 and cells[2] in ("North America", "EU", "Asia"):
+            out[cells[1]] = cells[2]
+    return out
+
+
+def min_rank():
+    """the 'Minimum rank' row of rank.md, or assistant"""
+    for line in open(os.path.join(ROOT, "rank.md"), encoding="utf-8"):
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if len(cells) >= 2 and cells[0] == "Minimum rank" and cells[1] in RANKS:
+            return cells[1]
+    return "assistant"
+
+
+def load_areas():
+    """[(key, name)] from areas.md, in table order"""
+    out = []
+    for line in open(os.path.join(ROOT, "areas.md"), encoding="utf-8"):
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if len(cells) >= 2 and cells[0].startswith("`"):
+            out.append((cells[0].strip("`"), cells[1]))
+    return out
+
+
+def filter_options():
+    """JSON for the report's area and region dropdowns: areas.md keys and universities.md regions, in file order"""
+    regions = list(dict.fromkeys(load_regions().values()))
+    unis = []
+    for line in open(os.path.join(ROOT, "universities.md"), encoding="utf-8"):
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if len(cells) >= 3 and cells[2] in regions:
+            unis.append({"name": cells[0], "country": cells[1], "region": cells[2]})
+    return json.dumps({"areas": [{"key": k, "name": n} for k, n in load_areas()], "regions": regions,
+                       "universities": unis})
+
+
 def load_universities():
     """normalized canonical name or alias -> (canonical name, country)"""
     table = {}
-    for line in open(os.path.join(SKILL, "universities.md"), encoding="utf-8"):
+    for line in open(os.path.join(ROOT, "universities.md"), encoding="utf-8"):
         cells = [c.strip() for c in line.strip().strip("|").split("|")]
         if len(cells) < 4 or cells[2] not in ("North America", "EU", "Asia"):
             continue
@@ -101,7 +143,7 @@ def sort_key(e):
     return (tail, 0, d) if DATED.match(d) else (tail, 1, "") if d == "rolling" else (tail, 2, "")
 
 
-def merge(entries, today, table):
+def merge(entries, today, table, min_rank="assistant"):
     """Returns (kept sorted, drops as (reason, entry), past-deadline entries)."""
     kept, drops = [], []
     for e in entries:
@@ -118,6 +160,10 @@ def merge(entries, today, table):
         m = table.get(norm(e["university"]))
         if not m:
             drops.append(("not in universities.md", e))
+            continue
+        r = e.get("rank", "open")
+        if r in RANKS and RANKS.index(r) > RANKS.index(min_rank):
+            drops.append((f"rank {r} above minimum {min_rank}", e))
             continue
         e["university"], e["country"] = m
         kept.append(e)
@@ -138,25 +184,31 @@ def gap_rows(gaps, table):
             continue
         links = " ".join(f'<a href="{H(u)}" target="_blank" rel="noopener">{H(host_of(u))}</a>'
                          for u in g["check"].split(" and "))
-        rows.append((m[1], m[0], f"<tr><td>{H(m[0])}</td><td>{H(m[1])}</td><td>{H(g['blocked'])}</td><td>{links}</td></tr>"))
+        region = load_regions().get(m[1], "")
+        rows.append((m[1], m[0], f'<tr data-region="{H(region)}"><td>{H(m[0])}</td><td>{H(m[1])}</td>'
+                                 f"<td>{H(g['blocked'])}</td><td>{links}</td></tr>"))
     return [r for _, _, r in sorted(rows)]
 
 
 def render(kept, today, out_dir, gaps=()):
     H = html.escape
+    regions = load_regions()
     rows = []
     for e in kept:
         cls = ' class="flagged"' if e["flag"] != "ok" else ""
+        area, region = H(e.get("area", "")), H(regions.get(e["country"], ""))
+        cls += f' data-area="{area}" data-region="{region}"'
         link = f'<a href="{H(e["link"])}" target="_blank" rel="noopener">Apply</a>'
-        cells = [H(e["university"]), H(e["country"]), H(e["deadline"]), H(str(e.get("references", "unknown"))),
-                 link, H(e.get("department", "")), H(e["title"]), H(e.get("rank", "open")), H(e.get("area", "")),
-                 H(e.get("priority", "")), f'<td class="wide">{H(e.get("materials", ""))}</td>',
-                 H(e.get("contact", "unknown")), f'<td class="wide">{H(e["notes"])}</td>', H(e["flag"]),
-                 H(e.get("checked", today))]
+        cells = [H(e["university"]), H(e["deadline"]), H(e["title"]), H(e.get("area", "")), H(e.get("rank", "open")),
+                 link, H(e["flag"]), H(e.get("priority", "")), f'<td class="wide">{H(e["notes"])}</td>',
+                 H(e.get("department", "")), H(e["country"]), f'<td class="wide">{H(e.get("materials", ""))}</td>',
+                 H(str(e.get("references", "unknown"))), H(e.get("contact", "unknown")), H(e.get("checked", today))]
         tds = "".join(c if c.startswith("<td") else f"<td>{c}</td>" for c in cells)
         rows.append(f"<tr{cls}>{tds}</tr>")
     tpl = open(os.path.join(SKILL, "template.html"), encoding="utf-8").read()
     out = (tpl.replace("<!--DATE-->", today).replace("<!--COUNT-->", str(len(rows)))
+           .replace("<!--AREAS-->", H(" · ".join(n for _, n in load_areas())))
+           .replace("<!--OPTIONS-->", filter_options())
            .replace("<!--ROWS-->", "\n".join(rows)).replace("<!--GAPS-->", "\n".join(gaps)))
     os.makedirs(out_dir, exist_ok=True)
     outp = os.path.join(out_dir, f"jobs-{today}.html")
@@ -200,6 +252,13 @@ def check():
                             E(university="Lingnan University", link="https://ln.edu.hk/x")],
                            "2026-09-06", table)
     assert not kept and [r for r, _ in drops] == ["branch campus (hkust-gz)", "not in universities.md"]
+    kept, drops, _ = merge([E(university="Yale University", link="https://a.edu/1", rank="full"),
+                            E(university="Yale University", link="https://a.edu/2", rank="associate"),
+                            E(university="Yale University", link="https://a.edu/3", rank="open")], "2026-09-06", table)
+    assert [r for r, _ in drops] == ["rank full above minimum assistant", "rank associate above minimum assistant"], drops
+    assert len(kept) == 1 and kept[0]["rank"] == "open"
+    kept, drops, _ = merge([E(university="Yale University", link="https://a.edu/1", rank="full")], "2026-09-06", table, "full")
+    assert not drops and len(kept) == 1
 
     t = "Assistant Professor of Quantum Information"
     assert len(dedupe([E(link="https://apply.interfolio.com/191224", title=t),
@@ -231,7 +290,7 @@ def check():
     g = gap_rows([dict(university="Peking University", blocked="403", check="https://a.jp/x and https://b.jp/y"),
                   dict(university="Columbia University", blocked="500", check="https://c.edu/"),
                   dict(university="Lingnan University", blocked="404", check="https://d.hk/")], table)
-    assert len(g) == 2 and g[0].startswith("<tr><td>Peking University</td><td>China</td>") and g[0].count("<a href") == 2
+    assert len(g) == 2 and g[0].startswith('<tr data-region="Asia"><td>Peking University</td><td>China</td>') and g[0].count("<a href") == 2
     print("check ok")
 
 
@@ -241,6 +300,8 @@ def main():
     ap.add_argument("--in-dir", help="directory of agent JSON files")
     ap.add_argument("--out-dir", default=os.path.join(ROOT, "output"))
     ap.add_argument("--no-save", action="store_true", help="do not rewrite entries.json")
+    ap.add_argument("--min-rank", default=min_rank(), choices=RANKS,
+                    help="drop ads that only accept ranks above this (default: the Minimum rank row of rank.md; open always kept)")
     ap.add_argument("--gaps", help="JSON list of {university, blocked, check}: universities the sweep could not check")
     ap.add_argument("--check", action="store_true", help="run the self-check and exit")
     a = ap.parse_args()
@@ -261,7 +322,7 @@ def main():
             e["_src"] = os.path.basename(f)
             entries.append(e)
     table = load_universities()
-    kept, drops, past = merge(entries, a.date, table)
+    kept, drops, past = merge(entries, a.date, table, a.min_rank)
     gaps = gap_rows(json.load(open(a.gaps, encoding="utf-8")), table) if a.gaps else []
     prior = load_entries()
     prior_keys = {link_key(e["link"]) for e in prior}

@@ -1,0 +1,10 @@
+# Areas (research areas the search targets)
+<!-- Edited only on request. Units to check: the departments, schools, or colleges whose hiring pages the sweep opens for this area, by whatever name the university uses (CS also means CSE, EECS, School/College of Computing, Informatics; ECE also means EE, EECS, Computer Engineering). Excluded units: hiring units that never count for this area even when the ad text matches. -->
+
+| Key | Name | Search terms | Adjacent fields that count | Units to check | Excluded units |
+|---|---|---|---|---|---|
+| `arch` | Computer architecture | computer architecture | VLSI, computer engineering, computer systems | computer science; electrical and computer engineering; microelectronics or integrated circuits school | |
+| `ai-hw` | AI/ML hardware, accelerators, and AI/ML systems | AI hardware, AI systems, ML systems | VLSI, computer engineering, computer systems, MLSys | computer science; electrical and computer engineering; microelectronics or integrated circuits school; AI or data science school | |
+| `qec` | Quantum error correction decoding and quantum computing architecture | quantum computing architecture, quantum error correction decoder | quantum computing systems | computer science; electrical and computer engineering; quantum computing or quantum engineering institute when it hires into CS/ECE | physics; quantum information theory groups |
+| `sys` | Computer systems | computer systems, operating systems, distributed systems | networking, compilers, storage, cloud, HPC, systems software | computer science; electrical and computer engineering | |
+| `teaching` | Teaching-stream faculty | teaching stream, teaching track, assistant professor of teaching, lecturer continuing appointment | permanent or continuing teaching-stream posts in the units listed here (Lecturer with continuing appointment, Assistant Professor of Teaching, Teaching Professor, Professor of Practice); sessional and definite-term posts do not count | computer science; electrical and computer engineering | |

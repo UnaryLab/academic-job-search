@@ -1,45 +1,166 @@
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Faculty Jobs <!--DATE--></title>
 <style>
-  body { font: 14px/1.5 -apple-system, system-ui, sans-serif; margin: 1.5rem; }
-  h1 { font-size: 1.3rem; }
-  h2 { font-size: 1.1rem; }
-  .meta { color: #666; margin-bottom: 1rem; }
-  input#q { padding: .4rem .6rem; width: 20rem; max-width: 100%; margin-bottom: .8rem;
-            border: 1px solid #aaa; border-radius: 4px; font: inherit; }
-  .wrap { overflow-x: auto; }
-  table { border-collapse: collapse; white-space: nowrap; }
-  th, td { border: 1px solid #ccc; padding: .35rem .6rem; text-align: left; vertical-align: top; }
-  th { cursor: pointer; background: #f0f0f0; position: sticky; top: 0; }
-  th:hover { background: #e0e0e0; }
-  td.wide { white-space: normal; min-width: 16rem; }
-  tr.flagged td { background: #fff7e0; }
-  a { color: #0b57d0; }
+  :root {
+    --bg: #f6f5f1; --fg: #1c1f24; --mute: #6a6f78; --line: #e2e0da; --line2: #eeece6;
+    --card: #ffffff; --head: #f4f2ed; --zebra: #faf9f6; --hover: #eef3f9;
+    --link: #0b57d0; --focus: #0072b2; --shadow: 0 1px 2px rgba(20, 24, 30, .05), 0 4px 14px rgba(20, 24, 30, .05);
+    --urgent: #d55e00; --soon: #e69f00; --ok: #009e73; --arch: #0072b2; --aihw: #cc79a7; --qec: #56b4e9;
+    --urgent-fg: #b04d00; --soon-fg: #8e6100; --ok-fg: #00775a; --arch-fg: #005a8e; --aihw-fg: #9a4b78; --qec-fg: #1b6d9c;
+  }
   @media (prefers-color-scheme: dark) {
-    body { background: #1b1b1b; color: #ddd; }
-    th { background: #2a2a2a; } th:hover { background: #333; }
-    th, td { border-color: #444; }
-    tr.flagged td { background: #3a3320; }
-    a { color: #8ab4f8; }
+    :root {
+      --bg: #15171a; --fg: #e6e4de; --mute: #9aa0a8; --line: #2f3338; --line2: #26292e;
+      --card: #1c1f23; --head: #22252a; --zebra: #1f2226; --hover: #262c35;
+      --link: #8ab4f8; --focus: #56b4e9; --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 14px rgba(0, 0, 0, .25);
+      --urgent-fg: #f08a4b; --soon-fg: #f2b94a; --ok-fg: #3fc79c; --arch-fg: #6fb7e6; --aihw-fg: #e19ac4; --qec-fg: #7fcbf0;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 0 1.25rem 4rem; background: var(--bg); color: var(--fg);
+         font: 14px/1.4 -apple-system, "SF Pro Text", Inter, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+         -webkit-font-smoothing: antialiased; }
+  a { color: var(--link); }
+  .num { font-variant-numeric: tabular-nums; }
+  h1 { font-size: 1.9rem; font-weight: 700; letter-spacing: -.025em; line-height: 1.1; margin: 0 0 .35rem; }
+  h2 { font-size: 1.15rem; font-weight: 650; letter-spacing: -.01em; margin: 2.6rem 0 .3rem; }
+  .sub { color: var(--mute); margin: 0; max-width: 70ch; }
+  .top { padding: 2rem 0 1.4rem; }
+  .stats { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.2rem 0 0; padding: 0; list-style: none; }
+  .stats li { display: flex; flex-direction: column; gap: .05rem; min-width: 8.5rem; padding: .6rem .9rem .55rem;
+              background: var(--card); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); }
+  .stats strong { font-size: 1.55rem; font-weight: 650; letter-spacing: -.02em; line-height: 1.15; font-variant-numeric: tabular-nums; }
+  .stats span { color: var(--mute); font-size: .8rem; }
+  .stats .urgent { border-top: 3px solid var(--urgent); } .stats .urgent strong { color: var(--urgent-fg); }
+  .stats .soon { border-top: 3px solid var(--soon); } .stats .soon strong { color: var(--soon-fg); }
+  .filters { position: sticky; top: .5rem; z-index: 3; display: flex; flex-wrap: wrap; gap: .5rem 1.4rem; align-items: center;
+             padding: .6rem .9rem; margin: 0 0 .9rem; background: var(--card); border: 1px solid var(--line);
+             border-radius: 10px; box-shadow: var(--shadow); }
+  .filters label { white-space: nowrap; cursor: pointer; }
+  .dd { position: relative; }
+  .dd summary { list-style: none; cursor: pointer; user-select: none; white-space: nowrap; padding: .35rem .7rem;
+                border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+  .dd summary::-webkit-details-marker { display: none; }
+  .dd summary::after { content: " \25BE"; color: var(--mute); }
+  .dd[open] summary { border-color: var(--focus); }
+  .dd summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+  .dd .panel { position: absolute; top: calc(100% + .3rem); left: 0; z-index: 4; min-width: 11rem; padding: .5rem .75rem .6rem;
+               background: var(--card); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); }
+  .dd .links { display: flex; gap: .8rem; font-size: .8rem; margin-bottom: .35rem; padding-bottom: .35rem; border-bottom: 1px solid var(--line2); }
+  .dd .opts { display: flex; flex-direction: column; gap: .3rem; max-height: 16rem; overflow-y: auto; }
+  .dd .find { width: 100%; margin-bottom: .35rem; padding: .3rem .5rem; border: 1px solid var(--line); border-radius: 6px;
+              font: inherit; background: var(--bg); color: var(--fg); }
+  #dd-university .panel { min-width: 19rem; }
+  .filters input[type="checkbox"] { accent-color: var(--focus); }
+  input#q { padding: .4rem .7rem; width: 16rem; max-width: 100%; border: 1px solid var(--line); border-radius: 8px;
+            font: inherit; background: var(--bg); color: var(--fg); }
+  input:focus-visible, th:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+  #n { color: var(--mute); margin-left: auto; font-variant-numeric: tabular-nums; }
+  .wrap { overflow-x: auto; width: fit-content; max-width: 100%; border: 1px solid var(--line); border-radius: 12px; background: var(--card); box-shadow: var(--shadow); }
+  table { border-collapse: separate; border-spacing: 0; width: 100%; }
+  /* columns size to content; long text is capped by the inner div and the wrapper scrolls only when the viewport is narrow */
+  #t { width: auto; font-size: 13px; }
+  td { white-space: normal; overflow-wrap: break-word; }
+  th, #t td:nth-child(2), #t td:nth-child(5), #t td:nth-child(6), #t td:nth-child(11), #t td:nth-child(13),
+  #t td:nth-child(15) { white-space: nowrap; }
+  #t td:nth-child(7) .pill { white-space: normal; }
+  #t td:nth-child(4) .pill { margin: 0; }
+  #t td:nth-child(4) .cap { display: flex; flex-wrap: wrap; gap: .2rem; width: 6.25rem; }
+  .cap { overflow-wrap: anywhere; }
+  #t td:nth-child(1) .cap { min-width: 8rem; max-width: 12rem; }  #t td:nth-child(3) .cap { min-width: 10rem; max-width: 16rem; }
+  #t td:nth-child(8) .cap { min-width: 8rem; max-width: 14rem; }  #t td:nth-child(9) .cap { min-width: 8rem; max-width: 22rem; }
+  #t td:nth-child(10) .cap { min-width: 8rem; max-width: 13rem; } #t td:nth-child(12) .cap { min-width: 8rem; max-width: 17rem; }
+  #t td:nth-child(14) { max-width: 12rem; }
+  th, td { padding: .45rem .55rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line2); }
+  th { position: sticky; top: 0; z-index: 2; background: var(--head); cursor: pointer; user-select: none;
+       font-weight: 600; font-size: .78rem; letter-spacing: .01em; color: var(--mute); border-bottom: 1px solid var(--line); }
+  th:hover { color: var(--fg); }
+  th[data-asc="1"]::after { content: " \25B4"; } th[data-asc="0"]::after { content: " \25BE"; }
+  tbody tr:nth-child(even) td { background: var(--zebra); }
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody tr:hover td { background: var(--hover); }
+  td:nth-child(1) { font-weight: 600; }
+  #g td:nth-child(2), #t td:nth-child(10), #t td:nth-child(11) { color: var(--mute); }
+  #t td:nth-child(2) { font-variant-numeric: tabular-nums; }
+  #t td:nth-child(6) a { display: inline-block; padding: .12rem .65rem; border-radius: 999px; background: var(--link); color: #fff;
+                         text-decoration: none; font-size: .78rem; font-weight: 600; }
+  #t td:nth-child(6) a:hover { filter: brightness(1.1); }
+  /* deadline urgency: 3px row edge, deadline text in the same hue, countdown under the date */
+  #t tr[data-due="urgent"] td:first-child { box-shadow: inset 3px 0 var(--urgent); }
+  #t tr[data-due="soon"] td:first-child { box-shadow: inset 3px 0 var(--soon); }
+  #t tr[data-due="urgent"] td:nth-child(2) { color: var(--urgent-fg); font-weight: 600; }
+  #t tr[data-due="soon"] td:nth-child(2) { color: var(--soon-fg); font-weight: 600; }
+  #t tr[data-due="rolling"] td:nth-child(2), #t tr[data-due="unknown"] td:nth-child(2) { color: var(--mute); }
+  .days { display: block; font-size: .78rem; font-weight: 400; color: var(--mute); }
+  /* pills: translucent Okabe-Ito background, solid text */
+  .pill { display: inline-block; padding: .08rem .55rem; border-radius: 999px; font-size: .78rem; font-weight: 600;
+          line-height: 1.5; white-space: nowrap; margin: 0 .2rem .15rem 0; }
+  .pill.ok { color: var(--ok-fg); background: color-mix(in srgb, var(--ok) 14%, transparent); }
+  .pill.deadline-unclear { color: var(--soon-fg); background: color-mix(in srgb, var(--soon) 16%, transparent); }
+  .pill.unverified { color: var(--urgent-fg); background: color-mix(in srgb, var(--urgent) 14%, transparent); }
+  .pill.rank { color: var(--mute); background: transparent; border: 1px solid var(--line); font-weight: 500; }
+  .pill.arch { color: var(--arch-fg); background: color-mix(in srgb, var(--arch) 14%, transparent); }
+  .pill.ai-hw { color: var(--aihw-fg); background: color-mix(in srgb, var(--aihw) 16%, transparent); }
+  .pill.qec { color: var(--qec-fg); background: color-mix(in srgb, var(--qec) 18%, transparent); }
+  .pill.sys { color: var(--soon-fg); background: color-mix(in srgb, var(--soon) 16%, transparent); }
+  .pill.teaching { color: var(--fg); background: color-mix(in srgb, var(--mute) 16%, transparent); }
+  /* long text: clamp to three lines, click to expand */
+  .clamp { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; cursor: pointer; }
+  .clamp.open { -webkit-line-clamp: unset; }
+  /* compact: hide references, contact, checked */
+  #t.compact th:nth-child(13), #t.compact td:nth-child(13),
+  #t.compact th:nth-child(14), #t.compact td:nth-child(14),
+  #t.compact th:nth-child(15), #t.compact td:nth-child(15) { display: none; }
+  #g th:nth-child(1) { width: 16rem; } #g th:nth-child(2) { width: 8rem; } #g th:nth-child(4) { width: 22rem; }
+  @media (max-width: 600px) { body { padding: 0 1rem 3rem; } h1 { font-size: 1.5rem; } #n { margin-left: 0; } .stats li { min-width: 7rem; } }
+  @media print {
+    body { background: #fff; color: #000; padding: 0; }
+    .filters { display: none; }
+    .clamp { display: block; -webkit-line-clamp: unset; overflow: visible; }
+    .wrap, .stats li { box-shadow: none; }
+    th { position: static; }
   }
 </style>
-<h1>Faculty openings: computer architecture / AI hardware / QEC</h1>
-<div class="meta">North America, Europe &amp; Asia top-150 universities · run date <!--DATE--> · <!--COUNT--> entries · click a header to sort · flagged rows (yellow) need manual verification</div>
-<input id="q" placeholder="filter rows…">
+<div class="top">
+  <h1>Faculty openings</h1>
+  <p class="sub"><!--AREAS--> at North America, Europe and Asia top-150 universities.</p>
+  <p class="sub" data-run="<!--DATE-->">Run date <span class="num"><!--DATE--></span>. Click a column header to sort; click a long cell to expand it.</p>
+  <ul class="stats">
+    <li><strong><!--COUNT--></strong><span>openings</span></li>
+    <li class="urgent"><strong id="s-urgent">0</strong><span>due within 14 days</span></li>
+    <li class="soon"><strong id="s-soon">0</strong><span>due within 30 days</span></li>
+    <li><strong id="s-flag">0</strong><span>need a manual check</span></li>
+    <li><strong id="s-gap">0</strong><span>universities not checked</span></li>
+  </ul>
+</div>
+<script id="opts" type="application/json"><!--OPTIONS--></script>
+<div class="filters">
+  <input id="q" type="search" placeholder="Search rows">
+  <details class="dd" id="dd-area" data-name="Area" data-cls="fa"><summary>Area</summary>
+    <div class="panel"><div class="links"><a href="#" data-set="all">All</a><a href="#" data-set="none">None</a></div><div class="opts"></div></div></details>
+  <details class="dd" id="dd-region" data-name="Region" data-cls="fr"><summary>Region</summary>
+    <div class="panel"><div class="links"><a href="#" data-set="all">All</a><a href="#" data-set="none">None</a></div><div class="opts"></div></div></details>
+  <details class="dd" id="dd-university" data-name="University" data-cls="fu"><summary>University</summary>
+    <div class="panel"><div class="links"><a href="#" data-set="all">All</a><a href="#" data-set="none">None</a></div>
+    <input class="find" type="search" placeholder="Find a university"><div class="opts"></div></div></details>
+  <label><input type="checkbox" id="compact" checked> Hide references, contact, checked</label>
+  <span id="n"></span>
+</div>
 <div class="wrap">
-<table id="t">
+<table id="t" class="compact">
 <thead><tr>
-  <th>University</th><th>Country</th><th>Deadline</th><th>References</th><th>Apply</th><th>Department</th><th>Title</th><th>Rank</th>
-  <th>Area</th><th>Stated priority</th><th>Materials</th><th>Contact</th>
-  <th>Notes</th><th>Flag</th><th>Checked</th>
+  <th>University</th><th>Deadline</th><th>Title</th><th>Area</th><th>Rank</th><th>Apply</th><th>Flag</th><th>Stated priority</th>
+  <th>Notes</th><th>Department</th><th>Country</th><th>Materials</th>
+  <th>References</th><th>Contact</th><th>Checked</th>
 </tr></thead>
 <tbody>
 <!--ROWS-->
 </tbody>
 </table>
 </div>
-<h2>Not checked this run (manual look)</h2>
-<p>Department pages that blocked or failed to load; the search could not confirm whether these universities have an open ad.</p>
+<h2>Not checked this run</h2>
+<p class="sub">Department pages that blocked or failed to load. The search could not confirm whether these universities have an open ad; look manually.</p>
 <div class="wrap">
 <table id="g">
 <thead><tr><th>University</th><th>Country</th><th>What blocked</th><th>Where to look</th></tr></thead>
@@ -49,7 +170,33 @@
 </table>
 </div>
 <script>
-  const tb = document.querySelector('#t tbody');
+  const tb = document.querySelector('#t tbody'), gb = document.querySelector('#g tbody');
+  const run = new Date(document.querySelector('[data-run]').dataset.run + 'T00:00:00');
+  const pill = (text, cls) => { const s = document.createElement('span'); s.className = 'pill ' + cls; s.textContent = text; return s; };
+  let urgent = 0, soon = 0, flagged = 0;
+  [...tb.rows].forEach(r => {
+    const c = r.cells, d = c[1].textContent.trim();
+    let due = /^\d{4}-\d\d-\d\d$/.test(d) ? 'later' : d === 'rolling' ? 'rolling' : 'unknown';
+    if (due === 'later') {
+      const days = Math.round((new Date(d + 'T00:00:00') - run) / 864e5);
+      if (days <= 14) { due = 'urgent'; urgent++; } else if (days <= 30) { due = 'soon'; soon++; }
+      const s = document.createElement('span'); s.className = 'days';
+      s.textContent = days === 0 ? 'today' : days === 1 ? 'in 1 day' : 'in ' + days + ' days';
+      c[1].appendChild(s);
+    }
+    r.dataset.due = due;
+    c[4].replaceChildren(pill(c[4].textContent.trim(), 'rank'));
+    c[3].replaceChildren(...c[3].textContent.split(/[,\s]+/).filter(Boolean).map(a => pill(a, a)));
+    const f = c[6].textContent.trim(); c[6].replaceChildren(pill(f, f)); flagged += f !== 'ok';
+    const wrap = (td, cls) => { const d = document.createElement('div'); d.className = cls; d.append(...td.childNodes); td.append(d); };
+    [c[0], c[2], c[3], c[9]].forEach(td => wrap(td, 'cap'));
+    [c[7], c[8], c[11]].forEach(td => wrap(td, 'cap clamp'));
+  });
+  document.getElementById('s-urgent').textContent = urgent;
+  document.getElementById('s-soon').textContent = soon;
+  document.getElementById('s-flag').textContent = flagged;
+  document.getElementById('s-gap').textContent = gb.rows.length;
+  tb.onclick = e => { const d = e.target.closest('.clamp'); if (d && !e.target.closest('a')) d.classList.toggle('open'); };
   document.querySelectorAll('#t th').forEach((th, i) => th.onclick = () => {
     const asc = th.dataset.asc !== '1';
     document.querySelectorAll('#t th').forEach(h => delete h.dataset.asc);
@@ -58,8 +205,61 @@
       a.cells[i].innerText.localeCompare(b.cells[i].innerText) * (asc ? 1 : -1)
     ).forEach(r => tb.appendChild(r));
   });
-  document.getElementById('q').oninput = e => {
-    const q = e.target.value.toLowerCase();
-    [...tb.rows].forEach(r => r.style.display = r.innerText.toLowerCase().includes(q) ? '' : 'none');
-  };
+  // filter dropdowns: options come from #opts (areas.md and universities.md, file order); rows are the fallback
+  const LABELS = { EU: 'Europe' };
+  const label = v => LABELS[v] || v;
+  let values;
+  try {
+    const o = JSON.parse(document.getElementById('opts').textContent);
+    values = { area: o.areas.map(a => [a.key, a.name]), region: o.regions.map(r => [r, '']),
+               university: o.universities.map(u => [u.name, u.country]) };
+  } catch (e) {
+    const distinct = f => [...new Set([...tb.rows, ...gb.rows].flatMap(f).filter(Boolean))].sort().map(v => [v, '']);
+    values = { area: distinct(r => (r.dataset.area || '').split(/[,\s]+/)), region: distinct(r => [r.dataset.region]),
+               university: distinct(r => [r.cells[0].textContent.trim()]) };
+  }
+  document.querySelectorAll('details.dd').forEach(dd => {
+    const opts = dd.querySelector('.opts'), cls = dd.dataset.cls;
+    values[dd.id.slice(3)].forEach(([v, name]) => {
+      const l = document.createElement('label'), i = document.createElement('input');
+      i.type = 'checkbox'; i.className = cls; i.value = v; i.checked = true;
+      if (name) l.title = name;
+      l.append(i, ' ' + label(v)); opts.append(l);
+    });
+    dd.querySelectorAll('.links a').forEach(a => a.onclick = e => {
+      e.preventDefault();
+      opts.querySelectorAll('label:not([hidden]) input').forEach(i => i.checked = a.dataset.set === 'all'); apply();
+    });
+    const find = dd.querySelector('.find');
+    if (find) find.oninput = () => {
+      const q = find.value.toLowerCase();
+      opts.querySelectorAll('label').forEach(l => l.hidden = !l.textContent.toLowerCase().includes(q));
+    };
+  });
+  function summaries() {
+    document.querySelectorAll('details.dd').forEach(dd => {
+      const all = [...dd.querySelectorAll('.opts input')], on = all.filter(i => i.checked), name = dd.dataset.name;
+      dd.querySelector('summary').textContent = name + ': ' + (on.length === 0 ? 'none'
+        : on.length === all.length || on.length > 2 ? on.length + ' of ' + all.length : on.map(i => label(i.value)).join(', '));
+    });
+  }
+  document.addEventListener('click', e => document.querySelectorAll('details.dd[open]').forEach(dd => { if (!dd.contains(e.target)) dd.open = false; }));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('details.dd[open]').forEach(dd => dd.open = false); });
+  const on = cls => new Set([...document.querySelectorAll('input.' + cls + ':checked')].map(c => c.value));
+  function apply() {
+    const q = document.getElementById('q').value.toLowerCase(), areas = on('fa'), regions = on('fr'), unis = on('fu');
+    let shown = 0;
+    [...tb.rows].forEach(r => {
+      const ok = r.innerText.toLowerCase().includes(q) && regions.has(r.dataset.region) && unis.has(r.cells[0].textContent.trim())
+        && r.dataset.area.split(/[,\s]+/).some(a => areas.has(a));
+      r.style.display = ok ? '' : 'none'; shown += ok;
+    });
+    [...gb.rows].forEach(r => r.style.display = regions.has(r.dataset.region) && unis.has(r.cells[0].textContent.trim()) ? '' : 'none');
+    document.getElementById('n').textContent = shown + ' of ' + tb.rows.length + ' shown';
+    summaries();
+  }
+  document.getElementById('q').oninput = apply;
+  document.querySelectorAll('input.fa, input.fr, input.fu').forEach(c => c.onchange = apply);
+  document.getElementById('compact').onchange = e => document.getElementById('t').classList.toggle('compact', e.target.checked);
+  apply();
 </script>

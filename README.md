@@ -18,10 +18,11 @@ Each run carries over the previous report's entries, verifies them, and adds new
 
 | Path | Purpose |
 |---|---|
+| `areas.md` | User input: research areas, search terms, adjacent fields, and the university units whose hiring pages to check |
+| `universities.md` | User input: North America/EU/Asia top-150 university list (rebuilt only on request) |
+| `rank.md` | User input: minimum rank applied at (default assistant) and title-to-rank mapping |
 | `.claude/skills/academic-job-search/SKILL.md` | Skill definition: workflow, output contract, rules, failure modes |
-| `.claude/skills/academic-job-search/areas.md` | Research areas, search terms, and adjacent fields that count |
-| `.claude/skills/academic-job-search/universities.md` | North America/EU/Asia top-150 university list (rebuilt only on request) |
-| `.claude/skills/academic-job-search/template.html` | Report template (sortable table, filter box, dark mode) |
+| `.claude/skills/academic-job-search/template.html` | Report template (sortable table, area/region/university filters, dark mode) |
 | `.claude/skills/academic-job-search/entries.json` | Entries of the last report, the baseline for the next run |
 | `output/` | Dated reports, one per run |
 
@@ -31,7 +32,7 @@ One row per posting: university, country, deadline, apply link, department, titl
 
 ## Rules the search follows
 
-- Faculty only: tenure-track/tenured (UK: Lecturer through Professor). No postdoc, teaching-only, staff, or industry posts.
+- Faculty only: tenure-track/tenured research posts, plus permanent or continuing teaching-stream posts in the units `areas.md` names (area `teaching`). No postdoc, sessional, staff, or industry posts. Ads must accept applicants at the minimum rank in `rank.md`.
 - Open now: deadline on or after the run date, or rolling with evidence the ad is from the current cycle. Ads whose start date has passed or that name a past cycle are dropped.
 - Every entry links to a page an agent actually loaded; nothing is fabricated. Unverifiable entries are kept and flagged.
 - Late-August to early-fall runs return few results; most faculty ads appear September to December.
