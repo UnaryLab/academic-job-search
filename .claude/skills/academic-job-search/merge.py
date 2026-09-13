@@ -7,7 +7,7 @@ SKILL = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(SKILL, "..", "..", ".."))
 ENTRIES = os.path.join(SKILL, "entries.json")
 FIELDS = ("university", "country", "deadline", "references", "link", "department", "title", "rank", "area",
-          "priority", "materials", "contact", "notes", "flag", "checked")
+          "priority", "materials", "contact", "notes", "flag", "checked", "verified")
 BRANCH_MARKERS = ("hkust-gz", "hkust(gz)", "cuhk-shenzhen", "cuhk shenzhen",
                   "nyu abu dhabi", "nyu shanghai", "duke kunshan")
 BOARD_HOSTS = ("higheredjobs.com", "jobs.ac.uk", "academicjobsonline.org", "cra.org", "euraxess")
@@ -85,6 +85,7 @@ def dedupe(entries):
             kept.append(e)
             continue
         keep, other = (e, dup) if score(e) > score(dup) else (dup, e)
+        keep["verified"] = max(int(keep.get("verified", 0)), int(other.get("verified", 0)))
         if firmness(other["deadline"]) > firmness(keep["deadline"]):
             keep["deadline"] = other["deadline"]
         tag = f"[also listed: {other['link']}]"
@@ -221,6 +222,8 @@ def check():
     ds = [E(deadline=d) for d in ("rolling", "2026-12-01", "unknown", "2026-10-15")]
     assert [e["deadline"] for e in sorted(ds, key=sort_key)] == ["2026-10-15", "2026-12-01", "rolling", "unknown"]
     assert title_tokens("Professors of Cybersecurity (f/m/d)") == title_tokens("Professors of Cybersecurity")
+    v = dedupe([E(link="https://x.edu/a", verified=2), E(link="https://x.edu/a", flag="unverified")])
+    assert len(v) == 1 and v[0]["verified"] == 2, "dedupe keeps the higher verified count"
     ds2 = ds + [E(deadline="2026-09-20", flag="unverified")]
     assert sorted(ds2, key=sort_key)[-1]["deadline"] == "2026-09-20", "unverified rows sort last"
     ds3 = ds2 + [E(deadline="rolling", flag="deadline-unclear")]
