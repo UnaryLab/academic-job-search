@@ -126,6 +126,42 @@
   "verified": 2
  },
  {
+  "university": "ETH Zurich",
+  "country": "Switzerland",
+  "deadline": "2026-09-30",
+  "references": "unknown",
+  "link": "https://academicjobsonline.org/ajo/jobs/32272",
+  "department": "Department of Computer Science (D-INFK) and Department of Mathematics (D-MATH)",
+  "title": "Professors of Artificial Intelligence and its Mathematical and Computational Foundations",
+  "rank": "open",
+  "area": "ai-hw",
+  "priority": "modern AI broadly construed, with emphasis on the mathematics of deep learning, large language models, and computational methods for AI systems",
+  "materials": "cover letter (addressed to the ETH President); CV with publication list; statement on research; statement on teaching; statement on leadership; description of three most important achievements; certificate of highest degree; no lengths stated",
+  "contact": "faculty-recruiting@sl.ethz.ch",
+  "notes": "Weak fit: search is framed around mathematical/theoretical foundations of deep learning and LLMs, not hardware or systems specifically; included because the ad names 'computational methods for AI systems', which touches the ai-hw area. Rank text says 'Tenured/Tenure-track faculty', matching ETH's standard assistant-professor-tenure-track-through-full-professor ladder, so rank=open. Posted 2026-07-01; closes 2026-09-30. Application goes through ETH's own Faculty Affairs portal (www.facultyaffairs.ethz.ch), not through AcademicJobsOnline directly; no reference-letter count given. Start date not stated. Two sibling ETH ads found on the same AJO /ajo/QC sweep, both excluded as not plausibly matching our areas: 'Professors of Cybersecurity' (academicjobsonline.org/ajo/jobs/32270, general cybersecurity/crypto/privacy, not architecture-specific) and 'Professor of Generative AI in Visual Computing' (academicjobsonline.org/ajo/jobs/32271, graphics/neural rendering, not ai-hw). Verified 2026-09-19 by loading the AJO ad directly.",
+  "flag": "ok",
+  "checked": "2026-09-19",
+  "verified": 1
+ },
+ {
+  "university": "ETH Zurich",
+  "country": "Switzerland",
+  "deadline": "2026-09-30",
+  "references": "unknown",
+  "link": "https://academicpositions.com/ad/eth-zurich/2026/professors-of-cybersecurity-f-m-d/251489",
+  "department": "Department of Computer Science (D-INFK) and Department of Information Technology and Electrical Engineering (D-ITET)",
+  "title": "Professors of Cybersecurity (f/m/d)",
+  "rank": "open",
+  "area": "sys",
+  "priority": "all areas within Cybersecurity, highlighting cryptography, formal methods, system security (hardware/software/platforms), network and wireless security, AI security, human factors in security, and privacy",
+  "materials": "covering letter (addressed to ETH President Prof. Dr. Joel Mesot); CV; list of publications; three statements on research, teaching, and leadership; descriptions of three most important achievements; certificate of highest degree; no lengths stated; references not requested in the ad",
+  "contact": "unknown (apply via www.facultyaffairs.ethz.ch)",
+  "notes": "Weak fit: broad cybersecurity professorship, only the system-security (hardware/software/platforms) bullet touches this search's arch/sys areas; included on the same basis as the University of Bath cyber security entry already in the report. Position based at ETH's Heilbronn, Germany campus (Bildungscampus 9, Heilbronn), not the main Zurich campus, though the employer is ETH Zurich. Tenured faculty positions with position types listed as Assistant/Associate Professor, Professor, and Tenure Track, so treated as open rank (accepts assistant-level). Posted 2026-07-23. Deadline 2026-09-30. Start date not stated. The facultyaffairs.ethz.ch vacancies page the ad points to for applications has moved (redirects to a generic ETH faculty page), so no deeper application link than the academicpositions.com ad itself was found; kept the ad link.",
+  "flag": "ok",
+  "checked": "2026-09-19",
+  "verified": 1
+ },
+ {
   "university": "University of Bern",
   "country": "Switzerland",
   "deadline": "2026-10-02",
@@ -158,8 +194,8 @@
   "contact": "",
   "notes": "Published DOGC 9749 on 2026-09-10; applications until 2026-10-09. Serra Hunter lector = tenure-track assistant. Profile is the Spanish CCIA area, not computer architecture (ATC); fit for arch/ai-hw is loose. Official bases PDF: https://seu.ub.edu/seupro/documentPublic/download/963997 (committee annex only). Apply at https://www.tramitador.ub.edu/tramits/eTramUB/inici.php?id=786c854f2139ffa15e5c4b0124f7338c5564649c",
   "flag": "ok",
-  "checked": "2026-09-16",
-  "verified": 1
+  "checked": "2026-09-19",
+  "verified": 2
  },
  {
   "university": "University of Chicago",
@@ -174,10 +210,10 @@
   "priority": "Broad area search, all areas of Computer Science and Engineering, specifically Robotics, AI, and Systems Architecture/Quantum Systems",
   "materials": "cover letter; CV with publication list; research statement (past and current accomplishments, future plans); teaching and mentoring philosophy and experience statement; at least 3 confidential letters of recommendation via Interfolio; optional: up to 3 sample publications; no lengths stated",
   "contact": "equalopportunity@uchicago.edu (accommodation requests only); apply via https://apply.interfolio.com/193310",
-  "notes": "Direct fit for arch, ai-hw, and qec: ad names Systems Architecture and Quantum Systems alongside Robotics and AI. Posted on CRA board 2026-09-16 (careercenter.cra.org/job/assistant-professor-of-computer-science-chicago-illinois-2429). Review of applications begins 2026-10-12, continues until positions filled; start date and posted-to-Interfolio date not stated in the ad text. Salary $135,000-170,000 (9-month). Caution: the Interfolio dossier API (logic.interfolio.com/dossier-api/positions/193310) reports active_status Closed and is_closed true with start_date Sep 11, 2026 and no end_date, which conflicts with the live CRA listing and the review-begins date; is_onlineapplication is false, so this may be a metadata artifact rather than an actual closure. Re-check apply.interfolio.com/193310 directly before relying on this entry. Verified 2026-09-16: the Interfolio record 193310 reports status Closed while the CRA ad (posted 2026-09-16) is live; the portal may not accept applications yet, recheck the link before applying.",
+  "notes": "Direct fit for arch, ai-hw, and qec: ad names Systems Architecture and Quantum Systems alongside Robotics and AI. Posted on CRA board 2026-09-16. Review of applications begins 2026-10-12, continues until positions filled. Salary $135,000-170,000 (9-month). Interfolio dossier API (logic.interfolio.com/dossier-api/positions/193310) reports active_status Closed and is_closed true, but the same field is Closed on last year's now-superseded posting for the same title (Interfolio 175364, review began 2025-11-09) too, so this flag does not reliably indicate whether a listing is currently accepting applications. computerscience.uchicago.edu/about/job-openings/ still lists only the old 175364 posting, so the department page appears stale and not yet updated for the new cycle. Verified 2026-09-19: apply.interfolio.com/193310 itself still cannot be fetched directly (JS-rendered, template only), but the CRA board listing and the dossier record independently agree on the Oct 12, 2026 review date, so the posting stands.",
   "flag": "ok",
-  "checked": "2026-09-16",
-  "verified": 1
+  "checked": "2026-09-19",
+  "verified": 2
  },
  {
   "university": "University of Barcelona",
@@ -356,7 +392,8 @@
   "contact": "Prof. Dr. Michael Beigl (subject-matter inquiries, berufungen@informatik.kit.edu); applications to Prof. Bernhard Beckert, Division II Head, dekanat@informatik.kit.edu",
   "notes": "W1 tenure-track junior professorship maps to assistant rank per rank.md (German W1/Juniorprofessur). Start as soon as possible. Job posting number 1231/2026. Posted date not stated on the ad. A separate KIT W3 'Computer Networks' post (Institute of Telematics, deadline 2026-10-31, same jobs.pse.kit.edu portal) was found but excluded: W3 is full-rank only, no lower grade offered, fails the minimum-rank filter. A KIT W3 'Robust and Efficient AI' post (Nature Careers 12862164) had a deadline of 2026-08-31, already passed before the run date; excluded.",
   "flag": "ok",
-  "checked": "2026-09-16"
+  "checked": "2026-09-19",
+  "verified": 1
  },
  {
   "university": "Northwestern University",
@@ -409,7 +446,44 @@
   "contact": "Recruiting@colorado.edu",
   "notes": "Posted 2026-09-14 on HigherEdJobs (JobCode 179556216) and directly on CU Boulder Jobs (requisition 74811). A same-titled requisition 67660 from the 2025-2026 cycle (posted 2025-10-01, start Fall 2026) now 404s and is superseded by this fresh posting. Start Fall 2027, later start negotiable. Full consideration by 2026-11-15, applications accepted until filled. Salary $130,000-$145,000. Direct computer-architecture fit within the CS department (arch). Sibling CU Boulder postings in AI (req 74736) and Quantum Computation (req 74741) are already known from a previous run.",
   "flag": "ok",
-  "checked": "2026-09-16"
+  "checked": "2026-09-19",
+  "verified": 1
+ },
+ {
+  "university": "University of Colorado Boulder",
+  "country": "USA",
+  "deadline": "2026-11-15",
+  "references": "3+",
+  "link": "https://jobs.colorado.edu/jobs/JobDetail/?jobId=74871",
+  "department": "Department of Electrical, Computer and Energy Engineering, College of Engineering and Applied Science",
+  "title": "Tenure-Track Faculty in Electrical, Computer and Energy Engineering",
+  "rank": "assistant",
+  "area": "arch,ai-hw,qec",
+  "priority": "communications, power, sensing, controls, robotics, signals, computing hardware, and theory for quantum technologies",
+  "materials": "cover letter (1 p); CV; research philosophy statement (2-3 pp); teaching philosophy statement (2-3 pp); leadership, service and community contributions statement (1-2 pp); contacts for 3+ references, who are asked for letters",
+  "contact": "Recruiting@colorado.edu",
+  "notes": "Posted 2026-09-18 on HigherEdJobs (JobCode 179562397) and CU Boulder Jobs (requisition 74871). Department is ECEE, distinct from the CS department, which already has separate AI, Quantum Computation, and Computer Architecture and Systems postings from a previous run (req 74736, 74741, 74811). Start Fall 2027, later start negotiable. Full consideration by 2026-11-15, applications accepted until filled. Salary $115,000-$145,000. Broad ECE ad spanning communications, power, sensing, controls, robotics, signals; computing hardware and quantum technologies are the areas relevant to this search, so fit for arch/ai-hw/qec is moderate, not a direct match. Verified 2026-09-19: loaded jobs.colorado.edu jobId=74871 via r.jina.ai, live, deadline and materials as stated.",
+  "flag": "ok",
+  "checked": "2026-09-19",
+  "verified": 1
+ },
+ {
+  "university": "University of Virginia",
+  "country": "USA",
+  "deadline": "2026-11-15",
+  "references": "3",
+  "link": "https://apply.interfolio.com/190949",
+  "department": "Computer Science",
+  "title": "Open Rank Tenure-line Faculty in Computer Science",
+  "rank": "open",
+  "area": "arch,ai-hw,sys",
+  "priority": "AI research initiatives (foundational and applied), open to all CS areas",
+  "materials": "cover letter, CV, research statement, teaching philosophy statement, service statement, three representative research papers, no lengths stated",
+  "contact": "Ferdinando Fioretto, fioretto@virginia.edu",
+  "notes": "Posted 2026-09-17, application review begins 2026-11-15. Department strengths include AI/ML, computer systems, architecture, cyber-physical systems, security, software engineering, algorithms. No fixed final deadline stated beyond review-begin date.",
+  "flag": "ok",
+  "checked": "2026-09-19",
+  "verified": 1
  },
  {
   "university": "University of Notre Dame",
@@ -426,8 +500,8 @@
   "contact": "",
   "notes": "Posted 2026-09-10. Full consideration by 2026-11-30; applications accepted through 2026-12-15. Start 2027-08-01. Fit is marginal: only the cryogenic CMOS for quantum computing bullet touches our areas. Board mirror: https://www.higheredjobs.com/details.cfm?JobCode=179554920",
   "flag": "ok",
-  "checked": "2026-09-16",
-  "verified": 1
+  "checked": "2026-09-19",
+  "verified": 2
  },
  {
   "university": "Princeton University",
@@ -530,11 +604,30 @@
   "rank": "assistant",
   "area": "arch,ai-hw,qec",
   "priority": "none stated (all-areas)",
-  "materials": "CV; cover letter; statement of research; statement of teaching; no lengths stated",
+  "materials": "CV; cover letter; statement of research; statement of teaching; 3-8 letters of recommendation (minimum 3 required); no lengths stated",
   "contact": "nbarr@ucsd.edu",
   "notes": "Posted 2026-09-16 (today); open Sep 16, 2026 to Jun 2, 2027, with a priority review date of Dec 1, 2026 11:59pm PT. All areas of Computer Science and Engineering welcome. Start date not stated. Job number JPF04649. Read directly on apol-recruit.ucsd.edu.",
   "flag": "ok",
-  "checked": "2026-09-16"
+  "checked": "2026-09-19",
+  "verified": 1
+ },
+ {
+  "university": "Boston University",
+  "country": "USA",
+  "deadline": "2026-12-01",
+  "references": "3+",
+  "link": "https://academicjobsonline.org/ajo/jobs/32738",
+  "department": "Faculty of Computing & Data Sciences",
+  "title": "DS/AI Teaching Stream Faculty",
+  "rank": "assistant",
+  "area": "teaching",
+  "priority": "mathematical and algorithmic foundations; software and data engineering; data mining, machine learning, and artificial intelligence; pedagogical innovation in data science topics",
+  "materials": "cover letter; CV; teaching statement; research statement (optional); 3+ reference letters; no lengths stated",
+  "contact": "cds-faculty@bu.edu",
+  "notes": "Teaching-stream post (Clinical Assistant Professor or Associate Professor of the Practice entry rank), Faculty of Computing & Data Sciences. Posted 2026-09-17. Priority review by 2026-12-01, rolling consideration through 2027-04-30. Start date not stated. Teaching load 20.0 credits (five courses) per year. Salary $90,000-$130,000. Separate from the two already-known BU CDS tenure-track research ads (AJO 32632, 32562). Verified 2026-09-19 by loading the AJO ad directly.",
+  "flag": "ok",
+  "checked": "2026-09-19",
+  "verified": 1
  },
  {
   "university": "University of Oxford",
@@ -695,8 +788,8 @@
   "contact": "",
   "notes": "Substantiation-track positions for the 2027-2028 academic year; Job ID 189244. Priority to applications received by 2026-12-31 (priority date, ad stays open after). Interfolio record opened 2026-08-26. Assistant Professor appointments initially on a three-year contract. CRA mirror: https://careercenter.cra.org/job/professor-associate-professor-assistant-professor-hong-kong-2401",
   "flag": "ok",
-  "checked": "2026-09-16",
-  "verified": 1
+  "checked": "2026-09-19",
+  "verified": 2
  },
  {
   "university": "Technical University of Denmark",
@@ -769,6 +862,24 @@
   "flag": "ok",
   "checked": "2026-09-14",
   "verified": 2
+ },
+ {
+  "university": "University of Chinese Academy of Sciences",
+  "country": "China",
+  "deadline": "2027-07-17",
+  "references": "3+",
+  "link": "https://www.nature.com/naturecareers/job/12861698/tenure-track-or-tenured-faculty",
+  "department": "School of Quantum, University of Chinese Academy of Sciences (UCAS)",
+  "title": "Tenure-Track or Tenured Faculty, School of Quantum",
+  "rank": "open",
+  "area": "qec",
+  "priority": "quantum theory, quantum computation and information, quantum electronics, quantum materials, and quantum experimental equipment receive special consideration",
+  "materials": "CV with publication list; research accomplishments summary; research interests and plan statement; at least 10 representative publications; at least 3 letters of recommendation (letters, including one from the PhD supervisor); all as PDF files; no lengths stated",
+  "contact": "Yan Peiming, yanpeiming@ucas.ac.cn",
+  "notes": "New posting, distinct from the two other UCAS entries already on file (job 534136 area listing, gaoxiaojob talent notice). Deadline 17 July 2027 as stated in the ad body itself, not a Nature listing-expiry date. Posted date not stated; start date not stated. Judgment call: the hiring unit is a dedicated School of Quantum covering theory, computation/information, electronics, materials and experimental equipment together, not a standalone physics department or a pure quantum-information-theory group, so it is treated as the kind of quantum computing/engineering institute areas.md allows to check for qec rather than an excluded unit; a reader who judges this unit as theory-only should drop it. Application by email to the listed contact, no online portal given in the ad.",
+  "flag": "ok",
+  "checked": "2026-09-19",
+  "verified": 1
  },
  {
   "university": "Central South University",
@@ -1127,8 +1238,8 @@
   "contact": "penghy@csu.edu.cn",
   "notes": "Posted 2026-05-29; year-round rolling recruitment. Tiers: strategic and disciplinary leading talent, outstanding young talent (professor), excellent young teachers (professor/associate professor/lecturer), postdocs. Lecturer tier is the entry grade. AI-systems fit only; no hardware named.",
   "flag": "ok",
-  "checked": "2026-09-16",
-  "verified": 1
+  "checked": "2026-09-19",
+  "verified": 2
  },
  {
   "university": "Xidian University",
@@ -1145,7 +1256,79 @@
   "contact": "smehr@xidian.edu.cn; 029-88201641",
   "notes": "College-wide talent ladder from Distinguished Professor down to Assistant Research Fellow; page states year-round recruitment with no posted/end date given, so treated as rolling like other standing college-wide China ads already in entries.json (e.g. UESTC, Shenzhen University). Assistant Research Fellow is the entry tenure-track-equivalent tier.",
   "flag": "ok",
-  "checked": "2026-09-16",
+  "checked": "2026-09-19",
+  "verified": 2
+ },
+ {
+  "university": "University of Macau",
+  "country": "Macau",
+  "deadline": "rolling",
+  "references": "unknown",
+  "link": "https://career.admo.um.edu.mo/ime_aap_02_2026/",
+  "department": "Institute of Microelectronics",
+  "title": "Associate/Assistant Professor in Microelectronics",
+  "rank": "open",
+  "area": "arch, ai-hw",
+  "priority": "Applied Microelectronics for Analog and Mixed-Signal Integrated Circuits, including Integrated Circuits and Systems, THz Circuits, Photonic Integrated Circuits, SerDes, Memory Circuits and Computer Architecture",
+  "materials": "online application at career.admo.um.edu.mo; CV; copies of academic certificates; no lengths stated",
+  "contact": "vacancy@um.edu.mo",
+  "notes": "Ref. IME/AAP/02/2026 (posted Feb 2026). Start: January 2027. Computer Architecture named in the discipline list. PhD in Microelectronics or related. No closing date stated.",
+  "flag": "ok",
+  "checked": "2026-09-19",
+  "verified": 2
+ },
+ {
+  "university": "University of Macau",
+  "country": "Macau",
+  "deadline": "rolling",
+  "references": "unknown",
+  "link": "https://career.admo.um.edu.mo/iotsc_isnc_aap_04_2026/",
+  "department": "State Key Laboratory of Internet of Things for Smart City, joint with Faculty of Science and Technology",
+  "title": "Associate/Assistant Professor in Intelligent Sensing and Network Communication",
+  "rank": "open",
+  "area": "sys",
+  "priority": "Intelligent Sensing and Network Communication",
+  "materials": "online application at career.admo.um.edu.mo; CV; copies of academic certificates; no lengths stated",
+  "contact": "vacancy@um.edu.mo",
+  "notes": "Ref. IOTSC/ISNC/AAP/04/2026 (posted Apr 2026). 'expected to assume duty as soon as possible.' Networking fit only; no closing date stated.",
+  "flag": "ok",
+  "checked": "2026-09-19",
+  "verified": 2
+ },
+ {
+  "university": "City University of Hong Kong",
+  "country": "Hong Kong",
+  "deadline": "rolling",
+  "references": "unknown",
+  "link": "https://www.cityu.edu.hk/hro/en/job/current/academic.asp?ref=uac-a608",
+  "department": "Department of Data Science, College of Computing",
+  "title": "Faculty in the Department of Data Science (Assistant Professor to Chair Professor)",
+  "rank": "open",
+  "area": "ai-hw",
+  "priority": "One Health, Digital Society, Smart City, Matter, Brain (interdisciplinary, incl. AI/healthcare, semiconductor manufacturing, autonomous systems)",
+  "materials": "CV, at least 2 reference reports for Assistant Professor applicants (letters), no lengths stated",
+  "contact": "dshead@cityu.edu.hk",
+  "notes": "College of Computing unit distinct from the CS and EE ads already in the report. Rolling review, applications considered until filled. Posted date not stated on the ad.",
+  "flag": "ok",
+  "checked": "2026-09-19",
+  "verified": 1
+ },
+ {
+  "university": "Peking University",
+  "country": "China",
+  "deadline": "rolling",
+  "references": "3+",
+  "link": "https://hr.pku.edu.cn/rczp/jxky/bfac60bced904c6b988b72019b8ec7ab.htm",
+  "department": "National Engineering Research Center for Software Engineering",
+  "title": "Faculty Positions (Assistant Professor / Pre-tenure Associate Professor / Tenured Associate Professor / Professor), National Engineering Research Center for Software Engineering",
+  "rank": "assistant",
+  "area": "sys",
+  "priority": "software engineering",
+  "materials": "personal statement with research plan, CV, three representative publications (full text), degree certificates, letters of reference (3-5), no lengths stated",
+  "contact": "Lan Zhifang, lanzf@pku.edu.cn, 010-62754993",
+  "notes": "Rolling year-round applications (\"全年接受申请材料\"); posted on PKU HR listing 2026-09-04; explicitly opens at assistant professor level, welcomes candidates with experience at leading domestic or international institutions.",
+  "flag": "ok",
+  "checked": "2026-09-19",
   "verified": 1
  },
  {
@@ -1217,8 +1400,8 @@
   "contact": "",
   "notes": "Posted 2025-06-13; '报名时间：长期有效，学校定期审议' (rolling, periodic review). Names the 2026年教师招聘计划 in the application instructions. Pre-tenure/tenure (预聘-长聘) system; age limit 35 for assistant professor. Interviews arranged by each college.",
   "flag": "deadline-unclear",
-  "checked": "2026-09-16",
-  "verified": 1
+  "checked": "2026-09-19",
+  "verified": 2
  },
  {
   "university": "Shanghai Jiao Tong University",
@@ -1613,44 +1796,8 @@
   "contact": "cmlr@pku.edu.cn",
   "notes": "Nature Careers listing posted about 8 days before 2026-09-14. Ad names no rank (faculty positions, all levels), no deadline in the body (9 Oct 2026 is the listing expiry only), start date set by the applicant in the cover letter. Applications by email. Fit is ML theory/AI for science rather than ML systems; weak fit for hardware.",
   "flag": "deadline-unclear",
-  "checked": "2026-09-16",
-  "verified": 1
- },
- {
-  "university": "University of Macau",
-  "country": "Macau",
-  "deadline": "unknown",
-  "references": "unknown",
-  "link": "https://career.admo.um.edu.mo/ime_aap_02_2026/",
-  "department": "Institute of Microelectronics",
-  "title": "Associate/Assistant Professor in Microelectronics",
-  "rank": "open",
-  "area": "arch, ai-hw",
-  "priority": "Applied Microelectronics for Analog and Mixed-Signal Integrated Circuits, including Integrated Circuits and Systems, THz Circuits, Photonic Integrated Circuits, SerDes, Memory Circuits and Computer Architecture",
-  "materials": "online application at career.admo.um.edu.mo; CV; copies of academic certificates; no lengths stated",
-  "contact": "vacancy@um.edu.mo",
-  "notes": "Ref. IME/AAP/02/2026 (posted Feb 2026). Start: January 2027. Computer Architecture named in the discipline list. PhD in Microelectronics or related. No closing date stated.",
-  "flag": "deadline-unclear",
-  "checked": "2026-09-16",
-  "verified": 1
- },
- {
-  "university": "University of Macau",
-  "country": "Macau",
-  "deadline": "unknown",
-  "references": "unknown",
-  "link": "https://career.admo.um.edu.mo/iotsc_isnc_aap_04_2026/",
-  "department": "State Key Laboratory of Internet of Things for Smart City, joint with Faculty of Science and Technology",
-  "title": "Associate/Assistant Professor in Intelligent Sensing and Network Communication",
-  "rank": "open",
-  "area": "sys",
-  "priority": "Intelligent Sensing and Network Communication",
-  "materials": "online application at career.admo.um.edu.mo; CV; copies of academic certificates; no lengths stated",
-  "contact": "vacancy@um.edu.mo",
-  "notes": "Ref. IOTSC/ISNC/AAP/04/2026 (posted Apr 2026). 'expected to assume duty as soon as possible.' Networking fit only; no closing date stated.",
-  "flag": "deadline-unclear",
-  "checked": "2026-09-16",
-  "verified": 1
+  "checked": "2026-09-19",
+  "verified": 2
  },
  {
   "university": "Nanjing University",
@@ -1665,8 +1812,8 @@
   "priority": "unknown (ad not opened)",
   "materials": "unknown",
   "contact": "unknown",
-  "notes": "Listed on cs.nju.edu.cn with date 2026-04-10, linking to rczp.nju.edu.cn//zrjs/zrjsgwlb/20260409/i372124.html. The ad URL 302-redirects to the rczp.nju.edu.cn portal home (direct and r.jina.ai), so content, deadline, ranks and areas remain unverified. Portal home on 2026-09-12 lists a Physics 准聘长聘 post (07-22) and a CS 科研人员 research-staff post XZ2026-178 (09-11), not this one. Posted ~5 months ago, so not aged out. School phone 86-025-89683126. Verified 2026-09-12: still unreachable (3 attempts: direct, r.jina.ai, cs.nju.edu.cn listing still shows the 2026-04-10 notice).",
+  "notes": "Listed on cs.nju.edu.cn with date 2026-04-10, linking to rczp.nju.edu.cn//zrjs/zrjsgwlb/20260409/i372124.html. The ad URL still 302-redirects to the rczp.nju.edu.cn portal home (direct and via r.jina.ai). Portal home on 2026-09-19 lists Engineering Management, Marxism Studies, Physics, Geography and Ocean Science, Business, and International Relations postings, no Computer Science posting. cs.nju.edu.cn still shows the 2026-04-10 notice as its only link to this ad. Posted about 5 months ago, so not yet stale under the 9-month rule. School phone 86-025-89683126. Verified 2026-09-19: unreachable again (3 attempts: direct, r.jina.ai, cs.nju.edu.cn listing), the second consecutive failed check after 2026-09-12.",
   "flag": "unverified",
-  "checked": "2026-09-12"
+  "checked": "2026-09-19"
  }
 ]

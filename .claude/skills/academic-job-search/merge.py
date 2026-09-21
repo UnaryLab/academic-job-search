@@ -88,7 +88,7 @@ def link_key(link):
     if m:
         return "interfolio:" + m.group(1)
     ids = re.findall(r"\d{5,}", link)
-    return host_of(link) + ":" + (ids[-1] if ids else re.sub(r"[?#].*", "", link).rstrip("/"))
+    return host_of(link) + ":" + (ids[-1] if ids else re.sub(r"#.*", "", link).rstrip("/"))
 
 
 def title_tokens(t):
@@ -266,6 +266,8 @@ def check():
     assert len(dedupe([E(link="https://jobs.hku.hk/cw/en/job/534341", title="Tenure-Track Assistant Professor"),
                        E(link="https://jobs.hku.hk/en/job/534341/tenuretrack-assistant-professor-several-posts",
                          title="Tenure-track Assistant Professor (several posts)")])) == 1
+    assert len(dedupe([E(link="https://www.cityu.edu.hk/hro/academic.asp?ref=uac-a411", title="Professor in Electrical Engineering"),
+                       E(link="https://www.cityu.edu.hk/hro/academic.asp?ref=uac-a608", title="Faculty in Data Science")])) == 2
     mirror = E(link="https://www.higheredjobs.com/faculty/details.cfm?JobCode=179531222",
                title="Assistant Professor in Quantum Information Theory", deadline="2026-12-01")
     uni = E(link="https://apply.interfolio.com/191224",
