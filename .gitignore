@@ -2,3 +2,4 @@
 .gstack/
 .DS_Store
 __pycache__/
+tools/mail.json
