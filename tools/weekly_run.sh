@@ -47,7 +47,8 @@ Log: $LOG"
 }
 
 if [ "$(date +%Y%m%d)" -gt 20270131 ]; then
-    echo "past 2027-01-31: unloading $LABEL"
+    echo "past 2027-01-31: removing $LABEL"
+    rm -f "$HOME/Library/LaunchAgents/$LABEL.plist"
     launchctl bootout "gui/$(id -u)/$LABEL"
     exit 0
 fi
