@@ -53,6 +53,14 @@ def load_areas():
     return out
 
 
+def scope_line():
+    """'<regions> top-N' from universities.md: its Region values in file order and the top-N in its heading"""
+    regions = list(dict.fromkeys(load_regions().values()))
+    names = " and ".join([", ".join(regions[:-1]), regions[-1]]) if len(regions) > 1 else "".join(regions)
+    top = re.search(r"top-\d+", open(os.path.join(ROOT, "universities.md"), encoding="utf-8").read())
+    return f"{names} {top.group()}" if top else names
+
+
 def filter_options():
     """JSON for the report's area and region dropdowns: areas.md keys and universities.md regions, in file order"""
     regions = list(dict.fromkeys(load_regions().values()))
@@ -208,6 +216,7 @@ def render(kept, today, out_dir, gaps=()):
     tpl = open(os.path.join(SKILL, "template.html"), encoding="utf-8").read()
     out = (tpl.replace("<!--DATE-->", today).replace("<!--COUNT-->", str(len(rows)))
            .replace("<!--AREAS-->", H(" · ".join(n for _, n in load_areas())))
+           .replace("<!--SCOPE-->", H(scope_line()))
            .replace("<!--OPTIONS-->", filter_options())
            .replace("<!--ROWS-->", "\n".join(rows)).replace("<!--GAPS-->", "\n".join(gaps)))
     os.makedirs(out_dir, exist_ok=True)
@@ -293,6 +302,7 @@ def check():
                   dict(university="Columbia University", blocked="500", check="https://c.edu/"),
                   dict(university="Lingnan University", blocked="404", check="https://d.hk/")], table)
     assert len(g) == 2 and g[0].startswith('<tr data-region="Asia"><td>Peking University</td><td>China</td>') and g[0].count("<a href") == 2
+    assert scope_line() == "North America, EU and Asia top-150", scope_line()
     print("check ok")
 
 
