@@ -62,16 +62,16 @@
   /* columns size to content; long text is capped by the inner div and the wrapper scrolls only when the viewport is narrow */
   #t { width: auto; font-size: 13px; }
   td { white-space: normal; overflow-wrap: break-word; }
-  th, #t td:nth-child(2), #t td:nth-child(5), #t td:nth-child(6), #t td:nth-child(11), #t td:nth-child(13),
-  #t td:nth-child(15) { white-space: nowrap; }
-  #t td:nth-child(7) .pill { white-space: normal; }
-  #t td:nth-child(4) .pill { margin: 0; }
-  #t td:nth-child(4) .cap { display: flex; flex-wrap: wrap; gap: .2rem; width: 6.25rem; }
+  th, #t td:nth-child(3), #t td:nth-child(6), #t td:nth-child(7), #t td:nth-child(12), #t td:nth-child(14),
+  #t td:nth-child(16) { white-space: nowrap; }
+  #t td:nth-child(8) .pill { white-space: normal; }
+  #t td:nth-child(5) .pill { margin: 0; }
+  #t td:nth-child(5) .cap { display: flex; flex-wrap: wrap; gap: .2rem; width: 6.25rem; }
   .cap { overflow-wrap: anywhere; }
-  #t td:nth-child(1) .cap { min-width: 8rem; max-width: 12rem; }  #t td:nth-child(3) .cap { min-width: 10rem; max-width: 16rem; }
-  #t td:nth-child(8) .cap { min-width: 8rem; max-width: 14rem; }  #t td:nth-child(9) .cap { min-width: 8rem; max-width: 22rem; }
-  #t td:nth-child(10) .cap { min-width: 8rem; max-width: 13rem; } #t td:nth-child(12) .cap { min-width: 8rem; max-width: 17rem; }
-  #t td:nth-child(14) { max-width: 12rem; }
+  #t td:nth-child(2) .cap { min-width: 8rem; max-width: 12rem; }  #t td:nth-child(4) .cap { min-width: 10rem; max-width: 16rem; }
+  #t td:nth-child(9) .cap { min-width: 8rem; max-width: 14rem; }  #t td:nth-child(10) .cap { min-width: 8rem; max-width: 22rem; }
+  #t td:nth-child(11) .cap { min-width: 8rem; max-width: 13rem; } #t td:nth-child(13) .cap { min-width: 8rem; max-width: 17rem; }
+  #t td:nth-child(15) { max-width: 12rem; }
   th, td { padding: .45rem .55rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line2); }
   th { position: sticky; top: 0; z-index: 2; background: var(--head); cursor: pointer; user-select: none;
        font-weight: 600; font-size: .78rem; letter-spacing: .01em; color: var(--mute); border-bottom: 1px solid var(--line); }
@@ -80,18 +80,19 @@
   tbody tr:nth-child(even) td { background: var(--zebra); }
   tbody tr:last-child td { border-bottom: 0; }
   tbody tr:hover td { background: var(--hover); }
-  td:nth-child(1) { font-weight: 600; }
-  #g td:nth-child(2), #t td:nth-child(10), #t td:nth-child(11) { color: var(--mute); }
-  #t td:nth-child(2) { font-variant-numeric: tabular-nums; }
-  #t td:nth-child(6) a { display: inline-block; padding: .12rem .65rem; border-radius: 999px; background: var(--link); color: #fff;
+  #g td:nth-child(1), #t td:nth-child(2) { font-weight: 600; }
+  #t td:nth-child(1) { width: 1px; }
+  #g td:nth-child(2), #t td:nth-child(11), #t td:nth-child(12) { color: var(--mute); }
+  #t td:nth-child(3) { font-variant-numeric: tabular-nums; }
+  #t td:nth-child(7) a { display: inline-block; padding: .12rem .65rem; border-radius: 999px; background: var(--link); color: #fff;
                          text-decoration: none; font-size: .78rem; font-weight: 600; }
-  #t td:nth-child(6) a:hover { filter: brightness(1.1); }
+  #t td:nth-child(7) a:hover { filter: brightness(1.1); }
   /* deadline urgency: 3px row edge, deadline text in the same hue, countdown under the date */
   #t tr[data-due="urgent"] td:first-child { box-shadow: inset 3px 0 var(--urgent); }
   #t tr[data-due="soon"] td:first-child { box-shadow: inset 3px 0 var(--soon); }
-  #t tr[data-due="urgent"] td:nth-child(2) { color: var(--urgent-fg); font-weight: 600; }
-  #t tr[data-due="soon"] td:nth-child(2) { color: var(--soon-fg); font-weight: 600; }
-  #t tr[data-due="rolling"] td:nth-child(2), #t tr[data-due="unknown"] td:nth-child(2) { color: var(--mute); }
+  #t tr[data-due="urgent"] td:nth-child(3) { color: var(--urgent-fg); font-weight: 600; }
+  #t tr[data-due="soon"] td:nth-child(3) { color: var(--soon-fg); font-weight: 600; }
+  #t tr[data-due="rolling"] td:nth-child(3), #t tr[data-due="unknown"] td:nth-child(3) { color: var(--mute); }
   .days { display: block; font-size: .78rem; font-weight: 400; color: var(--mute); }
   /* pills: translucent Okabe-Ito background, solid text */
   .pill { display: inline-block; padding: .08rem .55rem; border-radius: 999px; font-size: .78rem; font-weight: 600;
@@ -104,14 +105,15 @@
   .pill.ai-hw { color: var(--aihw-fg); background: color-mix(in srgb, var(--aihw) 16%, transparent); }
   .pill.qec { color: var(--qec-fg); background: color-mix(in srgb, var(--qec) 18%, transparent); }
   .pill.sys { color: var(--soon-fg); background: color-mix(in srgb, var(--soon) 16%, transparent); }
+  .pill.new { color: var(--ok-fg); background: color-mix(in srgb, var(--ok) 14%, transparent); }
   .pill.teaching { color: var(--fg); background: color-mix(in srgb, var(--mute) 16%, transparent); }
   /* long text: clamp to three lines, click to expand */
   .clamp { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; cursor: pointer; }
   .clamp.open { -webkit-line-clamp: unset; }
   /* compact: hide references, contact, checked */
-  #t.compact th:nth-child(13), #t.compact td:nth-child(13),
   #t.compact th:nth-child(14), #t.compact td:nth-child(14),
-  #t.compact th:nth-child(15), #t.compact td:nth-child(15) { display: none; }
+  #t.compact th:nth-child(15), #t.compact td:nth-child(15),
+  #t.compact th:nth-child(16), #t.compact td:nth-child(16) { display: none; }
   #g th:nth-child(1) { width: 16rem; } #g th:nth-child(2) { width: 8rem; } #g th:nth-child(4) { width: 22rem; }
   @media (max-width: 600px) { body { padding: 0 1rem 3rem; } h1 { font-size: 1.5rem; } #n { margin-left: 0; } .stats li { min-width: 7rem; } }
   @media print {
@@ -150,7 +152,7 @@
 <div class="wrap">
 <table id="t" class="compact">
 <thead><tr>
-  <th>University</th><th>Deadline</th><th>Title</th><th>Area</th><th>Rank</th><th>Apply</th><th>Flag</th><th>Stated priority</th>
+  <th>New</th><th>University</th><th>Deadline</th><th>Title</th><th>Area</th><th>Rank</th><th>Apply</th><th>Flag</th><th>Stated priority</th>
   <th>Notes</th><th>Department</th><th>Country</th><th>Materials</th>
   <th>References</th><th>Contact</th><th>Checked</th>
 </tr></thead>
@@ -175,22 +177,22 @@
   const pill = (text, cls) => { const s = document.createElement('span'); s.className = 'pill ' + cls; s.textContent = text; return s; };
   let urgent = 0, soon = 0, flagged = 0;
   [...tb.rows].forEach(r => {
-    const c = r.cells, d = c[1].textContent.trim();
+    const c = r.cells, d = c[2].textContent.trim();
     let due = /^\d{4}-\d\d-\d\d$/.test(d) ? 'later' : d === 'rolling' ? 'rolling' : 'unknown';
     if (due === 'later') {
       const days = Math.round((new Date(d + 'T00:00:00') - run) / 864e5);
       if (days <= 14) { due = 'urgent'; urgent++; } else if (days <= 30) { due = 'soon'; soon++; }
       const s = document.createElement('span'); s.className = 'days';
       s.textContent = days === 0 ? 'today' : days === 1 ? 'in 1 day' : 'in ' + days + ' days';
-      c[1].appendChild(s);
+      c[2].appendChild(s);
     }
     r.dataset.due = due;
-    c[4].replaceChildren(pill(c[4].textContent.trim(), 'rank'));
-    c[3].replaceChildren(...c[3].textContent.split(/[,\s]+/).filter(Boolean).map(a => pill(a, a)));
-    const f = c[6].textContent.trim(); c[6].replaceChildren(pill(f, f)); flagged += f !== 'ok';
+    c[5].replaceChildren(pill(c[5].textContent.trim(), 'rank'));
+    c[4].replaceChildren(...c[4].textContent.split(/[,\s]+/).filter(Boolean).map(a => pill(a, a)));
+    const f = c[7].textContent.trim(); c[7].replaceChildren(pill(f, f)); flagged += f !== 'ok';
     const wrap = (td, cls) => { const d = document.createElement('div'); d.className = cls; d.append(...td.childNodes); td.append(d); };
-    [c[0], c[2], c[3], c[9]].forEach(td => wrap(td, 'cap'));
-    [c[7], c[8], c[11]].forEach(td => wrap(td, 'cap clamp'));
+    [c[1], c[3], c[4], c[10]].forEach(td => wrap(td, 'cap'));
+    [c[8], c[9], c[12]].forEach(td => wrap(td, 'cap clamp'));
   });
   document.getElementById('s-urgent').textContent = urgent;
   document.getElementById('s-soon').textContent = soon;
@@ -216,7 +218,7 @@
   } catch (e) {
     const distinct = f => [...new Set([...tb.rows, ...gb.rows].flatMap(f).filter(Boolean))].sort().map(v => [v, '']);
     values = { area: distinct(r => (r.dataset.area || '').split(/[,\s]+/)), region: distinct(r => [r.dataset.region]),
-               university: distinct(r => [r.cells[0].textContent.trim()]) };
+               university: distinct(r => [r.cells[r.closest('#g') ? 0 : 1].textContent.trim()]) };
   }
   document.querySelectorAll('details.dd').forEach(dd => {
     const opts = dd.querySelector('.opts'), cls = dd.dataset.cls;
@@ -250,7 +252,7 @@
     const q = document.getElementById('q').value.toLowerCase(), areas = on('fa'), regions = on('fr'), unis = on('fu');
     let shown = 0;
     [...tb.rows].forEach(r => {
-      const ok = r.innerText.toLowerCase().includes(q) && regions.has(r.dataset.region) && unis.has(r.cells[0].textContent.trim())
+      const ok = r.innerText.toLowerCase().includes(q) && regions.has(r.dataset.region) && unis.has(r.cells[1].textContent.trim())
         && r.dataset.area.split(/[,\s]+/).some(a => areas.has(a));
       r.style.display = ok ? '' : 'none'; shown += ok;
     });

@@ -7,7 +7,7 @@ SKILL = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(SKILL, "..", "..", ".."))
 ENTRIES = os.path.join(SKILL, "entries.json")
 FIELDS = ("university", "country", "deadline", "references", "link", "department", "title", "rank", "area",
-          "priority", "materials", "contact", "notes", "flag", "checked", "verified")
+          "priority", "materials", "contact", "notes", "flag", "checked", "verified", "added")
 BRANCH_MARKERS = ("hkust-gz", "hkust(gz)", "cuhk-shenzhen", "cuhk shenzhen",
                   "nyu abu dhabi", "nyu shanghai", "duke kunshan")
 BOARD_HOSTS = ("higheredjobs.com", "jobs.ac.uk", "academicjobsonline.org", "cra.org", "euraxess")
@@ -136,6 +136,7 @@ def dedupe(entries):
             continue
         keep, other = (e, dup) if score(e) > score(dup) else (dup, e)
         keep["verified"] = max(int(keep.get("verified", 0)), int(other.get("verified", 0)))
+        keep["added"] = min(keep.get("added", "9999"), other.get("added", "9999"))
         if firmness(other["deadline"]) > firmness(keep["deadline"]):
             keep["deadline"] = other["deadline"]
         tag = f"[also listed: {other['link']}]"
@@ -207,7 +208,8 @@ def render(kept, today, out_dir, gaps=()):
         area, region = H(e.get("area", "")), H(regions.get(e["country"], ""))
         cls += f' data-area="{area}" data-region="{region}"'
         link = f'<a href="{H(e["link"])}" target="_blank" rel="noopener">Apply</a>'
-        cells = [H(e["university"]), H(e["deadline"]), H(e["title"]), H(e.get("area", "")), H(e.get("rank", "open")),
+        new = '<span class="pill new">new</span>' if e.get("added") == today else ""
+        cells = [new, H(e["university"]), H(e["deadline"]), H(e["title"]), H(e.get("area", "")), H(e.get("rank", "open")),
                  link, H(e["flag"]), H(e.get("priority", "")), f'<td class="wide">{H(e["notes"])}</td>',
                  H(e.get("department", "")), H(e["country"]), f'<td class="wide">{H(e.get("materials", ""))}</td>',
                  H(str(e.get("references", "unknown"))), H(e.get("contact", "unknown")), H(e.get("checked", today))]
@@ -294,6 +296,8 @@ def check():
     assert title_tokens("Professors of Cybersecurity (f/m/d)") == title_tokens("Professors of Cybersecurity")
     v = dedupe([E(link="https://x.edu/a", verified=2), E(link="https://x.edu/a", flag="unverified")])
     assert len(v) == 1 and v[0]["verified"] == 2, "dedupe keeps the higher verified count"
+    v = dedupe([E(link="https://x.edu/a", added="2026-10-01"), E(link="https://x.edu/a", added="2026-09-01", flag="unverified")])
+    assert v[0]["added"] == "2026-09-01", "dedupe keeps the earliest added date"
     ds2 = ds + [E(deadline="2026-09-20", flag="unverified")]
     assert sorted(ds2, key=sort_key)[-1]["deadline"] == "2026-09-20", "unverified rows sort last"
     ds3 = ds2 + [E(deadline="rolling", flag="deadline-unclear")]
@@ -332,6 +336,7 @@ def main():
             continue
         for e in arr:
             e["_src"] = os.path.basename(f)
+            e.setdefault("added", a.date)
             entries.append(e)
     table = load_universities()
     kept, drops, past = merge(entries, a.date, table, a.min_rank)
