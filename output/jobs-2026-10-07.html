@@ -360,7 +360,7 @@
 </div>
 <script>
   const tb = document.querySelector('#t tbody'), gb = document.querySelector('#g tbody');
-  const run = new Date(document.querySelector('[data-run]').dataset.run + 'T00:00:00');
+  const run = new Date(); run.setHours(0, 0, 0, 0); // countdown is relative to the viewing day, not the run date
   const pill = (text, cls) => { const s = document.createElement('span'); s.className = 'pill ' + cls; s.textContent = text; return s; };
   let urgent = 0, soon = 0, flagged = 0;
   [...tb.rows].forEach(r => {
@@ -368,9 +368,9 @@
     let due = /^\d{4}-\d\d-\d\d$/.test(d) ? 'later' : d === 'rolling' ? 'rolling' : 'unknown';
     if (due === 'later') {
       const days = Math.round((new Date(d + 'T00:00:00') - run) / 864e5);
-      if (days <= 14) { due = 'urgent'; urgent++; } else if (days <= 30) { due = 'soon'; soon++; }
+      if (days < 0) due = 'passed'; else if (days <= 14) { due = 'urgent'; urgent++; } else if (days <= 30) { due = 'soon'; soon++; }
       const s = document.createElement('span'); s.className = 'days';
-      s.textContent = days === 0 ? 'today' : days === 1 ? 'in 1 day' : 'in ' + days + ' days';
+      s.textContent = days < 0 ? 'passed' : days === 0 ? 'today' : days === 1 ? 'in 1 day' : 'in ' + days + ' days';
       c[2].appendChild(s);
     }
     r.dataset.due = due;
