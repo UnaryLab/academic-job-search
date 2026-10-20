@@ -183,7 +183,7 @@ def merge(entries, today, table, min_rank="assistant"):
 
 
 def gap_rows(gaps, table):
-    """HTML rows for universities the sweep could not check; unmatched names are printed and skipped."""
+    """HTML rows for universities or units (`unit`) the sweep could not check; unmatched names are printed and skipped."""
     H = html.escape
     rows = []
     for g in gaps:
@@ -194,8 +194,10 @@ def gap_rows(gaps, table):
         links = " ".join(f'<a href="{H(u)}" target="_blank" rel="noopener">{H(host_of(u))}</a>'
                          for u in g["check"].split(" and "))
         region = load_regions().get(m[1], "")
+        unit = (g.get("unit") or "").strip()
+        blocked = f"{unit}: {g['blocked']}" if unit else g["blocked"]
         rows.append((m[1], m[0], f'<tr data-region="{H(region)}"><td>{H(m[0])}</td><td>{H(m[1])}</td>'
-                                 f"<td>{H(g['blocked'])}</td><td>{links}</td></tr>"))
+                                 f"<td>{H(blocked)}</td><td>{links}</td></tr>"))
     return [r for _, _, r in sorted(rows)]
 
 
@@ -303,9 +305,11 @@ def check():
     ds3 = ds2 + [E(deadline="rolling", flag="deadline-unclear")]
     assert [e["flag"] for e in sorted(ds3, key=sort_key)][-2:] == ["deadline-unclear", "unverified"], "flagged rows after ok rows"
     g = gap_rows([dict(university="Peking University", blocked="403", check="https://a.jp/x and https://b.jp/y"),
-                  dict(university="Columbia University", blocked="500", check="https://c.edu/"),
+                  dict(university="Columbia University", blocked="500", check="https://c.edu/", unit="ECE & EE"),
                   dict(university="Lingnan University", blocked="404", check="https://d.hk/")], table)
     assert len(g) == 2 and g[0].startswith('<tr data-region="Asia"><td>Peking University</td><td>China</td>') and g[0].count("<a href") == 2
+    assert "<td>ECE &amp; EE: 500</td>" in g[1] and "<td>403</td>" in g[0], "unit prefixes what blocked"
+    assert "<td>403</td>" in gap_rows([dict(university="Peking University", blocked="403", check="https://a.jp/", unit=" ")], table)[0], "blank unit is no unit"
     assert scope_line() == "North America, EU and Asia top-150", scope_line()
     print("check ok")
 
@@ -318,7 +322,7 @@ def main():
     ap.add_argument("--no-save", action="store_true", help="do not rewrite entries.json")
     ap.add_argument("--min-rank", default=min_rank(), choices=RANKS,
                     help="drop ads that only accept ranks above this (default: the Minimum rank row of rank.md; open always kept)")
-    ap.add_argument("--gaps", help="JSON list of {university, blocked, check}: universities the sweep could not check")
+    ap.add_argument("--gaps", help="JSON list of {university, unit, blocked, check}: universities or units (empty unit = whole university) the sweep could not check")
     ap.add_argument("--check", action="store_true", help="run the self-check and exit")
     a = ap.parse_args()
     if a.check:

@@ -722,6 +722,25 @@
   "added": "2026-10-07"
  },
  {
+  "university": "University of Washington",
+  "country": "USA",
+  "deadline": "2026-11-15",
+  "references": "3",
+  "link": "https://apply.interfolio.com/192876",
+  "department": "Department of Electrical and Computer Engineering (College of Engineering)",
+  "title": "Assistant Professor (Tenure Track), Electrical and Computer Engineering (two positions)",
+  "rank": "assistant",
+  "area": "arch,ai-hw,qec",
+  "priority": "none stated (all-areas): all areas of ECE, including AI and machine learning, microelectronics and integrated circuits and systems, computer engineering, and electronic, photonic and quantum integrated systems",
+  "materials": "cover letter (interest and fit); CV; three letters of reference submitted by the letter writers (letters); research statement with 5-year research vision and potential for collaboration and impact (4 pp); statement of teaching and education interests, experience, and/or philosophy with plans for educational materials, graduate mentoring, and community engagement (2 pp); all as PDF",
+  "contact": "",
+  "notes": "Two tenure-track assistant positions, all ECE areas, so arch/ai-hw/qec all plausible. Interfolio posting opened 2026-09-02; full consideration by 2026-11-15, late applications accepted with lower priority, open until filled. Start 2027-09-01. 9-month, salary $14,000-$17,000 per month. Doctorate in EE, CE, Applied Physics or related field by appointment. Also listed on the UW central portal (ap.washington.edu position 191143) and the ECE job-openings page https://www.ece.uw.edu/engage/job-openings/ Sibling ad https://apply.interfolio.com/192881 is associate-only (out of scope by rank.md). Verified 2026-10-19: Interfolio dossier API is_open true, status Open, open 2026-09-02, full consideration 2026-11-15 with late applications at lower priority; cover letter, CV, three reference letters, research statement (4 pp), teaching statement (2 pp).",
+  "flag": "ok",
+  "checked": "2026-10-19",
+  "verified": 1,
+  "added": "2026-10-19"
+ },
+ {
   "university": "University of North Carolina at Chapel Hill",
   "country": "USA",
   "deadline": "2026-11-16",

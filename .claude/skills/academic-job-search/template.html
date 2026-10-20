@@ -197,7 +197,7 @@
   document.getElementById('s-urgent').textContent = urgent;
   document.getElementById('s-soon').textContent = soon;
   document.getElementById('s-flag').textContent = flagged;
-  document.getElementById('s-gap').textContent = gb.rows.length;
+  document.getElementById('s-gap').textContent = new Set([...gb.rows].map(r => r.cells[0].textContent)).size;
   tb.onclick = e => { const d = e.target.closest('.clamp'); if (d && !e.target.closest('a')) d.classList.toggle('open'); };
   document.querySelectorAll('#t th').forEach((th, i) => th.onclick = () => {
     const asc = th.dataset.asc !== '1';
