@@ -91,6 +91,13 @@ def host_of(link):
     return re.sub(r"^https?://(www\.)?", "", link).split("/")[0]
 
 
+def anchor(url, text):
+    """Link only http(s) URLs; any other scheme (e.g. javascript:) renders as escaped text."""
+    if not re.match(r"https?://", url):
+        return html.escape(url)
+    return f'<a href="{html.escape(url)}" target="_blank" rel="noopener">{html.escape(text)}</a>'
+
+
 def link_key(link):
     m = re.search(r"interfolio\.com/(?:apply/)?(\d+)", link)
     if m:
@@ -191,8 +198,8 @@ def gap_rows(gaps, table):
         if not m:
             print("gap not in universities.md:", g["university"])
             continue
-        links = " ".join(f'<a href="{H(u)}" target="_blank" rel="noopener">{H(host_of(u))}</a>'
-                         for u in g["check"].split(" and "))
+        urls = re.findall(r"https?://\S+", g["check"])
+        links = " ".join(anchor(u, host_of(u)) for u in urls) if urls else H(g["check"])
         region = load_regions().get(m[1], "")
         unit = (g.get("unit") or "").strip()
         blocked = f"{unit}: {g['blocked']}" if unit else g["blocked"]
@@ -209,7 +216,7 @@ def render(kept, today, out_dir, gaps=()):
         cls = ' class="flagged"' if e["flag"] != "ok" else ""
         area, region = H(e.get("area", "")), H(regions.get(e["country"], ""))
         cls += f' data-area="{area}" data-region="{region}"'
-        link = f'<a href="{H(e["link"])}" target="_blank" rel="noopener">Apply</a>'
+        link = anchor(e["link"], "Apply")
         new = '<span class="pill new">new</span>' if e.get("added") == today else ""
         cells = [new, H(e["university"]), H(e["deadline"]), H(e["title"]), H(e.get("area", "")), H(e.get("rank", "open")),
                  link, H(e["flag"]), H(e.get("priority", "")), f'<td class="wide">{H(e["notes"])}</td>',
@@ -310,6 +317,8 @@ def check():
     assert len(g) == 2 and g[0].startswith('<tr data-region="Asia"><td>Peking University</td><td>China</td>') and g[0].count("<a href") == 2
     assert "<td>ECE &amp; EE: 500</td>" in g[1] and "<td>403</td>" in g[0], "unit prefixes what blocked"
     assert "<td>403</td>" in gap_rows([dict(university="Peking University", blocked="403", check="https://a.jp/", unit=" ")], table)[0], "blank unit is no unit"
+    assert gap_rows([dict(university="Peking University", blocked="403", check="https://a.jp/x https://b.jp/y")], table)[0].count("<a href") == 2, "space-separated URLs give one link each"
+    assert anchor("javascript:alert(1)", "Apply") == "javascript:alert(1)", "non-http link renders without href"
     assert scope_line() == "North America, EU and Asia top-150", scope_line()
     print("check ok")
 
