@@ -66,7 +66,7 @@ fi
 cd "$REPO" || fail "repo not found at $REPO"
 git pull --ff-only origin main || fail "git pull failed"
 
-PROMPT="/academic-job-search Run date: $DATE (use this date for --date, checked fields, and the report file name even if the clock passes midnight). This is an unattended run: nobody will answer questions, so apply the skill's rules and make the judgment calls yourself. Keep all scratch files in your scratchpad. Do not run git. If an agent fails on an API error, resume it once; if it fails again, record its lists as gaps and continue. End your final message with one line exactly in the form: SUMMARY: <N> entries, <M> new, <G> gap universities"
+PROMPT="/academic-job-search Run date: $DATE (use this date for --date, checked fields, and the report file name even if the clock passes midnight). This is an unattended run: nobody will answer questions, so apply the skill's rules and make the judgment calls yourself. Keep all scratch files in your scratchpad. Do not run git. If an agent fails on an API error, resume it once; if it fails again, record its lists as gaps and continue. Never end your turn while any agent is still running: this is a headless run and the process exits about 10 minutes after your last turn, so arm a Monitor or a background Bash until-loop that watches the scratchpad run directory until every expected agent JSON file exists, then continue. End your final message with one line exactly in the form: SUMMARY: <N> entries, <M> new, <G> gap universities"
 
 claude -p "$PROMPT" --model opus --permission-mode dontAsk \
     --allowedTools Bash Read Write Edit Glob Grep Agent WebSearch WebFetch Skill SendMessage TaskStop ToolSearch
@@ -75,7 +75,7 @@ echo "claude exit=$status"
 [ "$status" -eq 0 ] || fail "claude -p exited with status $status"
 
 SUMMARY=$(grep -o 'SUMMARY: .*' "$LOG" | tail -1 | sed 's/^SUMMARY: //')
-[ -n "$SUMMARY" ] || SUMMARY="weekly run"
+[ -n "$SUMMARY" ] || fail "claude -p exited without a SUMMARY line (idled out with agents still running?)"
 git add .claude/skills/academic-job-search/entries.json output/
 if git diff --cached --quiet; then
     echo "no changes to commit"
