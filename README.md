@@ -53,7 +53,7 @@ In Claude Code, from this folder:
 /academic-job-search
 ```
 
-To narrow the scope, add it as an argument, e.g. `/academic-job-search US and UK only`. Web search is capped per session (200 calls by default, shared by all agents), so run the search in a fresh session, or raise `CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION`. Late-August to early-fall runs return few results, because most faculty ads appear September to December.
+To narrow the scope, add it as an argument, e.g. `/academic-job-search US and UK only`. Web search is capped per session (200 calls by default, shared by all agents), so run the search in a fresh session; `.claude/settings.json` raises the cap to 600 for this repo. Late-August to early-fall runs return few results, because most faculty ads appear September to December.
 
 ## Reproducing results
 
