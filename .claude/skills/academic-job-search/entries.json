@@ -1289,6 +1289,25 @@
   "added": "2026-10-22"
  },
  {
+  "university": "University of Wisconsin-Madison",
+  "country": "USA",
+  "deadline": "2026-12-15",
+  "references": "unknown (letters via Academic Jobs Online)",
+  "link": "https://jobs.wisc.edu/jobs/assistant-associate-full-professor-of-computer-sciences-madison-wisconsin-united-states",
+  "department": "Department of Computer Sciences, College of Computing and Artificial Intelligence",
+  "title": "Assistant / Associate / Full Professor of Computer Sciences",
+  "rank": "open",
+  "area": "ai-hw,qec,sys,arch",
+  "priority": "all areas of CS; particular interest in AI broadly (incl. machine learning and the systems that support it), security and privacy, and quantum computing",
+  "materials": "Jobs at UW (JR10016108): letter of application, CV, teaching and mentoring statement, research statement, three publications, all in one attachment field; also apply on Academic Jobs Online (Job #33161) with reference letters; both required",
+  "contact": "Paul Barford, Chair, recruiting@cs.wisc.edu, 608-262-1204",
+  "notes": "Tenure-track and tenured, start August 2027. Full consideration by 2026-12-15 23:59; open until filled, posting open through 2027-06-30. Senior applications reviewed on arrival. CAI is adding 50 faculty positions. Teaching load 2 courses per year. Ad loaded 2026-10-22 via r.jina.ai (direct fetch returns an empty 202). Found by the user, missed by the 2026-10-22 sweep. [also listed: https://academicjobsonline.org/ajo/jobs/33161]",
+  "flag": "ok",
+  "checked": "2026-10-22",
+  "verified": 1,
+  "added": "2026-10-22"
+ },
+ {
   "university": "University of Oxford",
   "country": "UK",
   "deadline": "2026-12-16",
@@ -1493,6 +1512,25 @@
   "notes": "Opened 2026-09-25 (Interfolio 193974); full consideration by 2027-01-01, review until filled; assistant or associate preferred, exceptional full considered; start date not stated; healthcare-sensing cluster hire, fit for arch/ai-hw is via circuits, VLSI and neuromorphic computing. [also listed: https://apply.interfolio.com/193974]",
   "flag": "ok",
   "checked": "2026-10-22",
+  "added": "2026-10-22"
+ },
+ {
+  "university": "Pennsylvania State University",
+  "country": "USA",
+  "deadline": "2027-01-03",
+  "references": "4",
+  "link": "https://psu.wd1.myworkdayjobs.com/en-US/PSU_Academic/job/Penn-State-University-Park/Tenured-Tenure-line-Positions-in-Interdisciplinary-Research--and--Quantum--ICDS-Co-hire-_REQ_0000083511-1",
+  "department": "Department of Computer Science and Engineering (ICDS Quantum Hub co-hire)",
+  "title": "Tenured/Tenure line Positions in Interdisciplinary Research \"and\" Quantum (ICDS Co-hire)",
+  "rank": "open",
+  "area": "qec,arch,ai-hw",
+  "priority": "quantum computing: quantum algorithms, quantum AI/ML, quantum security; CSE line names quantum software and systems and quantum architectures",
+  "materials": "single PDF in order: cover letter (name the one position), teaching statement, research statement, names and contacts of four references, CV; no lengths stated; apply on both Workday and Academic Jobs Online (#33137), where four reference letters are submitted by the writers",
+  "contact": "Guido Cervone, ICDS director, icds@psu.edu",
+  "notes": "Multi-year quantum cluster hire across units, run by the ICDS Quantum Hub; one application per position. CSE line is Assistant, Associate, or Full. Full consideration by 2027-01-03 (Workday; the AJO copy says 2026, a typo); AJO deadline 2027-01-15, posted 2026-10-19, listed until 2027-04-19. Ads loaded 2026-10-22 (Workday via r.jina.ai, AJO direct). Found after the 2026-10-22 run: AJO field board /ajo/cs only, not on the AJO full list. [also listed: https://academicjobsonline.org/ajo/jobs/33137]",
+  "flag": "ok",
+  "checked": "2026-10-22",
+  "verified": 1,
   "added": "2026-10-22"
  },
  {
