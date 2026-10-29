@@ -1,6 +1,6 @@
 #!/bin/sh
 # Weekly unattended run of /academic-job-search (launchd com.unarylab.academic-job-search,
-# Wednesdays 23:59 local time, until 2027-01-31).
+# Wednesdays 20:00 local time, until 2027-01-31).
 #
 # Claude runs the skill headless with a fixed tool allowlist and no git access; this
 # script then commits entries.json and output/ and pushes to main, which triggers the
@@ -66,15 +66,44 @@ fi
 cd "$REPO" || fail "repo not found at $REPO"
 git pull --ff-only origin main || fail "git pull failed"
 
-PROMPT="/academic-job-search Run date: $DATE (use this date for --date, checked fields, and the report file name even if the clock passes midnight). This is an unattended run: nobody will answer questions, so apply the skill's rules and make the judgment calls yourself. Keep all scratch files in your scratchpad. Do not run git. If an agent fails on an API error, resume it once; if it fails again, record its lists as gaps and continue. Never end your turn while any agent is still running: this is a headless run and the process exits about 10 minutes after your last turn, so arm a Monitor or a background Bash until-loop that watches the scratchpad run directory until every expected agent JSON file exists, then continue. End your final message with one line exactly in the form: SUMMARY: <N> entries, <M> new, <G> gap universities"
+PROMPT="/academic-job-search Run date: $DATE (use this date for --date, checked fields, and the report file name even if the clock passes midnight). This is an unattended run: nobody will answer questions, so apply the skill's rules and make the judgment calls yourself. Keep all scratch files in your scratchpad. Do not run git. If an agent fails on an API error, resume it once; if it fails again, record its lists as gaps and continue. Never end your turn while any agent is still running: this is a headless run and the process exits about 10 minutes after your last turn, so wait with exactly this Bash command, run with run_in_background (it works in zsh and bash): until [ \"\$(ls <run-dir>/<glob> 2>/dev/null | wc -l)\" -ge <N> ]; do sleep 60; done, where <run-dir> is the scratchpad run directory, <glob> matches only the agent JSON files, and <N> is the number of agents dispatched; then continue. Before your final message, make sure no background Bash task or Monitor is still running, and TaskStop any that remain, because a live background task keeps this headless session open. End your final message with one line exactly in the form: SUMMARY: <N> entries, <M> new, <G> gap universities"
 
+# The log is appended per date: read only what this run writes, not an earlier same-day run.
+start=$(wc -c < "$LOG")
 claude -p "$PROMPT" --model opus --permission-mode dontAsk \
-    --allowedTools Bash Read Write Edit Glob Grep Agent WebSearch WebFetch Skill SendMessage TaskStop ToolSearch
+    --allowedTools Bash Read Write Edit Glob Grep Agent WebSearch WebFetch Skill SendMessage TaskStop ToolSearch &
+pid=$!
+# A leftover background task can keep claude alive after its SUMMARY line: give it 3 minutes, then kill it.
+killed=0
+passes=0  # cap: 2880 x 30 s = 24 h; a run that never prints SUMMARY must not block later weeks
+while kill -0 "$pid" 2>/dev/null; do
+    if [ "$passes" -ge 2880 ]; then
+        echo "no SUMMARY after 24 h: killing $pid"
+        pkill -P "$pid"; kill "$pid"; sleep 10; kill -9 "$pid" 2>/dev/null
+        fail "claude -p ran 24 h without a SUMMARY line"
+    fi
+    passes=$((passes + 1))
+    if tail -c +$((start + 1)) "$LOG" | grep -q 'SUMMARY: '; then
+        n=0
+        while kill -0 "$pid" 2>/dev/null && [ "$n" -lt 6 ]; do sleep 30; n=$((n + 1)); done
+        if kill -0 "$pid" 2>/dev/null; then
+            echo "SUMMARY printed but claude still running: killing $pid"
+            pkill -P "$pid"
+            kill "$pid"
+            sleep 10
+            kill -9 "$pid" 2>/dev/null
+            killed=1
+        fi
+        break
+    fi
+    sleep 30
+done
+wait "$pid"
 status=$?
 echo "claude exit=$status"
-[ "$status" -eq 0 ] || fail "claude -p exited with status $status"
+[ "$status" -eq 0 ] || [ "$killed" -eq 1 ] || fail "claude -p exited with status $status"
 
-SUMMARY=$(grep -o 'SUMMARY: .*' "$LOG" | tail -1 | sed 's/^SUMMARY: //')
+SUMMARY=$(tail -c +$((start + 1)) "$LOG" | grep -o 'SUMMARY: .*' | tail -1 | sed 's/^SUMMARY: //')
 [ -n "$SUMMARY" ] || fail "claude -p exited without a SUMMARY line (idled out with agents still running?)"
 git add .claude/skills/academic-job-search/entries.json output/
 if git diff --cached --quiet; then

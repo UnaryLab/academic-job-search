@@ -41,7 +41,7 @@ One row per posting: university, deadline, title, area, rank, apply link, flag, 
 
 Clone the repo and open it in Claude Code; the skill is project-local under `.claude/skills/`, so nothing else is installed.
 
-For the weekly run, create `tools/mail.json` (gitignored) with the keys listed at the top of `tools/weekly_run.sh`, and load a launchd agent labelled `com.unarylab.academic-job-search` that calls `tools/weekly_run.sh` on Wednesdays at 23:59. The plist lives in `~/Library/LaunchAgents/`, not in the repo.
+For the weekly run, create `tools/mail.json` (gitignored) with the keys listed at the top of `tools/weekly_run.sh`, and load a launchd agent labelled `com.unarylab.academic-job-search` that calls `tools/weekly_run.sh` on Wednesdays at 20:00. The plist lives in `~/Library/LaunchAgents/`, not in the repo.
 
 To uninstall, run `launchctl bootout gui/$(id -u)/com.unarylab.academic-job-search` and delete `~/Library/LaunchAgents/com.unarylab.academic-job-search.plist`. The script does this itself after 2027-01-31.
 
