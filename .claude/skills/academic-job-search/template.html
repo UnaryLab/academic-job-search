@@ -62,16 +62,16 @@
   /* columns size to content; long text is capped by the inner div and the wrapper scrolls only when the viewport is narrow */
   #t { width: auto; font-size: 13px; }
   td { white-space: normal; overflow-wrap: break-word; }
-  th, #t td:nth-child(3), #t td:nth-child(6), #t td:nth-child(7), #t td:nth-child(12), #t td:nth-child(14),
-  #t td:nth-child(16) { white-space: nowrap; }
-  #t td:nth-child(8) .pill { white-space: normal; }
-  #t td:nth-child(5) .pill { margin: 0; }
-  #t td:nth-child(5) .cap { display: flex; flex-wrap: wrap; gap: .2rem; width: 6.25rem; }
+  th, #t td:nth-child(3), #t td:nth-child(4), #t td:nth-child(7), #t td:nth-child(8), #t td:nth-child(13), #t td:nth-child(15),
+  #t td:nth-child(17) { white-space: nowrap; }
+  #t td:nth-child(9) .pill { white-space: normal; }
+  #t td:nth-child(6) .pill { margin: 0; }
+  #t td:nth-child(6) .cap { display: flex; flex-wrap: wrap; gap: .2rem; width: 6.25rem; }
   .cap { overflow-wrap: anywhere; }
-  #t td:nth-child(2) .cap { min-width: 8rem; max-width: 12rem; }  #t td:nth-child(4) .cap { min-width: 10rem; max-width: 16rem; }
-  #t td:nth-child(9) .cap { min-width: 8rem; max-width: 14rem; }  #t td:nth-child(10) .cap { min-width: 8rem; max-width: 22rem; }
-  #t td:nth-child(11) .cap { min-width: 8rem; max-width: 13rem; } #t td:nth-child(13) .cap { min-width: 8rem; max-width: 17rem; }
-  #t td:nth-child(15) { max-width: 12rem; }
+  #t td:nth-child(2) .cap { min-width: 8rem; max-width: 12rem; }  #t td:nth-child(5) .cap { min-width: 10rem; max-width: 16rem; }
+  #t td:nth-child(10) .cap { min-width: 8rem; max-width: 14rem; }  #t td:nth-child(11) .cap { min-width: 8rem; max-width: 22rem; }
+  #t td:nth-child(12) .cap { min-width: 8rem; max-width: 13rem; } #t td:nth-child(14) .cap { min-width: 8rem; max-width: 17rem; }
+  #t td:nth-child(16) { max-width: 12rem; }
   th, td { padding: .45rem .55rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line2); }
   th { position: sticky; top: 0; z-index: 2; background: var(--head); cursor: pointer; user-select: none;
        font-weight: 600; font-size: .78rem; letter-spacing: .01em; color: var(--mute); border-bottom: 1px solid var(--line); }
@@ -82,16 +82,16 @@
   tbody tr:hover td { background: var(--hover); }
   #g td:nth-child(1), #t td:nth-child(2) { font-weight: 600; }
   #t td:nth-child(1) { width: 1px; }
-  #g td:nth-child(2), #t td:nth-child(11), #t td:nth-child(12) { color: var(--mute); }
-  #t td:nth-child(3) { font-variant-numeric: tabular-nums; }
-  #t td:nth-child(7) a { display: inline-block; padding: .12rem .65rem; border-radius: 999px; background: var(--link); color: #fff;
+  #g td:nth-child(2), #t td:nth-child(12), #t td:nth-child(13) { color: var(--mute); }
+  #t td:nth-child(3), #t td:nth-child(4) { font-variant-numeric: tabular-nums; }
+  #t td:nth-child(8) a { display: inline-block; padding: .12rem .65rem; border-radius: 999px; background: var(--link); color: #fff;
                          text-decoration: none; font-size: .78rem; font-weight: 600; }
-  #t td:nth-child(7) a:hover { filter: brightness(1.1); }
-  /* deadline urgency: 3px row edge, deadline text in the same hue, countdown under the date */
+  #t td:nth-child(8) a:hover { filter: brightness(1.1); }
+  /* deadline urgency: 3px row edge, deadline and review text in the same hue, countdown under the date */
   #t tr[data-due="urgent"] td:first-child { box-shadow: inset 3px 0 var(--urgent); }
   #t tr[data-due="soon"] td:first-child { box-shadow: inset 3px 0 var(--soon); }
-  #t tr[data-due="urgent"] td:nth-child(3) { color: var(--urgent-fg); font-weight: 600; }
-  #t tr[data-due="soon"] td:nth-child(3) { color: var(--soon-fg); font-weight: 600; }
+  #t tr[data-due="urgent"] td:nth-child(3), #t td:nth-child(4)[data-due="urgent"] { color: var(--urgent-fg); font-weight: 600; }
+  #t tr[data-due="soon"] td:nth-child(3), #t td:nth-child(4)[data-due="soon"] { color: var(--soon-fg); font-weight: 600; }
   #t tr[data-due="rolling"] td:nth-child(3), #t tr[data-due="unknown"] td:nth-child(3) { color: var(--mute); }
   .days { display: block; font-size: .78rem; font-weight: 400; color: var(--mute); }
   /* pills: translucent Okabe-Ito background, solid text */
@@ -111,9 +111,9 @@
   .clamp { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; cursor: pointer; }
   .clamp.open { -webkit-line-clamp: unset; }
   /* compact: hide references, contact, checked */
-  #t.compact th:nth-child(14), #t.compact td:nth-child(14),
   #t.compact th:nth-child(15), #t.compact td:nth-child(15),
-  #t.compact th:nth-child(16), #t.compact td:nth-child(16) { display: none; }
+  #t.compact th:nth-child(16), #t.compact td:nth-child(16),
+  #t.compact th:nth-child(17), #t.compact td:nth-child(17) { display: none; }
   #g th:nth-child(1) { width: 16rem; } #g th:nth-child(2) { width: 8rem; } #g th:nth-child(4) { width: 22rem; }
   @media (max-width: 600px) { body { padding: 0 1rem 3rem; } h1 { font-size: 1.5rem; } #n { margin-left: 0; } .stats li { min-width: 7rem; } }
   @media print {
@@ -152,7 +152,7 @@
 <div class="wrap">
 <table id="t" class="compact">
 <thead><tr>
-  <th>New</th><th>University</th><th>Deadline</th><th>Title</th><th>Area</th><th>Rank</th><th>Apply</th><th>Flag</th><th>Stated priority</th>
+  <th>New</th><th>University</th><th>Deadline</th><th>Review begins</th><th>Title</th><th>Area</th><th>Rank</th><th>Apply</th><th>Flag</th><th>Stated priority</th>
   <th>Notes</th><th>Department</th><th>Country</th><th>Materials</th>
   <th>References</th><th>Contact</th><th>Checked</th>
 </tr></thead>
@@ -176,23 +176,26 @@
   const run = new Date(); run.setHours(0, 0, 0, 0); // countdown is relative to the viewing day, not the run date
   const pill = (text, cls) => { const s = document.createElement('span'); s.className = 'pill ' + cls; s.textContent = text; return s; };
   let urgent = 0, soon = 0, flagged = 0;
+  // urgency of a date cell; appends the countdown under a dated value
+  const due = td => {
+    const d = td.textContent.trim();
+    if (!/^\d{4}-\d\d-\d\d$/.test(d)) return d === 'rolling' ? 'rolling' : 'unknown';
+    const days = Math.round((new Date(d + 'T00:00:00') - run) / 864e5);
+    const s = document.createElement('span'); s.className = 'days';
+    s.textContent = days < 0 ? 'passed' : days === 0 ? 'today' : days === 1 ? 'in 1 day' : 'in ' + days + ' days';
+    td.appendChild(s);
+    return days < 0 ? 'passed' : days <= 14 ? 'urgent' : days <= 30 ? 'soon' : 'later';
+  };
   [...tb.rows].forEach(r => {
-    const c = r.cells, d = c[2].textContent.trim();
-    let due = /^\d{4}-\d\d-\d\d$/.test(d) ? 'later' : d === 'rolling' ? 'rolling' : 'unknown';
-    if (due === 'later') {
-      const days = Math.round((new Date(d + 'T00:00:00') - run) / 864e5);
-      if (days < 0) due = 'passed'; else if (days <= 14) { due = 'urgent'; urgent++; } else if (days <= 30) { due = 'soon'; soon++; }
-      const s = document.createElement('span'); s.className = 'days';
-      s.textContent = days < 0 ? 'passed' : days === 0 ? 'today' : days === 1 ? 'in 1 day' : 'in ' + days + ' days';
-      c[2].appendChild(s);
-    }
-    r.dataset.due = due;
-    c[5].replaceChildren(pill(c[5].textContent.trim(), 'rank'));
-    c[4].replaceChildren(...c[4].textContent.split(/[,\s]+/).filter(Boolean).map(a => pill(a, a)));
-    const f = c[7].textContent.trim(); c[7].replaceChildren(pill(f, f)); flagged += f !== 'ok';
+    const c = r.cells;
+    r.dataset.due = due(c[2]); urgent += r.dataset.due === 'urgent'; soon += r.dataset.due === 'soon';
+    if (c[3].textContent.trim()) c[3].dataset.due = due(c[3]);
+    c[6].replaceChildren(pill(c[6].textContent.trim(), 'rank'));
+    c[5].replaceChildren(...c[5].textContent.split(/[,\s]+/).filter(Boolean).map(a => pill(a, a)));
+    const f = c[8].textContent.trim(); c[8].replaceChildren(pill(f, f)); flagged += f !== 'ok';
     const wrap = (td, cls) => { const d = document.createElement('div'); d.className = cls; d.append(...td.childNodes); td.append(d); };
-    [c[1], c[3], c[4], c[10]].forEach(td => wrap(td, 'cap'));
-    [c[8], c[9], c[12]].forEach(td => wrap(td, 'cap clamp'));
+    [c[1], c[4], c[5], c[11]].forEach(td => wrap(td, 'cap'));
+    [c[9], c[10], c[13]].forEach(td => wrap(td, 'cap clamp'));
   });
   document.getElementById('s-urgent').textContent = urgent;
   document.getElementById('s-soon').textContent = soon;

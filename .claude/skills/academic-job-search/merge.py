@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Merge agent JSON files into output/jobs-YYYY-MM-DD.html; `--check` runs the self-check."""
-import argparse, glob, html, json, os, re, unicodedata
+import argparse, datetime, glob, html, json, os, re, unicodedata
 from collections import Counter
 
 SKILL = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(SKILL, "..", "..", ".."))
 ENTRIES = os.path.join(SKILL, "entries.json")
-FIELDS = ("university", "country", "deadline", "references", "link", "department", "title", "rank", "area",
+FIELDS = ("university", "country", "deadline", "review", "references", "link", "department", "title", "rank", "area",
           "priority", "materials", "contact", "notes", "flag", "checked", "verified", "added")
 BRANCH_MARKERS = ("hkust-gz", "hkust(gz)", "cuhk-shenzhen", "cuhk shenzhen",
                   "nyu abu dhabi", "nyu shanghai", "duke kunshan")
@@ -122,6 +122,27 @@ def same_posting(a, b):
     return bool(ta | tb) and len(ta & tb) / len(ta | tb) >= 0.5
 
 
+MONTHS = ("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
+MON = r"\b(" + "|".join(MONTHS) + r")[a-z]*\.?"
+REVIEW = re.compile(r"(?:review(?: of applications)?(?: will)? (?:begins?|starts?)|screening (?:begins|will begin)"
+                    r"|initial review|(?:full|best) consideration|priority (?:date|deadline|review)|review date)[^.;]{0,25}?"
+                    r"(?:(\d{4})-(\d\d)-(\d\d)|(\d{1,2})/(\d{1,2})/(\d{4})"
+                    rf"|{MON} (\d{{1,2}})\b(?:,? (\d{{4}}))?|\b(\d{{1,2}}) {MON} (\d{{4}}))", re.I)
+
+
+def review_date(notes, added):
+    """The first review-start or full-consideration date the notes name, as YYYY-MM-DD, or ""."""
+    m = REVIEW.search(notes)
+    if not m:
+        return ""
+    g = m.groups()
+    y, mo, d = (g[0], g[1], g[2]) if g[0] else (g[5], g[3], g[4]) if g[3] else \
+        (g[8], MONTHS.index(g[6].lower()) + 1, g[7]) if g[6] else (g[11], MONTHS.index(g[10].lower()) + 1, g[9])
+    s = f"{int(y or added[:4])}-{int(mo):02d}-{int(d):02d}"
+    # no year given: take the first such date on or after the entry was added (ads name upcoming dates)
+    return s if y or s >= added else f"{int(added[:4]) + 1}{s[4:]}"
+
+
 def firmness(deadline):
     return 2 if DATED.match(deadline) else 1 if deadline == "rolling" else 0
 
@@ -144,6 +165,7 @@ def dedupe(entries):
         keep, other = (e, dup) if score(e) > score(dup) else (dup, e)
         keep["verified"] = max(int(keep.get("verified", 0)), int(other.get("verified", 0)))
         keep["added"] = min(keep.get("added", "9999"), other.get("added", "9999"))
+        keep["review"] = min((r for r in (keep.get("review", ""), other.get("review", "")) if r), default="")
         if firmness(other["deadline"]) > firmness(keep["deadline"]):
             keep["deadline"] = other["deadline"]
         tag = f"[also listed: {other['link']}]"
@@ -153,8 +175,9 @@ def dedupe(entries):
     return kept
 
 
-def sort_key(e):
-    d = e["deadline"]
+def sort_key(e, today):
+    r = e.get("review", "")
+    d = r if DATED.match(r) and r >= today else e["deadline"]
     tail = 2 if e.get("flag") == "unverified" else 1 if e.get("flag", "ok") != "ok" else 0
     return (tail, 0, d) if DATED.match(d) else (tail, 1, "") if d == "rolling" else (tail, 2, "")
 
@@ -185,7 +208,7 @@ def merge(entries, today, table, min_rank="assistant"):
         kept.append(e)
     kept = dedupe(kept)
     past = [e for e in kept if DATED.match(e["deadline"]) and e["deadline"] < today]
-    kept = sorted((e for e in kept if not any(e is p for p in past)), key=sort_key)
+    kept = sorted((e for e in kept if not any(e is p for p in past)), key=lambda e: sort_key(e, today))
     return kept, drops, past
 
 
@@ -218,7 +241,7 @@ def render(kept, today, out_dir, gaps=()):
         cls += f' data-area="{area}" data-region="{region}"'
         link = anchor(e["link"], "Apply")
         new = '<span class="pill new">new</span>' if e.get("added") == today else ""
-        cells = [new, H(e["university"]), H(e["deadline"]), H(e["title"]), H(e.get("area", "")), H(e.get("rank", "open")),
+        cells = [new, H(e["university"]), H(e["deadline"]), H(e.get("review", "")), H(e["title"]), H(e.get("area", "")), H(e.get("rank", "open")),
                  link, H(e["flag"]), H(e.get("priority", "")), f'<td class="wide">{H(e["notes"])}</td>',
                  H(e.get("department", "")), H(e["country"]), f'<td class="wide">{H(e.get("materials", ""))}</td>',
                  H(str(e.get("references", "unknown"))), H(e.get("contact", "unknown")), H(e.get("checked", today))]
@@ -300,17 +323,18 @@ def check():
                    E(link="https://apply.interfolio.com/191224", title=t)])
     assert len(same) == 1 and "[also listed" not in same[0]["notes"]
 
+    T = "2026-10-28"
     ds = [E(deadline=d) for d in ("rolling", "2026-12-01", "unknown", "2026-10-15")]
-    assert [e["deadline"] for e in sorted(ds, key=sort_key)] == ["2026-10-15", "2026-12-01", "rolling", "unknown"]
+    assert [e["deadline"] for e in sorted(ds, key=lambda e: sort_key(e, T))] == ["2026-10-15", "2026-12-01", "rolling", "unknown"]
     assert title_tokens("Professors of Cybersecurity (f/m/d)") == title_tokens("Professors of Cybersecurity")
     v = dedupe([E(link="https://x.edu/a", verified=2), E(link="https://x.edu/a", flag="unverified")])
     assert len(v) == 1 and v[0]["verified"] == 2, "dedupe keeps the higher verified count"
     v = dedupe([E(link="https://x.edu/a", added="2026-10-01"), E(link="https://x.edu/a", added="2026-09-01", flag="unverified")])
     assert v[0]["added"] == "2026-09-01", "dedupe keeps the earliest added date"
     ds2 = ds + [E(deadline="2026-09-20", flag="unverified")]
-    assert sorted(ds2, key=sort_key)[-1]["deadline"] == "2026-09-20", "unverified rows sort last"
+    assert sorted(ds2, key=lambda e: sort_key(e, T))[-1]["deadline"] == "2026-09-20", "unverified rows sort last"
     ds3 = ds2 + [E(deadline="rolling", flag="deadline-unclear")]
-    assert [e["flag"] for e in sorted(ds3, key=sort_key)][-2:] == ["deadline-unclear", "unverified"], "flagged rows after ok rows"
+    assert [e["flag"] for e in sorted(ds3, key=lambda e: sort_key(e, T))][-2:] == ["deadline-unclear", "unverified"], "flagged rows after ok rows"
     g = gap_rows([dict(university="Peking University", blocked="403", check="https://a.jp/x and https://b.jp/y"),
                   dict(university="Columbia University", blocked="500", check="https://c.edu/", unit="ECE & EE"),
                   dict(university="Lingnan University", blocked="404", check="https://d.hk/")], table)
@@ -319,6 +343,25 @@ def check():
     assert "<td>403</td>" in gap_rows([dict(university="Peking University", blocked="403", check="https://a.jp/", unit=" ")], table)[0], "blank unit is no unit"
     assert gap_rows([dict(university="Peking University", blocked="403", check="https://a.jp/x https://b.jp/y")], table)[0].count("<a href") == 2, "space-separated URLs give one link each"
     assert anchor("javascript:alert(1)", "Apply") == "javascript:alert(1)", "non-http link renders without href"
+    rs = [E(deadline="2026-12-15"), E(deadline="2027-01-04", review="2026-12-01"),
+          E(deadline="2026-12-10", review="2026-10-01"), E(deadline="rolling", review="2026-11-20"), E(deadline="unknown")]
+    assert [e["deadline"] for e in sorted(rs, key=lambda e: sort_key(e, T))] == \
+        ["rolling", "2027-01-04", "2026-12-10", "2026-12-15", "unknown"], "sort on review if set and not past, else deadline"
+    v = dedupe([E(link="https://x.edu/a", review=""), E(link="https://x.edu/a", review="2026-12-01", flag="unverified")])
+    assert v[0]["flag"] == "ok" and v[0]["review"] == "2026-12-01", "dedupe carries the other copy's review"
+    v = dedupe([E(link="https://x.edu/a", review="2026-12-01"), E(link="https://x.edu/a", review="2026-11-15", flag="unverified")])
+    assert v[0]["review"] == "2026-11-15", "dedupe keeps the earliest review"
+    for notes, added, want in [
+            ("Posted 2026-10-08. Screening begins 2026-12-01 on a rolling basis; hard deadline 2027-01-04.", "2026-10-22", "2026-12-01"),
+            ("Review begins Nov 15, 2026, rolling; full consideration by Dec 1, 2026.", "2026-10-23", "2026-11-15"),
+            ("Job 537614. Review date 11/15/2026, open until filled.", "2026-09-20", "2026-11-15"),
+            ("Review of applications will begin December 1, 2026.", "2026-09-20", "2026-12-01"),
+            ("cover letter, CV; full consideration by November 1.", "2026-09-20", "2026-11-01"),
+            ("Priority date Jan 15, then rolling.", "2026-10-01", "2027-01-15"),
+            ("Full consideration by 2026-12-01, review begins December 2026.", "2026-09-06", "2026-12-01"),
+            ("Review begins immediately; deadline 2026-12-01.", "2026-09-06", ""),
+            ("Tenure review in year 6. Posted 2026-09-01.", "2026-09-06", "")]:
+        assert review_date(notes, added) == want, (notes, review_date(notes, added))
     assert scope_line() == "North America, EU and Asia top-150", scope_line()
     print("check ok")
 
@@ -350,6 +393,7 @@ def main():
         for e in arr:
             e["_src"] = os.path.basename(f)
             e.setdefault("added", a.date)
+            e.setdefault("review", review_date(e.get("notes", ""), e["added"]))
             entries.append(e)
     table = load_universities()
     kept, drops, past = merge(entries, a.date, table, a.min_rank)
