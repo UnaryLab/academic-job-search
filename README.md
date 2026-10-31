@@ -41,7 +41,7 @@ One row per posting: university, deadline, review begins (the review-start or fu
 
 Clone the repo and open it in Claude Code; the skill is project-local under `.claude/skills/`, so nothing else is installed.
 
-For the weekly run, create `tools/mail.json` (gitignored) with the keys listed at the top of `tools/weekly_run.sh`, and load a launchd agent labelled `com.unarylab.academic-job-search` that calls `tools/weekly_run.sh` daily at 20:00 (the script runs every second day on the API key in `tools/api_key`, or weekly on Wednesdays with the subscription when the key is missing or fails). The plist lives in `~/Library/LaunchAgents/`, not in the repo.
+For the weekly run, create `tools/mail.json` (gitignored) with the keys listed at the top of `tools/weekly_run.sh`, and load a launchd agent labelled `com.unarylab.academic-job-search` that calls `tools/weekly_run.sh` on Mon/Wed/Fri at 20:00 (each fire uses the API key in `tools/api_key`; when the key is missing or fails, only the Wednesday fire runs, on the subscription). The plist lives in `~/Library/LaunchAgents/`, not in the repo.
 
 To uninstall, run `launchctl bootout gui/$(id -u)/com.unarylab.academic-job-search` and delete `~/Library/LaunchAgents/com.unarylab.academic-job-search.plist`. The script does this itself after the date in `tools/end_date` (`YYYY-MM-DD`, one line).
 

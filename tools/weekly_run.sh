@@ -1,8 +1,8 @@
 #!/bin/sh
-# Unattended run of /academic-job-search (launchd com.unarylab.academic-job-search, daily at
-# 20:00 local time, until the date in tools/end_date). Schedule: every second day on the API key in
-# tools/api_key; if that key is missing or fails a preflight call, weekly on Wednesdays with
-# the subscription login instead. Other days exit at once.
+# Unattended run of /academic-job-search (launchd com.unarylab.academic-job-search, Mon/Wed/Fri
+# at 20:00 local time, until the date in tools/end_date). Each fire uses the API key in
+# tools/api_key; if that key is missing or fails a preflight call, only the Wednesday fire runs,
+# on the subscription login.
 #
 # Claude runs the skill headless with a fixed tool allowlist and no git access; this
 # script then commits entries.json and output/ and pushes to main, which triggers the
@@ -70,9 +70,6 @@ fi
 
 cd "$REPO" || fail "repo not found at $REPO"
 
-api_day=$(( $(date +%s) / 86400 % 2 ))   # 0 on every second day
-wednesday=$([ "$(date +%u)" -eq 3 ] && echo 1 || echo 0)
-[ "$api_day" -eq 0 ] || [ "$wednesday" -eq 1 ] || { echo "not a run day"; exit 0; }
 AUTH=subscription
 if [ -r "$REPO/tools/api_key" ]; then
     export ANTHROPIC_API_KEY="$(sed -n 1p "$REPO/tools/api_key")"
@@ -84,10 +81,8 @@ if [ -r "$REPO/tools/api_key" ]; then
         unset ANTHROPIC_API_KEY ANTHROPIC_CUSTOM_HEADERS
     fi
 fi
-if [ "$AUTH" = api ]; then
-    [ "$api_day" -eq 0 ] || { echo "API key works; not an API run day"; exit 0; }
-else
-    [ "$wednesday" -eq 1 ] || { echo "no API key; next subscription run is Wednesday"; exit 0; }
+if [ "$AUTH" != api ] && [ "$(date +%u)" -ne 3 ]; then
+    echo "no working API key; next subscription run is Wednesday"; exit 0
 fi
 echo "auth=$AUTH"
 git pull --ff-only origin main || fail "git pull failed"
