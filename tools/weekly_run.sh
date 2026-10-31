@@ -1,6 +1,6 @@
 #!/bin/sh
 # Unattended run of /academic-job-search (launchd com.unarylab.academic-job-search, daily at
-# 20:00 local time, until 2027-02-28). Schedule: every second day on the API key in
+# 20:00 local time, until the date in tools/end_date). Schedule: every second day on the API key in
 # tools/api_key; if that key is missing or fails a preflight call, weekly on Wednesdays with
 # the subscription login instead. Other days exit at once.
 #
@@ -60,8 +60,9 @@ Log: $LOG"
     exit 1
 }
 
-if [ "$(date +%Y%m%d)" -gt 20270228 ]; then
-    echo "past 2027-02-28: removing $LABEL"
+END=$(tr -d - < "$REPO/tools/end_date" 2>/dev/null)   # YYYY-MM-DD; missing or empty file: run forever
+if [ -n "$END" ] && [ "$(date +%Y%m%d)" -gt "$END" ]; then
+    echo "past $END: removing $LABEL"
     rm -f "$HOME/Library/LaunchAgents/$LABEL.plist"
     launchctl bootout "gui/$(id -u)/$LABEL"
     exit 0
