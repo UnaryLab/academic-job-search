@@ -1,12 +1,16 @@
 #!/bin/sh
-# Weekly unattended run of /academic-job-search (launchd com.unarylab.academic-job-search,
-# Wednesdays 20:00 local time, until 2027-01-31).
+# Unattended run of /academic-job-search (launchd com.unarylab.academic-job-search, daily at
+# 20:00 local time, until 2027-02-28). Schedule: every second day on the API key in
+# tools/api_key; if that key is missing or fails a preflight call, weekly on Wednesdays with
+# the subscription login instead. Other days exit at once.
 #
 # Claude runs the skill headless with a fixed tool allowlist and no git access; this
 # script then commits entries.json and output/ and pushes to main, which triggers the
 # GitHub Pages workflow that publishes the newest report, and emails the site link.
 # SMTP credentials and recipient lists come from tools/mail.json (gitignored): smtp_host,
 # smtp_port, use_ssl, username, password, from_addr, recipients [..], alert_to [..].
+# tools/api_key (gitignored): line 1 the API key, line 2 the workspace ID (wrkspc_...,
+# required for organization-scoped keys).
 #
 # Run by hand:  tools/weekly_run.sh
 set -u
@@ -56,14 +60,35 @@ Log: $LOG"
     exit 1
 }
 
-if [ "$(date +%Y%m%d)" -gt 20270131 ]; then
-    echo "past 2027-01-31: removing $LABEL"
+if [ "$(date +%Y%m%d)" -gt 20270228 ]; then
+    echo "past 2027-02-28: removing $LABEL"
     rm -f "$HOME/Library/LaunchAgents/$LABEL.plist"
     launchctl bootout "gui/$(id -u)/$LABEL"
     exit 0
 fi
 
 cd "$REPO" || fail "repo not found at $REPO"
+
+api_day=$(( $(date +%s) / 86400 % 2 ))   # 0 on every second day
+wednesday=$([ "$(date +%u)" -eq 3 ] && echo 1 || echo 0)
+[ "$api_day" -eq 0 ] || [ "$wednesday" -eq 1 ] || { echo "not a run day"; exit 0; }
+AUTH=subscription
+if [ -r "$REPO/tools/api_key" ]; then
+    export ANTHROPIC_API_KEY="$(sed -n 1p "$REPO/tools/api_key")"
+    export ANTHROPIC_CUSTOM_HEADERS="anthropic-workspace-id: $(sed -n 2p "$REPO/tools/api_key")"
+    if claude -p "reply with exactly: ok" --model opus >/dev/null 2>&1; then
+        AUTH=api
+    else
+        echo "API key preflight failed"
+        unset ANTHROPIC_API_KEY ANTHROPIC_CUSTOM_HEADERS
+    fi
+fi
+if [ "$AUTH" = api ]; then
+    [ "$api_day" -eq 0 ] || { echo "API key works; not an API run day"; exit 0; }
+else
+    [ "$wednesday" -eq 1 ] || { echo "no API key; next subscription run is Wednesday"; exit 0; }
+fi
+echo "auth=$AUTH"
 git pull --ff-only origin main || fail "git pull failed"
 
 PROMPT="/academic-job-search Run date: $DATE (use this date for --date, checked fields, and the report file name even if the clock passes midnight). This is an unattended run: nobody will answer questions, so apply the skill's rules and make the judgment calls yourself. Keep all scratch files in your scratchpad. Do not run git. If an agent fails on an API error, resume it once; if it fails again, record its lists as gaps and continue. Never end your turn while any agent is still running: this is a headless run and the process exits about 10 minutes after your last turn, so wait with exactly this Bash command, run with run_in_background (it works in zsh and bash): until [ \"\$(ls <run-dir>/<glob> 2>/dev/null | wc -l)\" -ge <N> ]; do sleep 60; done, where <run-dir> is the scratchpad run directory, <glob> matches only the agent JSON files, and <N> is the number of agents dispatched; then continue. Before your final message, make sure no background Bash task or Monitor is still running, and TaskStop any that remain, because a live background task keeps this headless session open. End your final message with one line exactly in the form: SUMMARY: <N> entries, <M> new, <G> gap universities"
@@ -113,7 +138,7 @@ fi
 git commit -m "$DATE report: $SUMMARY" || fail "git commit failed"
 git push origin main || fail "git push failed"
 
-mail recipients "Faculty job report $DATE: $SUMMARY" "The weekly faculty job search finished on $DATE.
+mail recipients "Faculty job report $DATE: $SUMMARY" "The faculty job search finished on $DATE (auth: $AUTH).
 
 $SUMMARY
 

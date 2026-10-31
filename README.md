@@ -41,9 +41,9 @@ One row per posting: university, deadline, review begins (the review-start or fu
 
 Clone the repo and open it in Claude Code; the skill is project-local under `.claude/skills/`, so nothing else is installed.
 
-For the weekly run, create `tools/mail.json` (gitignored) with the keys listed at the top of `tools/weekly_run.sh`, and load a launchd agent labelled `com.unarylab.academic-job-search` that calls `tools/weekly_run.sh` on Wednesdays at 20:00. The plist lives in `~/Library/LaunchAgents/`, not in the repo.
+For the weekly run, create `tools/mail.json` (gitignored) with the keys listed at the top of `tools/weekly_run.sh`, and load a launchd agent labelled `com.unarylab.academic-job-search` that calls `tools/weekly_run.sh` daily at 20:00 (the script runs every second day on the API key in `tools/api_key`, or weekly on Wednesdays with the subscription when the key is missing or fails). The plist lives in `~/Library/LaunchAgents/`, not in the repo.
 
-To uninstall, run `launchctl bootout gui/$(id -u)/com.unarylab.academic-job-search` and delete `~/Library/LaunchAgents/com.unarylab.academic-job-search.plist`. The script does this itself after 2027-01-31.
+To uninstall, run `launchctl bootout gui/$(id -u)/com.unarylab.academic-job-search` and delete `~/Library/LaunchAgents/com.unarylab.academic-job-search.plist`. The script does this itself after 2027-02-28.
 
 ## Quick start
 
@@ -71,6 +71,7 @@ Every push to `main` that changes `output/` triggers the GitHub Pages workflow, 
 | `universities.md` | North America/EU/Asia top-150 university list with country, region, and aliases (rebuilt only on request) |
 | `rank.md` | Minimum rank applied at (default assistant) and the title-to-rank mapping |
 | `tools/mail.json` | SMTP credentials and recipient lists for the weekly email (gitignored) |
+| `tools/api_key` | Anthropic API key (line 1) and workspace ID (line 2) for the weekly run (gitignored); without it claude uses the subscription login |
 
 ## Citation
 
