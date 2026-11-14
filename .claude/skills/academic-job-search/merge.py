@@ -102,7 +102,7 @@ def link_key(link):
     m = re.search(r"interfolio\.com/(?:apply/)?(\d+)", link)
     if m:
         return "interfolio:" + m.group(1)
-    ids = re.findall(r"\d{5,}", link)
+    ids = re.findall(r"\d{5,}[A-Z]*", link)  # Taleo ids carry a letter suffix (260001MC vs 260001UN)
     return host_of(link) + ":" + (ids[-1] if ids else re.sub(r"#.*", "", link).rstrip("/"))
 
 
@@ -116,7 +116,7 @@ def same_posting(a, b):
     if ka == kb:
         return True
     (ha, ia), (hb, ib) = ka.split(":", 1), kb.split(":", 1)
-    if ha == hb and ia.isdigit() and ib.isdigit():
+    if ha == hb and re.fullmatch(r"\d+[A-Z]*", ia) and re.fullmatch(r"\d+[A-Z]*", ib):
         return False
     ta, tb = title_tokens(a["title"]), title_tokens(b["title"])
     return bool(ta | tb) and len(ta & tb) / len(ta | tb) >= 0.5
@@ -309,6 +309,9 @@ def check():
     assert len(dedupe([E(link="https://jobs.hku.hk/cw/en/job/534341", title="Tenure-Track Assistant Professor"),
                        E(link="https://jobs.hku.hk/en/job/534341/tenuretrack-assistant-professor-several-posts",
                          title="Tenure-track Assistant Professor (several posts)")])) == 1
+    taleo = "https://cuhk.taleo.net/careersection/cu_career_teach/jobdetail.ftl?job=260001"
+    assert len(dedupe([E(link=taleo + s, title="Professor / Associate Professor / Assistant Professor, EE")
+                       for s in ("MC", "UN&lang=en", "PS&lang=en")])) == 3, "Taleo id letter suffix keeps ads apart"
     assert len(dedupe([E(link="https://www.cityu.edu.hk/hro/academic.asp?ref=uac-a411", title="Professor in Electrical Engineering"),
                        E(link="https://www.cityu.edu.hk/hro/academic.asp?ref=uac-a608", title="Faculty in Data Science")])) == 2
     mirror = E(link="https://www.higheredjobs.com/faculty/details.cfm?JobCode=179531222",
