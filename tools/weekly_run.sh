@@ -1,8 +1,8 @@
 #!/bin/sh
 # Unattended run of /academic-job-search (launchd com.unarylab.academic-job-search, Mon/Wed/Fri
 # at 20:00 local time, until the date in tools/end_date). Each fire uses the API key in
-# tools/api_key; if that key is missing or fails a preflight call, only the Wednesday fire runs,
-# on the subscription login.
+# tools/api_key; if that key is missing or fails a preflight call (for example, no credit left),
+# the fire runs on the subscription login.
 #
 # Claude runs the skill headless with a fixed tool allowlist and no git access; this
 # script then commits entries.json and output/ and pushes to main, which triggers the
@@ -77,12 +77,9 @@ if [ -r "$REPO/tools/api_key" ]; then
     if claude -p "reply with exactly: ok" --model opus >/dev/null 2>&1; then
         AUTH=api
     else
-        echo "API key preflight failed"
+        echo "API key preflight failed: using the subscription"
         unset ANTHROPIC_API_KEY ANTHROPIC_CUSTOM_HEADERS
     fi
-fi
-if [ "$AUTH" != api ] && [ "$(date +%u)" -ne 3 ]; then
-    echo "no working API key; next subscription run is Wednesday"; exit 0
 fi
 echo "auth=$AUTH"
 git pull --ff-only origin main || fail "git pull failed"
