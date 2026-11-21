@@ -395,7 +395,7 @@ def main():
             continue
         for e in arr:
             e["_src"] = os.path.basename(f)
-            e.setdefault("added", a.date)
+            e["added"] = e.get("added") or a.date  # agents may emit an empty string
             e.setdefault("review", review_date(e.get("notes", ""), e["added"]))
             entries.append(e)
     table = load_universities()
